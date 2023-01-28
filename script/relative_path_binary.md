@@ -5,7 +5,7 @@
 **Attention** if you want escalate privileges, the vulnerable script needs at least to have suid permission.
 - [SUID redhat](https://www.redhat.com/sysadmin/suid-sgid-sticky-bit)
 .<br>
-When a program refere to a binary command without giving the absolute path, you can execute your own program instead of the command.
+When a program refere to a binary command without giving the absolute path, you can execute your own program instead of the command.<br>
 This program show below refer to this venurability. 
 
 ```
@@ -14,8 +14,8 @@ This program show below refer to this venurability.
 ls /ect/passwd
 ```
 
-When bash interpret `ls`, he is trying to find the command located in the `env | grep PATH`.
-It try every directory, from letf to right, to check if the executable is located in. If it is, he execute it.
+When bash interpret `ls`, he is trying to find the command located in the `env | grep PATH`.<br>
+It try every directory, from letf to right, to check if the executable is located in. If it is, he execute it.<br>
 The tricks is to create a new file name "ls" write some code to execute at the emplacement /ect/passwd.
 ```
 #write the command cat inside a ls file located in /tmp
