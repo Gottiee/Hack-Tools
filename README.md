@@ -15,5 +15,3 @@ In this repository, you will find useful informations, bypasses and payloads for
 
 - [Relative path to run a binary](script/relative_path_binary.md)
 - [Sudo MIsconfigurations](script/sudo_misconfigurations.md)
- 
-jobepa
