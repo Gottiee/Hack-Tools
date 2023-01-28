@@ -4,7 +4,7 @@
 
 **Attention** if you want escalate privileges, the vulnerable script needs at least to have suid permission.
 - [SUID redhat](https://www.redhat.com/sysadmin/suid-sgid-sticky-bit)
-.\n
+.<br>
 When a program refere to a binary command without giving the absolute path, you can execute your own program instead of the command.
 This program show below refer to this venurability. 
 
