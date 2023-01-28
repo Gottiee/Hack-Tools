@@ -1,6 +1,6 @@
 # Relative path to run binary
 
-###Table of Contents
+### Table of Contents
 
 - [Command without arguments](#command-without-arguments)
 
@@ -9,8 +9,7 @@
 **Attention** if you want escalate privileges, the vulnerable script needs at least to have suid permission.
 
 #### Documentation
-[SUID redhat](https://www.redhat.com/sysadmin/suid-sgid-sticky-bit)
-.<br>
+- [SUID redhat](https://www.redhat.com/sysadmin/suid-sgid-sticky-bit)<br>
 
 #### Explanation
 When a program refere to a binary command without giving the absolute path, you can execute your own program instead of the command.<br>
