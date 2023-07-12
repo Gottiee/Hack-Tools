@@ -12,6 +12,7 @@ In this repository, you will find useful informations, bypasses and payloads for
 - [Injection](#injection)
 - [Pwn](#pwn)
 - [Tools](#tools)
+- [Languages](#languages)
 
 ## Unix MissConfiguration
 
@@ -20,8 +21,8 @@ In this repository, you will find useful informations, bypasses and payloads for
 
 ## Injection
 
-- [Relative path to run a binary](injection/relative_path_binary.md)
-- [Php](injection/php.md)
+- [Relative path exploitation](injection/relative_path_binary.md)
+- [Php preg_replace](language/php.md)
 
 ## Pwn
 
@@ -33,3 +34,9 @@ In this repository, you will find useful informations, bypasses and payloads for
 
 - [John /etc/passwd hash brut force](tools/john.md)
 - [PCAP file](tools/pcap.md)
+
+
+## Languages
+
+- [C](language/c.md)
+- [php](language/php.md)
