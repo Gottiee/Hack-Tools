@@ -20,4 +20,4 @@ John supports different cracking modes and understands many ciphertext formats, 
 
 ---
 
-[**:arrow_right_hook: Back home**](../README.md)
+[**:arrow_right_hook: Back home**](/README.md)

@@ -89,4 +89,4 @@ If you can't write into the script maybe you can find a vulnerablily inside it!
 
 ---
 
-[**:arrow_right_hook: Back home**](../README.md)
+[**:arrow_right_hook: Back home**](/README.md)

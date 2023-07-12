@@ -22,7 +22,7 @@ In this repository, you will find useful informations, bypasses and payloads for
 ## Injection
 
 - [Relative path exploitation](injection/relative_path_binary.md)
-- [Php preg_replace](language/php.md)
+- [Php preg_replace](language/php/preg_replace.md)
 
 ## Pwn
 
@@ -35,8 +35,7 @@ In this repository, you will find useful informations, bypasses and payloads for
 - [John /etc/passwd hash brut force](tools/john.md)
 - [PCAP file](tools/pcap.md)
 
-
 ## Languages
 
-- [C](language/c.md)
-- [php](language/php.md)
+- [C](language/c/c.md)
+- [php](language/php/php.md)

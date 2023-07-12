@@ -1,12 +1,3 @@
-# Php Injection
-
-PHP (recursive acronym for PHP: Hypertext Preprocessor) is a widely-used open source general-purpose scripting language that is especially suited for web development and can be embedded into HTML.
-
-### Table of Contents
-
-- [Preg_replace exploit](#preg_replace-exploit)
-- [Docu](#documentation)
-
 ## Preg_Replace exploit
 
 `preg_replace($pattern, $replacement, $subject)`
@@ -43,10 +34,4 @@ but what if :
 - [man preg_replace](https://www.php.net/manual/en/function.preg-replace.php)
 - [exploit preg_replace](https://captainnoob.medium.com/command-execution-preg-replace-php-function-exploit-62d6f746bda4)
 
-### Documentation
-
-- [Php Manual](https://www.php.net/manual/en/index.php)
-
----
-
-[**:arrow_right_hook: Back home**](../README.md)
+[**:arrow_right_hook: Back php**](php.md)
