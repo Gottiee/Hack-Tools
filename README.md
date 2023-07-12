@@ -8,7 +8,7 @@ In this repository, you will find useful informations, bypasses and payloads for
 
 ### Table of Contents
 
-- [Script](#Unix-missconfiguration)
+- [Unix missconfiguration](#Unix-missconfiguration)
 - [Injection](#injection)
 - [Pwn](#pwn)
 - [Tools](#tools)
