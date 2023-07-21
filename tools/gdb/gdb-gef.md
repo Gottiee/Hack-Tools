@@ -4,12 +4,16 @@ GEF (pronounced ʤɛf - "Jeff") is a set of commands for x86/64, ARM, MIPS, Powe
 
 ### Table of Contents
 
-- [Calcul offset](#calcul-offset)
+- [Pwn](#pwn)
+- [Reverse](#reverse)
+- [Usage](/tools/gdb/gdb-usage.md)
 - [Documentation](#documentation)
 
-## Calcul offset
+## Pwn
 
+## Reverse
 
+- [Set Register](/tools/gdb/gdb-set-register.md)
 
 ### Documentation
 

@@ -4,11 +4,14 @@ To dominate in such a fashion as to gain ownership. A network, system, organizat
 
 ### Table of Contents
 
-- [Recognition](#recognition)
+- [Payload](#payload)
 - [Tools](#tools)
 - [Usefull Command](#usefull-cmd)
 
-## Recognition
+## Payload
+
+- [Payload explain](/pwn/payload.md)
+- [Payload.py](/pwn/payload.py)
 
 ## Tools
 
