@@ -20,6 +20,8 @@ To dominate in such a fashion as to gain ownership. A network, system, organizat
 
 ## Usefull Cmd
 
+- ```ldd <binary file>``` check which library is used
+
 ---
 
 [**:arrow_right_hook: Back home**](/README.md)

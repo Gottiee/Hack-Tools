@@ -33,6 +33,7 @@ In this repository, you will find useful informations, bypasses and payloads for
 
 - [Pwn.md](/pwn/pwn.md)
 - [Ghidra](tools/ghidra.md)
+- [Ret2libc](pwn/ret2libc.md)
 - [Gdb-gef](tools/gdb/gdb-gef.md)
 
 #### Payload

@@ -15,7 +15,7 @@ aaaaaaaabaaaaaaacaaaaaaadaaaaaaaeaaaaaaafaaaaaaagaaaaaaahaaaaaaaiaaaaaaajaaaaaaa
 At this point lets say the program has crash
 
 ```gdb
->x/xg rip
+>x/xg rbp
 0x7fffffffe418: 0x6161616161616166
 > pattern search 0x6161616161616166
 [+] Searching '0x6161616161616166'

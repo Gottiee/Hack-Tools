@@ -6,9 +6,17 @@ This payload use pwn tool for exploit binary vulnerabilities
 
 - []
 
+## Installation
+
+```pip install pwntools```
+
 ## Usage
 
 ```python3 payload.py```
+
+```python3 payload.py REMOTE```
+
+```python3 payload.py TRACE```
 
 ---
 
