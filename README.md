@@ -26,9 +26,12 @@ In this repository, you will find useful informations, bypasses and payloads for
 
 - [Relative path exploitation](injection/relative_path_binary.md)
 - [Php preg_replace](language/php/preg_replace.md)
+- [Web Pdf injection](/web/pdf-injection.md)
+- [Web md to pdf injection](/web/md-to-pdf-injection.md)
 
 ## Pwn
 
+- [Pwn.md](/pwn/pwn.md)
 - [Ghidra](tools/ghidra.md)
 - [Gdb-gef](tools/gdb/gdb-gef.md)
 
@@ -43,6 +46,8 @@ In this repository, you will find useful informations, bypasses and payloads for
 - [Gdb-gef](tools/gdb/gdb-gef.md)
 
 ## Web
+
+- [Web.md](/web/web.md)
 
 ## Tools
 
