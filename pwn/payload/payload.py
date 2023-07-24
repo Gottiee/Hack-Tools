@@ -1,7 +1,7 @@
 from pwn import *
 import sys
 
-exe = ELF("./l_alchimiste")
+exe = ELF("./a.out")
 context.binary = exe.path
 HOST = ''
 PORT = -1

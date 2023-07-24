@@ -2,25 +2,47 @@
 
 To dominate in such a fashion as to gain ownership. A network, system, organization, or rival that comes under an adversary's control is said to have been pwned.
 
+If you are not familiar with Assembly take a look at my [asm cheat sheat](https://github.com/Gottiee/asm)
+
 ### Table of Contents
 
+- [Recognition](#recognition)
 - [Payload](#payload)
 - [Tools](#tools)
 - [Usefull Command](#usefull-cmd)
+- [Documentation](#documentation)
+
+## Recognition
+
+- By pass NX (with and without ASLR)
+	- Libc.so.6 linked
+		- [ret2libc](/pwn/ret2libc.md)
 
 ## Payload
 
 - [Payload explain](/pwn/payload.md)
-- [Payload.py](/pwn/payload.py)
+- [Payload.py](/pwn/payload/payload.py)
+- [Ret2libc_aslr_Payload.py](/pwn/payload/payload_ret2libc_aslr.py)
+- [Ret2libc_without_aslr.py](/pwn/payload/payload_ret2libc.py)
+
 
 ## Tools
 
 - [Gdb-gef](/tools/gdb-gef.md)
 - [Ghidra](/tools/ghidra.md)
+- [ROPgadget](/tools/RopGadget.md)
 
 ## Usefull Cmd
 
-- ```ldd <binary file>``` check which library is used
+Cmd | explanation
+--- | ---
+```ldd <binary file>``` | check which library is used
+```readelf -l \| grep GNU_STACK``` | if flag 'E' active : aslr activated
+```cat <(python /tmp/exec.py)- \| ./exploit.me``` | interactive exploit with cat command bloque
+
+### Documentation
+
+- [Cheat sheet buffer Overflow](https://www.0x0ff.info/2014/segmentation-memoire-buffer-overflow/)
 
 ---
 

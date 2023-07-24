@@ -23,7 +23,7 @@ At this point lets say the program has crash
 [+] Found at offset 33 (big-endian search)
 ```
 
-We know that offset is 40, we need add 40 byte of trash before adding new return adress.
+We know that offset is 40, we need add 40 byte of trash before adding new return address.
 
 ---
 

