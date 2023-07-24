@@ -32,13 +32,15 @@ This payload use pwn tool for exploit binary vulnerabilities
 
 #### Payload without aslr
 
+- [Payload <-](/pwn/payload/payload_ret2libc.py)
+
 #### Payload With aslr
 
 - [Payload <-](/pwn/payload/payload_ret2libc_aslr.py)
 
 ### Documentation
 
-- [Cheat Sheet](https://gist.github.com/anvbis/64907e4f90974c4bdd930baeb705dedf)
+- [Cheat Sheet pwntools](https://gist.github.com/anvbis/64907e4f90974c4bdd930baeb705dedf)
 
 ---
 
