@@ -37,7 +37,7 @@ If you are not familiar with Assembly take a look at my [asm cheat sheat](https:
 Cmd | explanation
 --- | ---
 ```ldd <binary file>``` | check which library is used
-```readelf -l \| grep GNU_STACK``` | if flag 'E' active : aslr activated
+```cat /proc/sys/kernel/randomize_va_space``` | '0' no aslr / '1' aslr for lib / '2' aslr for lib and exe
 ```cat <(python /tmp/exec.py)- \| ./exploit.me``` | interactive exploit with cat command bloque
 
 ### Documentation
