@@ -6,8 +6,6 @@ This payload use pwn tool for exploit binary vulnerabilities
 
 - [Installation](#installation)
 - [Usage](#usage)
-- [Basic Payload](#)
-- [Ret2libc Payload]()
 - [Docu]
 
 ## Installation
@@ -21,22 +19,6 @@ This payload use pwn tool for exploit binary vulnerabilities
 ```python3 payload.py REMOTE```
 
 ```python3 payload.py TRACE```
-
-## Basic Payload
-
-[Payload <-](/pwn/payload/payload.py)
-
-## Ret2Libc Payload
-
-[Ret2libc explanation](/pwn/ret2libc.md)
-
-#### Payload without aslr
-
-- [Payload <-](/pwn/payload/payload_ret2libc.py)
-
-#### Payload With aslr
-
-- [Payload <-](/pwn/payload/payload_ret2libc_aslr.py)
 
 ### Documentation
 

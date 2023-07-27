@@ -9,7 +9,6 @@ In this repository, you will find useful informations, bypasses and payloads for
 ### Table of Contents
 
 - [Unix missconfiguration](#Unix-missconfiguration)
-- [Code injection](#code-injection)
 - [Pwn](#pwn)
 - [Reverse](#reverse)
 - [Web](#web)
@@ -22,18 +21,12 @@ In this repository, you will find useful informations, bypasses and payloads for
 - [CronTab](missConfig/crontab.md)
 - [Hash in /ect/passwd](/tools/john.md)
 
-## Code Injection
-
-- [Relative path exploitation](injection/relative_path_binary.md)
-- [Php preg_replace](language/php/preg_replace.md)
-- [Web Pdf injection](/web/pdf-injection.md)
-- [Web md to pdf injection](/web/md-to-pdf-injection.md)
-
 ## Pwn
 
-- [Pwn.md](/pwn/pwn.md)
+- [**Pwn.md**](/pwn/pwn.md)
 - [Ret2libc](pwn/ret2libc.md)
 - [FormatString](pwn/format-string.md)
+- [Shell Code Injection](pwn/shell-code-injection.md)
 - **tools**
   - [Gdb-gef](tools/gdb/gdb-gef.md)
   - [Ghidra](tools/ghidra.md)
@@ -42,9 +35,11 @@ In this repository, you will find useful informations, bypasses and payloads for
 #### Payload
 
 - [PayloadPwn.md](pwn/payload.md)
-- [Payload Vierge](pwn/payload/payload.py)
-- [Ret2libc without aslr payload](/pwn/payload/payload_ret2libc.py)
-- [Ret2libc with aslr payload](pwn/payload/payload_ret2libc_aslr.py)
+- **Payload**
+  - [Payload Vierge](pwn/payload/payload.py)
+  - [Ret2libc without aslr payload](/pwn/payload/payload_ret2libc.py)
+  - [Ret2libc with aslr payload](pwn/payload/payload_ret2libc_aslr.py)
+  - [Shell-code-injection](/pwn/payload/payload-shell-code-injection.py)
 
 ## Reverse
 

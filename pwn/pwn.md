@@ -14,16 +14,21 @@ If you are not familiar with Assembly take a look at my [asm cheat sheat](https:
 
 ## Recognition
 
-- By pass NX (with and without ASLR)
+- Nx enable (with and without ASLR)
 	- Libc.so.6 linked
 		- [ret2libc](/pwn/ret2libc.md)
+- Nx disable
+	- no aslr
+		- [Shell Code Injection](/pwn/shell-code-injection.md)
 
 ## Payload
 
 - [Payload explain](/pwn/payload.md)
-- [Payload.py](/pwn/payload/payload.py)
-- [Ret2libc_aslr_Payload.py](/pwn/payload/payload_ret2libc_aslr.py)
-- [Ret2libc_without_aslr.py](/pwn/payload/payload_ret2libc.py)
+- **Payload.py**
+	- [Payload.py](/pwn/payload/payload.py)
+	- [Ret2libc_aslr_Payload.py](/pwn/payload/payload_ret2libc_aslr.py)
+	- [Ret2libc_without_aslr.py](/pwn/payload/payload_ret2libc.py)
+	- [Shell-code-injection.py](/pwn/payload/payload-shell-code-injection.py)
 
 
 ## Tools
