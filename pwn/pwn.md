@@ -20,6 +20,8 @@ If you are not familiar with Assembly take a look at my [asm cheat sheat](https:
 - Nx disable
 	- no aslr
 		- [Shell Code Injection](/pwn/shell-code-injection.md)
+- `printf(variable)` // no protection
+	- [Format string](/pwn/format-string.md)
 
 ## Payload
 
