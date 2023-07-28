@@ -27,11 +27,15 @@ Vulnerabilities and potential risks caused by Unix misconfigurations
 
 Collection of pwn exploit, tools and payloads to help you control binaries.
 
-- [**Pwn.md**](/pwn/pwn.md)
-- [Ret2libc](pwn/ret2libc.md)
-- [FormatString](pwn/format-string.md)
-- [Shell Code Injection](pwn/shell-code-injection.md)
-- [Strcpy](/language/c/strcpy.md)
+### [Pwn.md](/pwn/pwn.md)
+
+[Binaries Securities](/pwn/security-of-binaries.md)
+
+- **Exploit**
+  - [Ret2libc](pwn/ret2libc.md)
+  - [FormatString](pwn/format-string.md)
+  - [Shell Code Injection](pwn/shell-code-injection.md)
+  - [Strcpy](/language/c/strcpy.md)
 - **tools**
   - [Gdb-gef](tools/gdb/gdb-gef.md)
   - [Ghidra](tools/ghidra.md)
