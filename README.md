@@ -27,6 +27,7 @@ In this repository, you will find useful informations, bypasses and payloads for
 - [Ret2libc](pwn/ret2libc.md)
 - [FormatString](pwn/format-string.md)
 - [Shell Code Injection](pwn/shell-code-injection.md)
+- [Strcpy](/language/c/strcpy.md)
 - **tools**
   - [Gdb-gef](tools/gdb/gdb-gef.md)
   - [Ghidra](tools/ghidra.md)

@@ -22,6 +22,9 @@ If you are not familiar with Assembly take a look at my [asm cheat sheat](https:
 		- [Shell Code Injection](/pwn/shell-code-injection.md)
 - `printf(variable)` // no protection
 	- [Format string](/pwn/format-string.md)
+- strcpy
+	- dest smaller than src
+		- [strcpy exploit](/language/c/strcpy.md)
 
 ## Payload
 
