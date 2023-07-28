@@ -38,7 +38,7 @@ If you are not familiar with Assembly take a look at my [asm cheat sheat](https:
 
 ## Tools
 
-- [Gdb-gef](/tools/gdb-gef.md)
+- [Gdb-gef](/tools/gdb/gdb-gef.md)
 - [Ghidra](/tools/ghidra.md)
 - [ROPgadget](/tools/RopGadget.md)
 
