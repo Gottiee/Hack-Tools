@@ -11,7 +11,8 @@
 
 #### Explanation
 
-When a program refere to a binary command without giving the absolute path, you can execute your own program instead of the command.<br>
+When a program refere to a binary command without giving the absolute path, you can execute your own program instead of the command.
+
 This program show below refer to this venurability:
 
 ```
@@ -20,7 +21,8 @@ This program show below refer to this venurability:
 ls /ect/passwd
 ```
 
-When bash interpret `ls`, he is trying to find the command located in the `env | grep PATH`.<br>
+When bash interpret `ls`, he is trying to find the command located in the `env | grep PATH`.
+
 It try every directory, from letf to right, to check if the executable is located in. If it is, he execute it.
 The tricks is to create a new file name "ls" write some code to execute at the emplacement /ect/passwd.
 

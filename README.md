@@ -17,11 +17,15 @@ In this repository, you will find useful informations, bypasses and payloads for
 
 ## Unix MissConfiguration
 
+Vulnerabilities and potential risks caused by Unix misconfigurations
+
 - [Sudo](missConfig/sudo.md)
 - [CronTab](missConfig/crontab.md)
 - [Hash in /ect/passwd](/tools/john.md)
 
 ## Pwn
+
+Collection of pwn exploit, tools and payloads to help you control binaries.
 
 - [**Pwn.md**](/pwn/pwn.md)
 - [Ret2libc](pwn/ret2libc.md)
@@ -44,11 +48,16 @@ In this repository, you will find useful informations, bypasses and payloads for
 
 ## Reverse
 
+Reverse engineering is the process of analyzing and understanding a product, system, or software by deconstructing it to reveal its inner workings, design, or source code.
+
 - [Set register in gdb](/tools/gdb/gdb-set-register.md)
-- [Ghidra](tools/ghidra.md)
-- [Gdb-gef](tools/gdb/gdb-gef.md)
+- **tools**
+  - [Ghidra](tools/ghidra.md)
+  - [Gdb-gef](tools/gdb/gdb-gef.md)
 
 ## Web
+
+A web exploit refers to a security vulnerability or technique used to take advantage of weaknesses in web applications, servers, or client-side components to gain unauthorized access, control, or steal sensitive information.
 
 - [Web.md](/web/web.md)
   - [Md-to-Pdf injection](/web/md-to-pdf-injection.md)
@@ -64,5 +73,10 @@ In this repository, you will find useful informations, bypasses and payloads for
 
 ## Languages
 
-- [C](language/c/c.md)
-- [php](language/php/php.md)
+- [**C**](language/c/c.md)
+  - [strcpy exploit](/language/c/strcpy.md)
+  - [access_data_race](/language/c/access_data_race.md)
+- [**php**](language/php/php.md)
+  - [preg_replace](/language/php/preg_replace.md)
+- [**bash**](/language/bash/bash.md)
+  - [relative path to run binary](/language/bash/relative_path_binary.md)

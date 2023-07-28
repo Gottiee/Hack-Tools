@@ -6,16 +6,11 @@ C is strongly associated with UNIX, as it was developed to write the UNIX operat
 
 ## Recognition
 
-- SUID program
-	- call access then open
-		- [Access data race](/language/c/access_data_race.md)
-	- strcpy
-		- dest is smaller than src
-			- [strcpy exploit](/language/c/strcpy.md)
-
-### Table of Contents
-
-- [Access data race](/language/c/access_data_race.md)
+- call access then open
+	- [Access data race](/language/c/access_data_race.md)
+- strcpy
+	- dest is smaller than src
+		- [strcpy exploit](/language/c/strcpy.md)
 
 ---
 

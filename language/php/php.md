@@ -8,11 +8,6 @@ PHP (recursive acronym for PHP: Hypertext Preprocessor) is a widely-used open so
   - $pattern editable or $patern finish with /e
     - [Preg_replace exploit](/language/php/preg_replace.md)
 
-### Table of Contents
-
-- [Preg_replace exploit](/language/php/preg_replace.md)
-- [Docu](#documentation)
-
 ### Documentation
 
 - [Php Manual](https://www.php.net/manual/en/index.php)
