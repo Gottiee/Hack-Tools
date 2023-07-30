@@ -14,6 +14,8 @@ If you are not familiar with Assembly take a look at my [asm cheat sheat](https:
 
 ## Recognition
 
+[**Binaries Security**](/pwn/security-of-binaries.mdt)
+
 - Nx enable (with and without ASLR)
 	- Libc.so.6 linked
 		- [ret2libc](/pwn/ret2libc.md)
