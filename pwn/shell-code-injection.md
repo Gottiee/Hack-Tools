@@ -37,9 +37,12 @@ Why ? Because, when the function gonna end, it gonna jump to the address of our 
 
 Payload = 
 
+- padding (\x90) NOP instruction
 - Shell code
 - Offset - sizeof(shell code)
 - pointer to the start of the buffer (Easily discoverable through stack printing)
+
+:warning: Add a padding is a good habit, sometime it help the shell code not crash even if you had well aimed the buffer in the stack.
 
 [payload.py](/pwn/payload/payload-shell-code-injection.py)
 
