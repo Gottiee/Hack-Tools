@@ -84,3 +84,5 @@ A web exploit refers to a security vulnerability or technique used to take advan
   - [preg_replace](/language/php/preg_replace.md)
 - [**bash**](/language/bash/bash.md)
   - [relative path to run binary](/language/bash/relative_path_binary.md)
+- **Javascript**
+  - [Js obfucated code](/language/java-script/js-obfuscation.md)
