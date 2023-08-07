@@ -86,7 +86,20 @@ x/s $eax
 
 ## Looking for strings
 
-gdb
+You can located a string address by providing the start address, end address and the string.
+
+```find 0x00, 0xff, "a"```
+
+For example, let's find "/bin/sh" in the libc.so.6
+
+```py
+info proc mapping
+0xf7e2c000 0xf7fcc000   0x1a0000        0x0 /lib32/libc-2.15.so
+
+find 0xf7e2c000, 0xf7fcc000, "/bin/sh"
+0xf7f897ec
+1 pattern found.
+```
 
 #### Usage :
 
