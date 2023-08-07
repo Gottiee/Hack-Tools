@@ -9,6 +9,10 @@ GEF (pronounced ʤɛf - "Jeff") is a set of commands for x86/64, ARM, MIPS, Powe
 - [Usage](/tools/gdb/gdb-usage.md)
 - [Documentation](#documentation)
 
+## Usage
+
+- [Usage](/tools/gdb/gdb-usage.md)
+
 ## Pwn
 
 ## Reverse

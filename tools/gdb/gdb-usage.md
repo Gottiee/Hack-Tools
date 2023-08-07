@@ -10,6 +10,7 @@ Gdb tips tricks and usefull command.
 - [Remote connection](#gdb-remote-connection)
 - [Usefull Command](#command)
 - [GDB script](#gdb-script)
+- [Looking for strings](#)
 
 ## Print Content
 
@@ -82,6 +83,10 @@ x/s $eax
 | -------------------- | ---------------------- |
 | `Backtrace`          | ?                      |
 | `info proc mappings` | print mapped addresses |
+
+## Looking for strings
+
+gdb
 
 #### Usage :
 
