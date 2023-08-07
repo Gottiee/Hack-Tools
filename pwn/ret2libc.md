@@ -6,13 +6,22 @@ NX (NoExecute) is also called DEP (Data Execution Prevention) prevents execution
 
 ### Table of Contents
 
-- [Theory](#theory)
-- [Step with Aslr](#step-with-aslr)
+- [Difference 32/64 bit](#difference-between-32-and-64-bit)
+- [Theory 32 bit](#theory-32-bit)
+- [Exploit 32 bit](#exploit-32-bit)
+- [Theory 64 bit](#step-with-aslr)
 - [Find Gadget](#find-gadgets)
 - [Without ASLR](#without-aslr)
 - [With ASLR](#with-aslr)
 
-## Theory
+## Difference Between 32 and 64 bit
+
+:warning: The difference between system call 32 and 64 bits is: 
+
+- 32 bit load arg in stack
+- 64 bit load arg in rdi(pointer)
+
+## Theory 32 bit
 
 Lets suppose this code in c:
 
@@ -41,7 +50,7 @@ Now we see how the stack should be before call to system fucntion we can constru
 
 Payload : [ Offset ] [ system() address] [ return address] [ "/bin/sh" address ]
 
-### Print value in gdb
+## Exploit 32 bit
 
 ```py
 info functions system
@@ -59,11 +68,13 @@ find 0xf7e2c000, 0xf7fcc000, "/bin/sh"
 
 [Gdb usage](/tools/gdb/gdb-usage.md)
 
-## Step with aslr and gadget
+## Theory 64 bit
 
-Here's the high-level overview of the ret2libc attack with gadget loading (/bin/sh) in rdi:
+The idea is the same as 32 bit, but you need a in the payload a gadget which load the string in rdi.
 
 - Step 1: Find gadgets: Identify useful gadgets in the binary, such as pop rdi; ret, which sets the rdi register to a specific value and then returns to the next instruction.
+
+:warning: Step 2 and 3 and usfull for aslr
 
 - Step 2: Leak libc address: Use a ROP chain to call a function like puts to leak the address of a function in the libc library, like system.
 
