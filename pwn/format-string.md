@@ -6,6 +6,7 @@
 
 - [Before Exploit](#before-exploit)
 - [Read the stack](#read-the-stack)
+- [CyberChef helps you read in the stack](#website-helping-you-reading-the-stack)
 - [OverWrite data](#overwrite-data)
 - [write complex value](#write-complex-value)
 - [Code execution redirect](#code-execution-redirect)
@@ -36,6 +37,14 @@ You can print the entire stack. And read data.
 
 ![img](/pwn/img/error_printf.svg)
 [website docu](https://axcheron.github.io/exploit-101-format-strings/)
+
+### Read 64 bits stack
+
+To read 8 bytes data, you can use ```%p``` or ```%lld```.
+
+### Website helping you reading the stack
+
+- [CyberChef](https://gchq.github.io/CyberChef/#recipe=Swap_endianness('Hex',8,true)From_Hex('Auto'))
 
 ## OverWrite Data 
 
