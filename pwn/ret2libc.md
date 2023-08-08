@@ -94,8 +94,6 @@ Payload =
 
 - offset of overflow
 
-- libc address (from ```ldd command```)
-
 - pop rdi gadget
 
 - string '/bin/sh' (from libc load into rdi with the gadget)
