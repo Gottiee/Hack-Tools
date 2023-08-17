@@ -76,6 +76,7 @@ This is significant because it prevents attackers from being able to jump to cus
 
 A PIE binary and all of its dependencies are loaded into random locations each time the application is executed.
 
+[ByPass PIE](/pwn/bypassPie.md)
 
 ## Fortify
 
