@@ -27,6 +27,8 @@ If you are not familiar with Assembly take a look at my [asm cheat sheat](https:
 - strcpy
 	- dest smaller than src
 		- [strcpy exploit](/language/c/strcpy.md)
+- PIE enable
+	- [BypassPIE](/pwn/bypassPie.md)
 
 ## Payload
 
@@ -36,7 +38,7 @@ If you are not familiar with Assembly take a look at my [asm cheat sheat](https:
 	- [Ret2libc_aslr_Payload.py](/pwn/payload/payload_ret2libc_aslr.py)
 	- [Ret2libc_without_aslr.py](/pwn/payload/payload_ret2libc.py)
 	- [Shell-code-injection.py](/pwn/payload/payload-shell-code-injection.py)
-
+	- [bypass PIE](/pwn/payload/payload_bypassPIE.py)
 
 ## Tools
 
