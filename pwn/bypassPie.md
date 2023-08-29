@@ -24,15 +24,19 @@ Simple exemple:
 gdb >
 
 info function main
-0xbfffa056
-
-info function vuln
 0xbfffb000
 
-print 0xbfffa056-0xbfffb000
-?
+info function vuln
+0xbfffa056
+
+print 0xbfffb000-0xbfffa056
+4010
 ```
 
 If you add or sub offset to the leak address, you can call it.
 
 - [Payload bypass PIE](/pwn/payload/payload_bypassPIE.py)
+
+---
+
+[**:arrow_right_hook: Back Pwn**](/pwn/pwn.md)

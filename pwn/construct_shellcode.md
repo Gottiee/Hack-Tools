@@ -14,10 +14,14 @@ Exploit: [Shell code injection](/pwn/shell-code-injection.md)
 
 To write your own shell code, you need to know how code in assembly. 
 
-[Asm Cheat Sheet]()
+[Asm Cheat Sheet](https://github.com/Gottiee/asm)
 
 Example of shell code calling setreuid and execve(/bin/bash)
 
 ```asm
 
 ```
+
+---
+
+[**:arrow_right_hook: Back Pwn**](/pwn/pwn.md)
