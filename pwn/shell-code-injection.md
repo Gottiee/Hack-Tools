@@ -46,6 +46,12 @@ Payload =
 
 [payload.py](/pwn/payload/payload-shell-code-injection.py)
 
+## Some shell Code:
+
+### 32 bit:
+
+
+
 ---
 
 [**:arrow_right_hook: Back PWN**](/pwn/pwn.md)
