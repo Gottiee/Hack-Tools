@@ -68,6 +68,7 @@ A web exploit refers to a security vulnerability or technique used to take advan
 - [Web.md](/web/web.md)
   - [Md-to-Pdf injection](/web/md-to-pdf-injection.md)
   - [Pdf Injection](/web/pdf-injection.md)
+  - [Xss](/web/xss.md)
 
 ## Tools
 

@@ -5,3 +5,7 @@ If a web page is creating a PDF using user controlled input, you can try to tric
 ### documentation
 
 - [Hack Tricks payload](https://book.hacktricks.xyz/pentesting-web/xss-cross-site-scripting/server-side-xss-dynamic-pdf)
+
+---
+
+[**:arrow_right_hook: Back home**](/README.md)
