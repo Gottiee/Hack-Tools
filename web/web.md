@@ -7,6 +7,7 @@
 - [Js obfuscation](/language/java-script/js-obfuscation.md)
 - [Xss](/web/xss.md)
 - [CSP](/web/csp.md)
+- [CSRF](/web/csrf.md)
 
 ---
 
