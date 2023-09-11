@@ -13,6 +13,15 @@ It allow attackers to resolve and call functions from shared libraries even in t
 	- [Compile a Program with libraries](#compile-a-program-with-libraries)
 		- [Statically link](#static-libraries)
 		- [Dynamically link](#dynamic-linking)
+      - [Plt and Got](#plt-and-got-sections)
+  - [How the exploit Work]()
+- [Exploit]()
+  - [32 bit]()
+    - [no RELRO]()
+    - [Partial RELRO]()
+  - [64 bit]()
+    - [Partial RELRO]()
+- [Documentation](#documentation)
 
 
 ## Context and theory
@@ -94,9 +103,12 @@ $> objdump a.out -dx
 
 In addition with every thing we saw earlier, libraries are often used in programs. This libraries can be add statically or dynamically.
 
+- *build time* : gcc main.c
+- *load / run time* : ./a.out
+
 ### Static Libraries
 
-Static libraries are link at *load time* (opposit of at *run time* (during the execution)).
+Static libraries are link at *build time* (opposit of at *run time* (during the execution)).
 
 ```c
 #include <stdio.h>
@@ -154,7 +166,115 @@ total 28K
 
 ### Dynamic linking
 
+libraries are load at run time:
 
+![shared-libraries](/pwn/img/shared.png)
+
+**Shared libraries**: 
+
+- are an executables that can be linked with the library at load time
+- create a .interp section with the location of the dynamic linker
+
+**When the program is compile :**
+
+- Build time(`gcc main.c`)
+  - libraries relocations and symbols tables info are load into the executable
+- Load time(`./a.out`)
+  - loader checks for .interp section
+  - loader runs the dynamic linker
+  - dynamic linker:
+    - relocates the text and data sections of the shared libraries into memory
+    - relocates references to any symbols referenced in shared libraries
+
+![schema of dl](/pwn/img/creation-of-dl.png)
+
+Lets dive into how it work presicely:
+
+### Plt and Got sections:
+
+PLT (procedure linkage Table) contain code to help with runtime linkage.
+
+GOT (global offset table) contain informations on variables and functions.
+
+For every PLT entry (plt.sec) you have a corresponding GOT entry.
+
+Every time you call an extern function, the programm call the plt.sec of the corresponding function:
+
+
+```py
+Disassembly of section .plt.sec:
+
+0000000000401050 <printf@plt>:
+  401050 <+0>:    jmpq    *0x200c22(%rip)   # 0x601018
+  401056 <+6>:    pushq   $0x0
+  40105b <+11>:	  jmpq    0x4003e0
+```
+
+First call to printf:
+
+- jmpq to 0x601018 point to the entry of printf in the GOT.
+- but if we `print/x *(void**)0x601018` it print `0x401056`
+- It mean The entry of GOT point back to the next instruction on the PLT.
+- then it push something on the stack
+- Finaly call PLT[0] wich contain a pointer to the dinamic linker.
+- The dl will resolve 0x601018 pointing now to printf().
+- Then it call printf().
+
+Second Call of printf:
+
+- jmpq to 0x601018 point to the entry of printf in the GOT.
+- Now 0x601018 print to prinf function so it is call throught the GOT.
+
+### How The exploit Work
+
+Elf file uses to relocation dynamically linked functions. It is the core of ret2dlresolve attack: _dl_runtime_resolve(link_map, reloc_offset).
+
+Definition:
+
+- .dynsym: (dynamic symbol) it occur at build time, when librairie symbol are load into our executable.
+- .dynstr: (dynamic string) store string associated with .dynsym for example their name.
+- .rel.plt (relocation.plt) store information of none resolute symb.
+
+For example in our main.c
+
+```bash
+$> readelf -r a.out
+Relocation section '.rela.plt' at offset 0x548 contains 1 entrie:
+  Offset          Info           Type           Sym. Value    Sym. Name + Addend
+000000404018  000200000007 R_X86_64_JUMP_SLO 0000000000000000 printf@GLIBC_2.2.5 + 0
+```
+
+:warning: When the dynamic linker resolve the functon's address it overwrite the GOT entry and the .rel.plt.
+
+**3** ways:
+
+#### Direct control over the content of the .rel.plt items
+
+- overwrite the .rel.plt with the address of system(), when the dl is call, he know the resolution as been done and can call it.
+
+#### Indirecty control the content of the .rel.plt items
+
+- overwrite a function name inside the .dynstr to write the system() function.
+- call the dynamic linker:
+  - it resolve the address of the function by looking at it name in the .dynstr and call it
+
+#### Forge link-map
+
+The idea is to crate a fake link_map struct use by the dl for resolve symbols. If we can control it, we can influence dl to resolve the function that we want.
+
+## Exploit
+
+- [RELRO](/pwn/security-of-binaries.md#relro)
+
+### 32 bit
+
+#### No RELRO
+
+
+
+### Documentation
+
+- [Amazing videos of Chris Kanich](https://www.youtube.com/watch?v=Ss2e6JauS0Y)
 
 ---
 
