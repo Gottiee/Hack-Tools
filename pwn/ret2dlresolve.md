@@ -14,11 +14,11 @@ It allow attackers to resolve and call functions from shared libraries even in t
 		- [Statically link](#static-libraries)
 		- [Dynamically link](#dynamic-linking)
       - [Plt and Got](#plt-and-got-sections)
-  - [How the exploit Work]()
-- [Exploit]()
-  - [32 bit]()
-    - [no RELRO]()
-    - [Partial RELRO]()
+  - [How the exploit Work](#how-the-exploit-work)
+- [Exploit](#exploit)
+  - [32 bit](#32-bit)
+    - [no RELRO](#no-relro)
+    - [Partial RELRO](#partial-relro)
   - [64 bit]()
     - [Partial RELRO]()
 - [Documentation](#documentation)
@@ -215,7 +215,7 @@ First call to printf:
 - jmpq to 0x601018 point to the entry of printf in the GOT.
 - but if we `print/x *(void**)0x601018` it print `0x401056`
 - It mean The entry of GOT point back to the next instruction on the PLT.
-- then it push something on the stack
+- then push relog_arg/rel_offset to the stack
 - Finaly call PLT[0] wich contain a pointer to the dinamic linker.
 - The dl will resolve 0x601018 pointing now to printf().
 - Then it call printf().
@@ -270,11 +270,13 @@ The idea is to crate a fake link_map struct use by the dl for resolve symbols. I
 
 #### No RELRO
 
-
+#### Partial RELRO
 
 ### Documentation
 
 - [Amazing videos of Chris Kanich](https://www.youtube.com/watch?v=Ss2e6JauS0Y)
+- [ret2 tuto: binary exploitation](https://ir0nstone.gitbook.io/notes/types/stack/ret2dlresolve/exploitation)
+- [ret2 tuto:tistory](https://wyv3rn.tistory.com/225#----%--return%--to%--dl-resolve)
 
 ---
 
