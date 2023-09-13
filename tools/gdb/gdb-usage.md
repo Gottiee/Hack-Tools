@@ -83,6 +83,8 @@ x/s $eax
 | -------------------- | ---------------------- |
 | `Backtrace`          | ?                      |
 | `info proc mappings` | print mapped addresses |
+| `info file`          | print sections         |
+
 
 ## Looking for strings
 

