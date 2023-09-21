@@ -10,7 +10,6 @@ If you are not familiar with Assembly take a look at my [asm cheat sheat](https:
 - [Payload](#payload)
 - [Tools](#tools)
 - [Usefull Command](#usefull-cmd)
-- [Documentation](#documentation)
 
 ## Recognition
 
@@ -39,6 +38,7 @@ If you are not familiar with Assembly take a look at my [asm cheat sheat](https:
 	- [Ret2libc_without_aslr.py](/pwn/payload/payload_ret2libc.py)
 	- [Shell-code-injection.py](/pwn/payload/payload-shell-code-injection.py)
 	- [bypass PIE](/pwn/payload/payload_bypassPIE.py)
+	- [Ret2dlresolve partial RELRO 32bit.py](/pwn/payload/payload_ret2dlresolve_32bit_partialRELRO.py)
 
 ## Tools
 
@@ -52,11 +52,7 @@ Cmd | explanation
 --- | ---
 ```ldd <binary file>``` | check which library is used
 ```cat /proc/sys/kernel/randomize_va_space``` | '0' no aslr / '1' aslr for lib / '2' aslr for lib and exe
-```cat <(python /tmp/exec.py)- \| ./exploit.me``` | interactive exploit with cat command bloque
-
-### Documentation
-
-- [Cheat sheet buffer Overflow](https://www.0x0ff.info/2014/segmentation-memoire-buffer-overflow/)
+```cat <(python /tmp/exec.py) -| ./exploit.me``` | interactive exploit with cat command bloque
 
 ---
 

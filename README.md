@@ -37,6 +37,7 @@ Collection of pwn exploit, tools and payloads to help you control binaries.
   - [Shell Code Injection](pwn/shell-code-injection.md)
   - [Strcpy](/language/c/strcpy.md)
   - [Bypass Pie](/pwn/bypassPie.md)
+  - [Ret2dl_resolve](/pwn/ret2dlresolve.md)
 - **tools**
   - [Gdb-gef](tools/gdb/gdb-gef.md)
   - [Ghidra](tools/ghidra.md)

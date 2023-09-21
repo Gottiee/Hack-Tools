@@ -457,9 +457,9 @@ p.send(stage1)
 - We gonna see juste later what we write in the BSS buffer.
 - So next idea is recal PLT[0] to trigger the _dl_runtime_resolve (remember the gadget will pop 3 times and ret to the next address on the stack (PLT[0])).
 - _dl_runtime_resolve need arg push in the stack:
-- reloc_offset allready calculed (at the start of BSS section).
+- reloc_offset already calculated (at the start of BSS section).
 - _dl_runtime_resolve will call the system function, at the end it return to the next address on the stack: `0xdeadbeaf`.
-- Finally we need to pass to the system function the address of the "/bin/sh" strings calculed too. (at the end of the structs in BSS).
+- Finally we need to pass to the system function the address of the "/bin/sh" strings calculated too. (at the end of the structs in BSS).
 
 Stage 2 is about to write struct in the BSS section:
 
