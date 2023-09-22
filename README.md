@@ -80,6 +80,7 @@ A web exploit refers to a security vulnerability or technique used to take advan
 - [Gdb-gef](tools/gdb/gdb-gef.md)
 - [Ghidra](tools/ghidra.md)
 - [ROPgadget](tools/RopGadget.md)
+- [dirb](/tools/dirb.md)
 
 ## Languages
 
