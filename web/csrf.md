@@ -5,8 +5,8 @@ Cross-site request forgery (also known as CSRF) is a web security vulnerability 
 ### Table of content
 
 - [How does it work ?](#how-does-it-work)
-- [Get method]()
-- [Post method]()
+- [Get method](#get-method)
+- [Post method](#post-method)
 
 ## How does it work ? 
 
