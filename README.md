@@ -52,7 +52,6 @@ Collection of pwn exploit, tools and payloads to help you control binaries.
   - [Ret2libc with aslr payload](pwn/payload/payload_ret2libc_aslr.py)
   - [Shell-code-injection](/pwn/payload/payload-shell-code-injection.py)
   - [bypass PIE](/pwn/payload/payload_bypassPIE.py)
-	- [Ret2dlresolve partial RELRO 32bit.py](/pwn/payload/payload_ret2dlresolve_32bit_partialRELRO.py)
 
 ## Reverse
 
