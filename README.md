@@ -67,11 +67,15 @@ Reverse engineering is the process of analyzing and understanding a product, sys
 A web exploit refers to a security vulnerability or technique used to take advantage of weaknesses in web applications, servers, or client-side components to gain unauthorized access, control, or steal sensitive information.
 
 - [Web.md](/web/web.md)
-  - [Md-to-Pdf injection](/web/md-to-pdf-injection.md)
-  - [Pdf Injection](/web/pdf-injection.md)
-  - [Xss](/web/xss.md)
-  - [CSP](/web/csp.md)
-  - [CSRF](/web/csrf.md)
+  - **Client side**
+    - [Md-to-Pdf injection](/web/md-to-pdf-injection.md)
+    - [Pdf Injection](/web/pdf-injection.md)
+    - [Xss](/web/xss.md)
+    - [CSP](/web/csp.md)
+    - [CSRF](/web/csrf.md)
+  - **Server side**
+    - [open redirect](/web/open-Redirect.md)
+    - [bypass ip filtering](/web/bypasse-ip-filtering.md)
 
 ## Tools
 

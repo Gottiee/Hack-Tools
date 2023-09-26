@@ -2,12 +2,16 @@
 
 ### Table of Contents
 
-- [Md to Pdf injection](/web/md-to-pdf-injection.md)
-- [Pdf Injection](/web/pdf-injection.md)
-- [Js obfuscation](/language/java-script/js-obfuscation.md)
-- [Xss](/web/xss.md)
-- [CSP](/web/csp.md)
-- [CSRF](/web/csrf.md)
+- Client side
+	- [Md to Pdf injection](/web/md-to-pdf-injection.md)
+	- [Pdf Injection](/web/pdf-injection.md)
+	- [Js obfuscation](/language/java-script/js-obfuscation.md)
+	- [Xss](/web/xss.md)
+	- [CSP](/web/csp.md)
+	- [CSRF](/web/csrf.md)
+- Server side
+	- [open redirect](/web/open-Redirect.md)
+	- [bypass ip filtering](/web/bypasse-ip-filtering.md)
 
 ## Tools 
 
