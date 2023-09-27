@@ -54,6 +54,10 @@ Cmd | explanation
 ```cat /proc/sys/kernel/randomize_va_space``` | '0' no aslr / '1' aslr for lib / '2' aslr for lib and exe
 ```cat <(python /tmp/exec.py) -| ./exploit.me``` | interactive exploit with cat command bloque
 
+## Usefull Help
+
+Reminder: In the C calling conversion up to six arguments will be placed to the RDI, RSI, RDX, RCX, R8 and R9 registers and anything additional will be placed in to the stack.
+
 ---
 
 [**:arrow_right_hook: Back home**](/README.md)
