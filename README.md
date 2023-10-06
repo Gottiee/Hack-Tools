@@ -38,6 +38,7 @@ Collection of pwn exploit, tools and payloads to help you control binaries.
   - [Strcpy](/language/c/strcpy.md)
   - [Bypass Pie](/pwn/bypassPie.md)
   - [Ret2dl_resolve](/pwn/ret2dlresolve.md)
+  - [ROP execve syscall](/pwn/rop-execve-syscall.md)
 - **tools**
   - [Gdb-gef](tools/gdb/gdb-gef.md)
   - [Ghidra](tools/ghidra.md)
