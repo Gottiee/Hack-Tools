@@ -8,6 +8,9 @@ Exploit: [Shell code injection](/pwn/shell-code-injection.md)
 
 - [32 bit](#32-bit)
 - [64 bit](#64-bit)
+    - [AntiDump + Obfuscation](#anti-dump--obfuscation)
+
+[ASM cheat sheet](https://github.com/Gottiee/asm)
 
 ## 32 bit
 

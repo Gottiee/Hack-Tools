@@ -61,6 +61,7 @@ Collection of pwn exploit, tools and payloads to help you control binaries.
 
 Reverse engineering is the process of analyzing and understanding a product, system, or software by deconstructing it to reveal its inner workings, design, or source code.
 
+- [Call an uncall function in gdb](/tools/gdb/gdb-call-func.md)
 - [Set register in gdb](/tools/gdb/gdb-set-register.md)
 - **tools**
   - [Ghidra](tools/ghidra.md)
