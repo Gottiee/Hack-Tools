@@ -84,6 +84,8 @@ A web exploit refers to a security vulnerability or technique used to take advan
     - [Unprotected functionality](/web/access-control.md#unprotected-functionality)
     - [Parameter-based access control method](/web/access-control.md#parameter-based-access-control-method)
     - [Horizontal privilerge escaladation](/web/access-control.md#horizontal-privilerge-escaladation)
+    - [Path Traversal](/web/path-traversal.md)
+
 ## Tools
 
 - [John /etc/passwd hash brut force](tools/john.md)
