@@ -12,6 +12,9 @@
 - Server side
 	- [open redirect](/web/open-Redirect.md)
 	- [bypass ip filtering](/web/bypasse-ip-filtering.md)
+	- [Unprotected functionality](/web/access-control.md#unprotected-functionality)
+	- [Parameter-based access control method](/web/access-control.md#parameter-based-access-control-method)
+	- [Horizontal privilerge escaladation](/web/access-control.md#horizontal-privilerge-escaladation)
 
 ## Tools 
 
