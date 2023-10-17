@@ -16,6 +16,9 @@
 	- [Parameter-based access control method](/web/access-control.md#parameter-based-access-control-method)
 	- [Horizontal privilerge escaladation](/web/access-control.md#horizontal-privilerge-escaladation)
 	- [Path Traversal](/web/path-traversal.md)
+	- [Bypass 2FA](/web/authentification.md#bypass-2fa-two-factor-authentification)
+	- [UserName Enumeration](/web/authentification.md#username-enumeration)
+    - [Brut Force with Burpsuite](/tools/burpsuite/brutforce.md)
 
 ## Tools 
 
