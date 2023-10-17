@@ -21,6 +21,7 @@
     - [Brut Force with Burpsuite](/tools/burpsuite/brutforce.md)
 	- [SSRF](/web/ssrf.md)
 	- [Upload files](/web/upload-files.md)
+	- [sql injection](/language/sql/sql-injection.md)
 
 ## Tools 
 
