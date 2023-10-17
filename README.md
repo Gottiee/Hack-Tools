@@ -90,6 +90,8 @@ A web exploit refers to a security vulnerability or technique used to take advan
       - [Bypass 2FA](/web/authentification.md#bypass-2fa-two-factor-authentification)
       - [UserName Enumeration](/web/authentification.md#username-enumeration)
       - [Brut Force with Burpsuite](/tools/burpsuite/brutforce.md)
+    - [SSRF (server side request forgery)](/web/ssrf.md)
+    
 
 ## Tools
 
