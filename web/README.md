@@ -22,6 +22,7 @@
 	- [SSRF](/web/ssrf.md)
 	- [Upload files](/web/upload-files.md)
 	- [sql injection](/language/sql/sql-injection.md)
+	- [command injection](/web/command-injection.md)
 
 ## Tools 
 

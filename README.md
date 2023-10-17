@@ -93,6 +93,7 @@ A web exploit refers to a security vulnerability or technique used to take advan
     - [SSRF (server side request forgery)](/web/ssrf.md)
     - [Upload files](/web/upload-files.md)
     - [sql injection](/language/sql/sql-injection.md)
+    - [command injection](/web/command-injection.md)
 
 ## Tools
 
