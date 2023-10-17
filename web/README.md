@@ -20,6 +20,7 @@
 	- [UserName Enumeration](/web/authentification.md#username-enumeration)
     - [Brut Force with Burpsuite](/tools/burpsuite/brutforce.md)
 	- [SSRF](/web/ssrf.md)
+	- [Upload files](/web/upload-files.md)
 
 ## Tools 
 
