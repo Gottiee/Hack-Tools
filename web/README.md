@@ -21,7 +21,9 @@
     - [Brut Force with Burpsuite](/tools/burpsuite/brutforce.md)
 	- [SSRF](/web/ssrf.md)
 	- [Upload files](/web/upload-files.md)
-	- [sql injection](/language/sql/sql-injection.md)
+	- [sql injection](/language/sql/README.md)
+		- [retrieving hidden data](/language/sql/retrieving-hidden-data.md)
+		- [bypass login](/language/sql/bypass-login.md)
 	- [command injection](/web/command-injection.md)
 
 ## Tools 

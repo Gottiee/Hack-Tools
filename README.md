@@ -92,8 +92,10 @@ A web exploit refers to a security vulnerability or technique used to take advan
       - [Brut Force with Burpsuite](/tools/burpsuite/brutforce.md)
     - [SSRF (server side request forgery)](/web/ssrf.md)
     - [Upload files](/web/upload-files.md)
-    - [sql injection](/language/sql/sql-injection.md)
     - [command injection](/web/command-injection.md)
+    - [sql injection](/language/sql/README.md)
+      - [retrieving hidden data](/language/sql/retrieving-hidden-data.md)
+      - [bypass login](/language/sql/bypass-login.md)
 
 ## Tools
 
