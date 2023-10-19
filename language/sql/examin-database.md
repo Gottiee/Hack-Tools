@@ -26,6 +26,26 @@ For example, you could use a UNION attack with the following input:
 
 Most database types (except Oracle) have a set of views called the information schema. This provides information about the database.
 
+:warning: database contents aren't call with the same Queries:
+
+```sql
+-- Oracle
+SELECT * FROM all_tables
+SELECT * FROM all_tab_columns WHERE table_name = 'TABLE-NAME-HERE'
+
+-- Mircosof
+SELECT * FROM information_schema.tables
+SELECT * FROM information_schema.columns WHERE table_name = 'TABLE-NAME-HERE'
+
+-- PostgreSQL
+SELECT * FROM information_schema.tables
+SELECT * FROM information_schema.columns WHERE table_name = 'TABLE-NAME-HERE'
+
+-- MySQL
+SELECT * FROM information_schema.tables
+SELECT * FROM information_schema.columns WHERE table_name = 'TABLE-NAME-HERE'
+```
+
 ```sql
 SELECT * FROM information_schema.tables
 ```
