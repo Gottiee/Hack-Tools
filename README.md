@@ -97,6 +97,7 @@ A web exploit refers to a security vulnerability or technique used to take advan
       - [retrieving hidden data](/language/sql/retrieving-hidden-data.md)
       - [bypass login](/language/sql/bypass-login.md)
       - [Union attack](/language/sql/union-injection.md)
+      - [Examin database](/language/sql/examin-database.md)
 
 ## Tools
 
@@ -106,6 +107,7 @@ A web exploit refers to a security vulnerability or technique used to take advan
 - [Ghidra](tools/ghidra.md)
 - [ROPgadget](tools/RopGadget.md)
 - [dirb](/tools/dirb.md)
+- [burpsuite](/tools/burpsuite/README.md)
 
 ## Languages
 
@@ -119,4 +121,8 @@ A web exploit refers to a security vulnerability or technique used to take advan
 - **Javascript**
   - [Js obfucated code](/language/java-script/js-obfuscation.md)
 - **Sql**
-  - [sql injection](/language/sql/sql-injection.md)
+  - [sql injection](/language/sql/README.md)
+		- [retrieving hidden data](/language/sql/retrieving-hidden-data.md)
+		- [bypass login](/language/sql/bypass-login.md)
+		- [Union attack](/language/sql/union-injection.md)
+		- [Examin database](/language/sql/examin-database.md)

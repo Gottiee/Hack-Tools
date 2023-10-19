@@ -25,6 +25,7 @@
 		- [retrieving hidden data](/language/sql/retrieving-hidden-data.md)
 		- [bypass login](/language/sql/bypass-login.md)
 		- [Union attack](/language/sql/union-injection.md)
+		- [Examin database](/language/sql/examin-database.md)
 	- [command injection](/web/command-injection.md)
 
 ## Tools 
