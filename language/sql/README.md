@@ -8,6 +8,7 @@ SQL, which stands for Structured Query Language, is a specialized programming la
     - [detect injection vuln](#how-to-detect-sql-injection-vulnerabilities)
 - [Comments](#comments)
 - [String Concatenation](#string-concatenation)
+- [Blind Injection](/language/sql/blind-injection.md)
 
 ## SQL injection (SQLi)
 

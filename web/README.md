@@ -26,6 +26,7 @@
 		- [bypass login](/language/sql/bypass-login.md)
 		- [Union attack](/language/sql/union-injection.md)
 		- [Examin database](/language/sql/examin-database.md)
+		- [Blind injection](/language/sql/blind-injection.md)
 	- [command injection](/web/command-injection.md)
 
 ## Tools 
