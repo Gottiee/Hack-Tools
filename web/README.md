@@ -28,6 +28,7 @@
 		- [Examin database](/language/sql/examin-database.md)
 		- [Blind injection](/language/sql/blind-injection.md)
 	- [command injection](/web/command-injection.md)
+	- [Sql filter bypass via XML encoding](/web/bypass-filter-with-XML-encode.md)
 
 ## Tools 
 
