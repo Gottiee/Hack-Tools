@@ -222,6 +222,10 @@ Encode data on output. At the point where user-controllable data is output in HT
 Use appropriate response headers. To prevent XSS in HTTP responses that aren't intended to contain any HTML or JavaScript, you can use the Content-Type and X-Content-Type-Options headers to ensure that browsers interpret the responses in the way you intend.
 Content Security Policy. As a last line of defense, you can use Content Security Policy (CSP) to reduce the severity of any XSS vulnerabilities that still occur.
 
+### Documentation
+
+- [XSS cheat sheet](https://portswigger.net/web-security/cross-site-scripting/cheat-sheet)
+
 ---
 
 [**:arrow_right_hook: Back home**](/README.md)

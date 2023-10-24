@@ -1,35 +1,5 @@
 # Web
 
-### Table of Contents
-
-- Client side
-	- [Md to Pdf injection](/web/md-to-pdf-injection.md)
-	- [Pdf Injection](/web/pdf-injection.md)
-	- [Js obfuscation](/language/java-script/js-obfuscation.md)
-	- [Xss](/web/xss.md)
-	- [CSP](/web/csp.md)
-	- [CSRF](/web/csrf.md)
-- Server side
-	- [open redirect](/web/open-Redirect.md)
-	- [bypass ip filtering](/web/bypasse-ip-filtering.md)
-	- [Unprotected functionality](/web/access-control.md#unprotected-functionality)
-	- [Parameter-based access control method](/web/access-control.md#parameter-based-access-control-method)
-	- [Horizontal privilerge escaladation](/web/access-control.md#horizontal-privilerge-escaladation)
-	- [Path Traversal](/web/path-traversal.md)
-	- [Bypass 2FA](/web/authentification.md#bypass-2fa-two-factor-authentification)
-	- [UserName Enumeration](/web/authentification.md#username-enumeration)
-    - [Brut Force with Burpsuite](/tools/burpsuite/brutforce.md)
-	- [SSRF](/web/ssrf.md)
-	- [Upload files](/web/upload-files.md)
-	- [sql injection](/language/sql/README.md)
-		- [retrieving hidden data](/language/sql/retrieving-hidden-data.md)
-		- [bypass login](/language/sql/bypass-login.md)
-		- [Union attack](/language/sql/union-injection.md)
-		- [Examin database](/language/sql/examin-database.md)
-		- [Blind injection](/language/sql/blind-injection.md)
-	- [command injection](/web/command-injection.md)
-	- [Sql filter bypass via XML encoding](/web/bypass-filter-with-XML-encode.md)
-
 ## Tools 
 
 - [dirb](/tools/dirb.md) : a command-line tool used for directory and file enumeration on web servers.
