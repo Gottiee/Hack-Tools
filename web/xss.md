@@ -5,6 +5,7 @@ Cross-Site Scripting (XSS) is a type of security vulnerability commonly found in
 ### Type of Xss
 
 - [verify XSS](#verify-xss)
+- [XSS between HTML tags]
 - [stored XSS](#stored-xss)
 - [reflected XSS](#reflected-xss)
     - [find reflected XSS](#how-to-find-and-test-for-reflected-xss-vulnerabilities)
@@ -22,6 +23,17 @@ Cross-Site Scripting (XSS) is a type of security vulnerability commonly found in
 
 ```js
 <script>alert(document.cookie)</script>
+```
+
+## XSS between HTML tags
+
+When the XSS context is text between HTML tags, you need to introduce some new HTML tags designed to trigger execution of JavaScript.
+
+Some useful ways of executing JavaScript are:
+
+```html
+<script>alert(document.domain)</script>
+<img src=1 onerror=alert(1)>
 ```
 
 ## Stored Xss
