@@ -215,6 +215,18 @@ Some useful ways of executing JavaScript are:
 <img src=1 onerror=alert(1)>
 ```
 
+[payload](https://portswigger.net/web-security/cross-site-scripting/cheat-sheet)
+
+## XSS in HTML tag attributes
+
+More commonly in this situation, angle brackets are blocked or encoded, so your input cannot break out of the tag in which it appears. Provided you can terminate the attribute value, you can normally introduce a new attribute that creates a scriptable context, such as an event handler. For example:
+
+```HTML
+" autofocus onfocus=alert(document.domain) x="
+```
+
+[payload](https://portswigger.net/web-security/cross-site-scripting/cheat-sheet)
+
 ## Xss into Javascript
 
 ### Breaking out of a JavaScript string
