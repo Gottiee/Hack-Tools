@@ -2,7 +2,7 @@
 
 Cross-Site Scripting (XSS) is a type of security vulnerability commonly found in web applications. It occurs when an attacker injects malicious scripts into a web page, which is then executed by unsuspecting users. This allows the attacker to steal data, hijack user sessions, or perform various malicious actions on the victim's behalf.
 
-### Type of Xss
+### Type of XSS
 
 - [verify XSS](#verify-xss)
 - [stored XSS](#stored-xss)
@@ -16,7 +16,11 @@ Cross-Site Scripting (XSS) is a type of security vulnerability commonly found in
 		- [attr](#attr)
    		- [selector function](#selector-func)
     - [Dom based Angular](#dom-xss-angularjs)
+
+### Context
+
 - [XSS between HTML tags](#xss-between-html-tags)
+- [XSS in HTML tag attributes](#xss-in-html-tag-attributes)
 - [Xss into Javascript](#xss-into-javascript)
     - [breaking out of js string](#breaking-out-of-a-javascript-string)
     - [bypass restricted char](#bypass-restricted-char)
@@ -24,6 +28,10 @@ Cross-Site Scripting (XSS) is a type of security vulnerability commonly found in
    		- [docu](#docu)
     - [Making use of HTML-encoding](#making-use-of-html-encoding)
     - [XSS in JavaScript template literals (backstiks string)](#xss-in-javascript-template-literals)
+
+### Exploiting XSS
+
+### Others
 - [Prevent XSS attack](#prevent-xss)
 
 ## Verify XSS
