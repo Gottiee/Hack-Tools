@@ -22,6 +22,8 @@ Cross-Site Scripting (XSS) is a type of security vulnerability commonly found in
     - [bypass restricted char](#bypass-restricted-char)
             - [explaination](#explaination)
             - [docu](#docu)
+    - [Making use of HTML-encoding](#making-use-of-html-encoding)
+    - [XSS in JavaScript template literals (backstiks string)](#xss-in-javascript-template-literals)
 - [Prevent XSS attack](#prevent-xss)
 
 ## Verify XSS
@@ -309,6 +311,42 @@ So `x=x=>{throw onerror=alert,1337}` call a defined a function which throw alert
 
 - [XSS without parentheses](https://portswigger.net/research/xss-without-parentheses-and-semi-colons)
 
+### Making use of HTML-encoding
+
+When the XSS context is some existing JavaScript within a quoted tag attribute, such as an event handler, it is possible to make use of HTML-encoding to work around some input filters.
+
+For example, if the XSS context is as follows:
+
+```html
+<a href="#" onclick="... var input='controllable data here'; ...">
+```
+
+And the application blocks or escapes single quote characters, you can use the following payload to break out of the JavaScript string and execute your own script:
+
+```js
+&apos;-alert(document.domain)-&apos;
+```
+
+The `&apos`; sequence is an HTML entity representing an apostrophe or single quote. Because the browser HTML-decodes the value of the onclick attribute before the JavaScript is interpreted, the entities are decoded as quotes, which become string delimiters, and so the attack succeeds.
+
+### XSS in JavaScript template literals
+
+:warning: this vulnerability only works with backsticks:
+
+```
+`user input here ${usefull var}`
+```
+
+This backstiks allow us to this particular expression `{...}`. The embedded expressions: 
+
+- are evaluated
+- are normally concatenated into the surrounding text
+
+This can allow us to use this type of payload: 
+
+```js
+`${alert(document.domain)}`
+```
 
 ## Prevent XSS
 
