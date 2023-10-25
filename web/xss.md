@@ -32,7 +32,6 @@ Cross-Site Scripting (XSS) is a type of security vulnerability commonly found in
 <script>alert(document.cookie)</script>
 ```
 
-
 ## Stored Xss
 
 Stored Cross-Site Scripting (XSS) attacks, often referred to as "persistent XSS", are a type of web vulnerability where malicious scripts are injected and stored on a web application's server. These scripts are then served to other users who visit the affected web page.
