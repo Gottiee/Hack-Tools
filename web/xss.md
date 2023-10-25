@@ -13,15 +13,15 @@ Cross-Site Scripting (XSS) is a type of security vulnerability commonly found in
     - [Sinks DOM-BASED vuln](#sinks-dom-based-vulnerabilities)
     - [innerHTML with onerror](#innerhtml-with-onerror)
     - [DOM XSS Jquery](#dom-xss-in-jquery)
-            - [attr](#attr)
-            - [selector function $()](#selector-func)
+		- [attr](#attr)
+   		- [selector function](#selector-func)
     - [Dom based Angular](#dom-xss-angularjs)
 - [XSS between HTML tags](#xss-between-html-tags)
 - [Xss into Javascript](#xss-into-javascript)
     - [breaking out of js string](#breaking-out-of-a-javascript-string)
     - [bypass restricted char](#bypass-restricted-char)
-            - [explaination](#explaination)
-            - [docu](#docu)
+		- [explaination](#explaination)
+   		- [docu](#docu)
     - [Making use of HTML-encoding](#making-use-of-html-encoding)
     - [XSS in JavaScript template literals (backstiks string)](#xss-in-javascript-template-literals)
 - [Prevent XSS attack](#prevent-xss)
@@ -160,7 +160,7 @@ You can exploit this by modifying the URL so that the location.search source con
 ?returnUrl=javascript:alert(document.domain)
 ```
 
-#### selector func $()
+#### selector func
 
 Another potential sink to look out for is jQuery's $() selector function, which can be used to inject malicious objects into the DOM.
 
