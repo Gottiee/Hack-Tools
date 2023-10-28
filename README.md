@@ -79,6 +79,7 @@ A web exploit refers to a security vulnerability or technique used to take advan
       - [WAF bypass XSS](/web/WAF-bypass.md)
     - [CSP](/web/csp.md)
     - [CSRF](/web/csrf.md)
+      -[bypass validation token](/web/csrf.md#bypassing-csrf-token-validation)
   - **Server side**
     - [open redirect](/web/open-Redirect.md)
     - [bypass ip filtering](/web/bypasse-ip-filtering.md)
