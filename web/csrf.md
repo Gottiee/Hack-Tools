@@ -36,6 +36,7 @@ or:
 <script>
     location = "http://www.shopping-online.com/Index?buy=tv&nb=100&confirm=1";
 </script>
+```
 
 ## Post Method
 
