@@ -120,7 +120,6 @@ csrf=R8ov2YBfTYmzFyjit8o2hKBuoIjXXVpa&email=wiener@normal-user.com
 
 In this situation, the attacker can again perform a CSRF attack if the web site contains any cookie setting functionality. Here, the attacker doesn't need to obtain a valid token of their own. They simply invent a token (perhaps in the required format, if that is being checked), leverage the cookie-setting behavior to place their cookie into the victim's browser, and feed their token to the victim in their CSRF attack.
 
----
 
 ## Bypassing SameSite cookie restrictions
 
@@ -154,10 +153,28 @@ SameSite is an attribute of HTTP cookies that controls how cookies are included 
 
 All major browsers currently support the following SameSite restriction levels:
 
-- Strict: Cookies are only sent if the origin (the host of the website) of the request exactly matches the origin of the web page that set the cookie. This means cookies are not shared across websites, even if user actions lead them from one site to another.
-    - [Bypassing SameSite Strict restrictions using on-site gadgets](/web/bypass-Samesite-strict.md)
-- Lax : Cookies are sent with top-level navigation requests (like clicking on a link or manually entering the URL) but not with requests for embedded resources (such as images, scripts, styles, etc.). This ensures that cookies are included in major requests that could result in a state change (e.g., form submission) but not in resource requests.
-- None : Cookies are always sent, even for cross-origin requests. This means cookies are shared across websites. However, this mode also requires the cookie to have the Secure attribute (i.e., it must be transmitted via HTTPS rather than HTTP) for security reasons.
+#### Strict :
+
+Cookies are only sent if the origin (the host of the website) of the request exactly matches the origin of the web page that set the cookie. This means cookies are not shared across websites, even if user actions lead them from one site to another.
+
+- [Bypassing SameSite Strict restrictions using on-site gadgets](/web/bypass-Samesite-strict.md)
+
+#### Lax :
+
+Cookies are sent with top-level navigation requests (like clicking on a link or manually entering the URL) but not with requests for embedded resources (such as images, scripts, styles, etc.). This ensures that cookies are included in major requests that could result in a state change (e.g., form submission) but not in resource requests.
+
+Lax SameSite restrictions mean that browsers will send the cookie in cross-site requests, but only if both of the following conditions are met:
+
+- The request uses the GET method.
+- The request resulted from a top-level navigation by the user, such as clicking on a link.
+
+- [bypass SameSite Lax restrictions](/web/bypass-Samesite-lax.md)
+
+*Likewise, the cookie is not included in background requests, such as those initiated by scripts, iframes, or references to images and other resources.*
+
+#### None :
+
+Cookies are always sent, even for cross-origin requests. This means cookies are shared across websites. However, this mode also requires the cookie to have the Secure attribute (i.e., it must be transmitted via HTTPS rather than HTTP) for security reasons.
 
 Here's an example of using the SameSite attribute:
 
@@ -168,5 +185,7 @@ Set-Cookie: session=abcdef; SameSite=Strict; Secure
 In this example, the session cookie will only be sent with requests from the same origin site (same domain). Additionally, it will only be sent over secure connections (HTTPS).
 
 :warning: If the website issuing the cookie doesn't explicitly set a SameSite attribute, Chrome automatically applies Lax restrictions by default.
+
+---
 
 [**:arrow_right_hook: Back home**](/README.md)
