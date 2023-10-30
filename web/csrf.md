@@ -13,6 +13,10 @@ Cross-site request forgery (also known as CSRF) is a web security vulnerability 
     - [CSRF token is not tied to the user session](#csrf-token-is-not-tied-to-the-user-session)
     - [CSRF token is tied to a non-session cookie](#csrf-token-is-tied-to-a-non-session-cookie)
     - [CSRF token is simply duplicated in a cookie](#csrf-token-is-simply-duplicated-in-a-cookie)
+- [Bypassing SameSite cookie restrictions]
+    - [What is a site]
+    - [Site vs origin]
+    - [How does SameSite work?]
 
 ## How does it work ? 
 
@@ -109,5 +113,52 @@ csrf=R8ov2YBfTYmzFyjit8o2hKBuoIjXXVpa&email=wiener@normal-user.com
 In this situation, the attacker can again perform a CSRF attack if the web site contains any cookie setting functionality. Here, the attacker doesn't need to obtain a valid token of their own. They simply invent a token (perhaps in the required format, if that is being checked), leverage the cookie-setting behavior to place their cookie into the victim's browser, and feed their token to the victim in their CSRF attack.
 
 ---
+
+## Bypassing SameSite cookie restrictions
+
+SameSite is a browser security mechanism that determines when a website's cookies are included in requests originating from other websites. SameSite cookie restrictions provide partial protection against a variety of cross-site attacks, including CSRF, cross-site leaks, and some CORS exploits.
+
+### What is a site: 
+
+In the context of SameSite cookie restrictions, a site is defined as the top-level domain (TLD), usually something like .com or .net, plus one additional level of the domain name. This is often referred to as the TLD+1.
+
+![site-def](/web/img/site-definition.png)
+
+### Site vs origin
+
+The difference between a site and an origin is their scope; a site encompasses multiple domain names, whereas an origin only includes one. Although they're closely related, it's important not to use the terms interchangeably as conflating the two can have serious security implications.
+
+![site-vs-origin](/web/img/site-vs-origin.png)
+
+Example
+
+Request from | Request to | Same-site? | Same-origin?
+--- | --- | --- | ---
+https://example.com | https://example.com | Yes | Yes
+https://app.example.com | https://intranet.example.com | yes | No: mismatched domain name
+https://example.com | https://example.com:8080 | Yes | No: mismatched port
+https://example.com | https://example.co.uk | No: mismatched eTLD | No: mismatched domain name
+https://example.com | http://example.com | 	No: mismatched scheme | No: mismatched scheme
+
+### How does SameSite work?
+
+SameSite is an attribute of HTTP cookies that controls how cookies are included in requests sent to the server. It is primarily used to enhance security by minimizing the risks of Cross-Site Request Forgery (CSRF) and session theft.
+
+All major browsers currently support the following SameSite restriction levels:
+
+- Strict: Cookies are only sent if the origin (the host of the website) of the request exactly matches the origin of the web page that set the cookie. This means cookies are not shared across websites, even if user actions lead them from one site to another.
+    - [Bypassing SameSite Strict restrictions using on-site gadgets](/web/bypass-Samesite-strict.md)
+- Lax : Cookies are sent with top-level navigation requests (like clicking on a link or manually entering the URL) but not with requests for embedded resources (such as images, scripts, styles, etc.). This ensures that cookies are included in major requests that could result in a state change (e.g., form submission) but not in resource requests.
+- None : Cookies are always sent, even for cross-origin requests. This means cookies are shared across websites. However, this mode also requires the cookie to have the Secure attribute (i.e., it must be transmitted via HTTPS rather than HTTP) for security reasons.
+
+Here's an example of using the SameSite attribute:
+
+```http
+Set-Cookie: session=abcdef; SameSite=Strict; Secure
+```
+
+In this example, the session cookie will only be sent with requests from the same origin site (same domain). Additionally, it will only be sent over secure connections (HTTPS).
+
+:warning: If the website issuing the cookie doesn't explicitly set a SameSite attribute, Chrome automatically applies Lax restrictions by default.
 
 [**:arrow_right_hook: Back home**](/README.md)
