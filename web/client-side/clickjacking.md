@@ -133,6 +133,38 @@ example:
 </html>
 ```
 
+## Prevent clickjacking
+
+### X-Frame-Options
+
+The header provides the website owner with control over the use of iframes or objects:
+
+```c
+// no frame allowed
+X-Frame-Options: deny
+
+// sameorigin politic
+X-Frame-Options: sameorigin
+
+// allow from URL
+X-Frame-Options: allow-from https://normal-website.com
+```
+
+### Content Security Policy (CSP)
+
+[CSP page](/web/csp.md)
+
+```c
+// no frame allowed
+Content-Security-Policy: frame-ancestors 'none';
+
+// sameorigin politic
+Content-Security-Policy: frame-ancestors 'self';
+
+// allow from URL
+Content-Security-Policy: frame-ancestors normal-website.com;
+```
+
 ---
 
 [**:arrow_right_hook: Back home**](/README.md)
