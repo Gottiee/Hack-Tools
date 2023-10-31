@@ -180,7 +180,7 @@ All major browsers currently support the following SameSite restriction levels:
 
 Cookies are only sent if the origin (the host of the website) of the request exactly matches the origin of the web page that set the cookie. This means cookies are not shared across websites, even if user actions lead them from one site to another.
 
-[-> Bypassing SameSite Strict restrictions using on-site gadgets](/web/bypass-Samesite-strict.md)
+[-> Bypassing SameSite Strict restrictions using on-site gadgets](/web/client-side/SameSite/bypass-Samesite-strict.md)
 
 #### Lax :
 
@@ -191,7 +191,7 @@ Lax SameSite restrictions mean that browsers will send the cookie in cross-site 
 - The request uses the GET method.
 - The request resulted from a top-level navigation by the user, such as clicking on a link.
 
-[-> Bypass SameSite Lax restrictions](/web/bypass-Samesite-lax.md)
+[-> Bypass SameSite Lax restrictions](/web/client-side/SameSite/bypass-Samesite-lax.md)
 
 *Likewise, the cookie is not included in background requests, such as those initiated by scripts, iframes, or references to images and other resources.*
 
