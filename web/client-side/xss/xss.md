@@ -129,13 +129,13 @@ The following list provides a quick overview of common DOM-based vulnerabilities
 vulnerability | js
 --- | ---
 DOM XSS | `document.write()`
-[Open redirect] | `window.location`
-[Cookie Manipulation] | `document.cookie`
-[JS injection] | `eval()`
-[Document domain manipulation] | `document.domain`
-[WebSocket-URL poisoning] | `WebSocket()`
-[LinK manipulation] | `element.src`
-[Web message manipulation] | `postMessage()`
+[Open redirect](/web/client-side/open-Redirect.md) | `window.location`
+Cookie Manipulation | `document.cookie`
+[JS injection](/language/java-script/DOM-based-js-injection.md) | `eval()`
+[Document domain manipulation](https://portswigger.net/web-security/dom-based/document-domain-manipulation) | `document.domain`
+[WebSocket-URL poisoning](/web/server-side/websocket.md) | `WebSocket()`
+[LinK manipulation](https://portswigger.net/web-security/dom-based/link-manipulation) | `element.src`
+[Web message manipulation](/web/client-side/xss/web-message.md) | `postMessage()`
 [Ajax request-header manipulation] | `setRequestHeader()`
 [Local file-path manipulation] | `FileReader.readAsText()`
 [Client-side SQL injection] | `ExecuteSql()`

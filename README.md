@@ -74,6 +74,9 @@ A web exploit refers to a security vulnerability or technique used to take advan
 - **Client side**
   - [Xss](/web/client-side/xss/xss.md)
     - [WAF bypass XSS](/web/client-side/xss/WAF-bypass.md)
+    - **DOM BASED**
+      - [DOM based JS injection](/language/java-script/DOM-based-js-injection.md)
+      - [web Message](/web/client-side/xss/web-message.md)
   - [CSP](/web/client-side/csp.md)
   - [CSRF](/web/client-side/csrf.md)
     - [bypass validation token](/web/client-side/csrf.md#bypassing-csrf-token-validation)
