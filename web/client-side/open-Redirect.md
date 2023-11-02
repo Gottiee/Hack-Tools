@@ -5,8 +5,28 @@
 ### Talbe of Content
 
 - [Theory](#theory)
+- [Common sinks which lead to DOM-based open redirection](#common-sinks-which-lead-to-dom-based-open-redirection)
 - [Exploit](#exploit)
-	- [Server Side](#server-side)
+
+## Common sinks which lead to DOM-based open redirection
+
+```js
+location
+location.host
+location.hostname
+location.href
+location.pathname
+location.search
+location.protocol
+location.assign()
+location.replace()
+open()
+element.srcdoc
+XMLHttpRequest.open()
+XMLHttpRequest.send()
+jQuery.ajax()
+$.ajax()
+```
 
 ## Theory
 
@@ -22,12 +42,9 @@ I send you a mail to recover your google web authentification with this link: `h
 
 It seems to be a normal secure google.com link so you authentificate yourself and booom, you've been hacked !
 
-
 ## Exploit
 
-### Server Side
-
-To exploit it on the server side, you need to understand how url are accepted in the uri, if no check are perform you can pass any website.
+To exploit it you need to understand how url are accepted in the uri, if no check are perform you can pass any website.
 
 So `https://normal-site.com?url="https://phising.com"` will work.
 
