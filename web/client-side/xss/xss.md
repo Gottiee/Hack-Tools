@@ -136,14 +136,14 @@ Cookie Manipulation | `document.cookie`
 [WebSocket-URL poisoning](/web/server-side/websocket.md) | `WebSocket()`
 [LinK manipulation](https://portswigger.net/web-security/dom-based/link-manipulation) | `element.src`
 [Web message manipulation](/web/client-side/xss/web-message.md) | `postMessage()`
-[Ajax request-header manipulation] | `setRequestHeader()`
-[Local file-path manipulation] | `FileReader.readAsText()`
-[Client-side SQL injection] | `ExecuteSql()`
-[HTML5-storage manipulation] | `sessionStorage.setItem()`
-[Client-side XPath injection] | `document.evaluate()`
-[Client-side JSON injection] | `JSON.parse()`
-[DOM-data manipulation] | `element.setAttribute()`
-[Denial of service] | `RegExp()`
+[Ajax request-header manipulation](https://portswigger.net/web-security/dom-based/ajax-request-header-manipulation) | `setRequestHeader()`
+[Local file-path manipulation](https://portswigger.net/web-security/dom-based/local-file-path-manipulation) | `FileReader.readAsText()`
+[Client-side SQL injection](/language/sql/README.md) | `ExecuteSql()`
+[HTML5-storage manipulation](https://portswigger.net/web-security/dom-based/html5-storage-manipulation) | `sessionStorage.setItem()` && `localStorage.setItem()`
+[Client-side XPath injection](https://portswigger.net/web-security/dom-based/client-side-xpath-injection) | `document.evaluate()` && `element.evaluate()`
+[Client-side JSON injection](https://portswigger.net/web-security/dom-based/client-side-json-injection) | `JSON.parse()`
+[DOM-data manipulation](https://portswigger.net/web-security/dom-based/dom-data-manipulation) | `element.setAttribute()`
+[Denial of service](https://portswigger.net/web-security/dom-based/denial-of-service) | `RegExp()` && `requestFileSystem()`
 
 ### innerHTML with onerror
 
