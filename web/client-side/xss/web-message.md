@@ -40,6 +40,7 @@ window.addEventListener('message', function(e) {
 ```
 
 It can be bypass if the origin = `normal-website.com.evil.net`
+
 ---
 
 [**:arrow_right_hook: Back home**](/README.md)

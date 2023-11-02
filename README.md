@@ -85,6 +85,7 @@ A web exploit refers to a security vulnerability or technique used to take advan
     - [Bypassing Referer-based CSRF defenses](#bypassing-referer-based-csrf-defenses)
   - [open redirect](/web/client-side/open-Redirect.md)
   - [Clickjacking](/web/client-side/clickjacking.md)
+  - [DOM-clobbering](/web/client-side/DOM-clobbering.md)
 - **Server side**
   - [Md-to-Pdf injection](/web/server-side/md-to-pdf-injection.md)
   - [Pdf Injection](/web/server-side/pdf-injection.md)
