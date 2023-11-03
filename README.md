@@ -71,6 +71,7 @@ Reverse engineering is the process of analyzing and understanding a product, sys
 
 A web exploit refers to a security vulnerability or technique used to take advantage of weaknesses in web applications, servers, or client-side components to gain unauthorized access, control, or steal sensitive information.
 
+- [CORS](/web/cors.md)
 - **Client side**
   - [Xss](/web/client-side/xss/xss.md)
     - [WAF bypass XSS](/web/client-side/xss/WAF-bypass.md)
