@@ -13,6 +13,7 @@ CORS (Cross-Origin Resource Sharing) is a security feature implemented by web br
 - [Sever-generated ACAO header from client-specified Origin header](#sever-generated-acao-header-from-client-specified-origin-header)
 - [Errors parsing Origin headers](#errors-parsing-origin-headers)
 - [Whitelisted null origin value](#whitelisted-null-origin-value)
+- [Breaking TLS with poorly configured CORS](#breaking-tls-with-poorly-configured-cors)
 
 ## Same-origin policy (SOP)
 
@@ -214,8 +215,50 @@ fetch('https://vulnerable-website.com/sensitive-victim-data', { credentials: 'in
     })
     .catch(error => console.error('Erreur : ' + error));
 </script>"></iframe>
+```
+
+## Breaking TLS with poorly configured CORS
+
+Suppose an application that rigorously employs HTTPS also whitelists a trusted subdomain that is using plain HTTP. For example, when the application receives the following request:
+
+Request:
 
 ```
+GET /api/requestApiKey HTTP/1.1
+Host: vulnerable-website.com
+Origin: http://trusted-subdomain.vulnerable-website.com
+Cookie: sessionid=...
+The application responds with:
+```
+
+Answer:
+
+```
+HTTP/1.1 200 OK
+Access-Control-Allow-Origin: http://trusted-subdomain.vulnerable-website.com
+Access-Control-Allow-Credentials: true
+```
+
+In this situation, an attacker who is in a position to intercept a victim user's traffic can exploit the CORS configuration to compromise the victim's interaction with the application. This attack involves the following steps:
+
+- The victim user makes any plain HTTP request.
+- The attacker injects a redirection to: `http://trusted-subdomain.vulnerable-website.com`
+- The victim's browser follows the redirect.
+- The attacker intercepts the plain HTTP request, and returns a spoofed response containing a CORS request to: `https://vulnerable-website.com`
+- The victim's browser makes the CORS request, including the origin: `http://trusted-subdomain.vulnerable-website.com`
+- The application allows the request because this is a whitelisted origin. The requested sensitive data is returned in the response.
+- The attacker's spoofed page can read the sensitive data and transmit it to any domain under the attacker's control.
+
+## Intranets and CORS without credentials
+
+Intra network could have : 
+
+```
+HTTP/1.1 200 OK
+Access-Control-Allow-Origin: *
+```
+
+Because they trust anyone coming from there intra, but they are highly vulnerable to [xss](/web/client-side/xss/xss.md)
 
 ---
 
