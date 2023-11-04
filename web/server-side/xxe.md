@@ -8,8 +8,8 @@ XXE (XML External Entity) is a vulnerability that occurs when an attacker can ma
     - [Document type definition](#document-type-definition)
     - [XML entities](#xml-entities)
 - **Exploit**
-    -[
-] 
+    - [Retrieve files](#retrieve-files)
+    - [Exploiting XXE to perform SSRF attacks](#exploiting-xxe-to-perform-ssrf-attacks)
 ## XML
 
 XML (Extensible Markup Language) is a versatile and structured markup language used for storing, transporting, and exchanging data. It's known for its human-readable format and plays a critical role in various web technologies and data storage solutions. Its popularity has now declined in favor of the JSON format.
@@ -86,7 +86,13 @@ daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
 bin:x:2:2:bin:/bin:/usr/sbin/nologin
 ```
 
-...
+## Exploiting XXE to perform SSRF attacks
+
+To exploit an XXE vulnerability to perform an SSRF attack, you need to define an external XML entity using the URL that you want to target, and use the defined entity within a data value. If you can use the defined entity within a data value that is returned in the application's response, then you will be able to view the response from the URL within the application's response, and so gain two-way interaction with the back-end system.
+
+```html
+<!DOCTYPE foo [ <!ENTITY xxe SYSTEM "http://internal.vulnerable-website.com/"> ]>
+```
 
 ---
 
