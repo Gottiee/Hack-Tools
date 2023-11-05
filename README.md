@@ -71,15 +71,15 @@ Reverse engineering is the process of analyzing and understanding a product, sys
 
 A web exploit refers to a security vulnerability or technique used to take advantage of weaknesses in web applications, servers, or client-side components to gain unauthorized access, control, or steal sensitive information.
 
-- [CORS](/web/cors.md)
+- [CORS (cross origing ressources sharing)](/web/cors.md)
 - **Client side**
-  - [Xss](/web/client-side/xss/xss.md)
+  - [Xss (cross site scripting)](/web/client-side/xss/xss.md)
     - [WAF bypass XSS](/web/client-side/xss/WAF-bypass.md)
     - **DOM BASED**
       - [DOM based JS injection](/language/java-script/DOM-based-js-injection.md)
       - [web Message](/web/client-side/xss/web-message.md)
-  - [CSP](/web/client-side/csp.md)
-  - [CSRF](/web/client-side/csrf.md)
+  - [CSP (content security policy)](/web/client-side/csp.md)
+  - [CSRF (client side request forgery)](/web/client-side/csrf.md)
     - [bypass validation token](/web/client-side/csrf.md#bypassing-csrf-token-validation)
     - [bypass SameSite Strict restrictions](/web/client-side/bypass-Samesite-strict.md)
     - [bypass SameSite lax restrictions](/web/client-side/bypass-Samesite-lax.md)
@@ -110,6 +110,7 @@ A web exploit refers to a security vulnerability or technique used to take advan
     - [Examin database](/language/sql/examin-database.md)
     - [Blind Injection](/language/sql/blind-injection.md)
   - [Sql filter bypass via XML encoding](/web/server-side/bypass-filter-with-XML-encode.md)
+  - [XEE (xml external entity injection)](/web/server-side/xxe.md)
 
 ## Tools
 

