@@ -111,6 +111,7 @@ A web exploit refers to a security vulnerability or technique used to take advan
     - [Blind Injection](/language/sql/blind-injection.md)
   - [Sql filter bypass via XML encoding](/web/server-side/bypass-filter-with-XML-encode.md)
   - [XEE (xml external entity injection)](/web/server-side/xxe.md)
+  - [http request smuggling](/web/server-side/request-smuggling.md)
 
 ## Tools
 
