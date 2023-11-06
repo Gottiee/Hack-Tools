@@ -9,8 +9,7 @@ Server-side request forgery is a web security vulnerability that allows an attac
 - **Bypass defenses**
     - [SSRF with blacklist-based input filters](#ssrf-with-blacklist-based-input-filters)
     - [SSRF with whitelist-based input filters](#ssrf-with-whitelist-based-input-filters)
-- **Blind SSRF**
-    - 
+- [Blind SSRF](#blind-ssrf)
 
 
 ## Localhost server
@@ -81,6 +80,12 @@ stockApi=http://weliketoshop.net/product/nextProduct?currentProductId=6&path=htt
 ```
 
 This SSRF exploit works because the application first validates that the supplied stockAPI URL is on an allowed domain, which it is. The application then requests the supplied URL, which triggers the open redirection. It follows the redirection, and makes a request to the internal URL of the attacker's choosing.
+
+## blind SSRF
+
+Blind SSRF vulnerabilities arise when an application can be induced to issue a back-end HTTP request to a supplied URL, but the response from the back-end request is not returned in the application's front-end response.
+
+The most reliable way to detect blind SSRF vulnerabilities is using out-of-band (OAST) techniques. This involves attempting to trigger an HTTP request to an external system that you control, and monitoring for network interactions with that system.
 
 ---
 
