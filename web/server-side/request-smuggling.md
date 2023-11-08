@@ -5,6 +5,7 @@ HTTP request smuggling is a server-side attack that takes advantage of discrepan
 ### Table of Content
 
 - **[Explanation](#explanation)**
+- **[HTTP/1.1](#htpp11)**
     - [How do HTTP request smuggling vulnerabilities arise?](#how-do-http-request-smuggling-vulnerabilities-arise)
 - **[Perform the attack](#perfom-the-attack)**
     - [prepare smuggling](#prepare)
@@ -20,6 +21,7 @@ HTTP request smuggling is a server-side attack that takes advantage of discrepan
     - [Using HTTP request smuggling to turn an on-site redirect into an open redirect](#using-http-request-smuggling-to-turn-an-on-site-redirect-into-an-open-redirect)
     - [Perfom web cache poisoning](#perfom-web-cache-poisoning)
     - [Perform web cache deception](#perform-web-cache-deception)
+- **[HTTP/2](#http2)**
 
 
 ## Explanation
@@ -31,6 +33,8 @@ When the front-end server forwards HTTP requests to a back-end server, it typica
 An attacker can simulate the end of it request to be interpreted by the back-end server as the start of the next request. At this point, he can inject some code in the next request.
 
 ![illustration of smuggling attack](/web/img/smuggling-http-request-to-back-end-server.svg)
+
+## HTPP/1.1
 
 ### How do HTTP request smuggling vulnerabilities arise?
 
@@ -548,6 +552,9 @@ HTTP/1.1 200 Ok
 The attacker then visits the static URL and receives the sensitive content that is returned from the cache.
 
 An important caveat here is that the attacker doesn't know the URL against which the sensitive content will be cached, since this will be whatever URL the victim user happened to be requesting when the smuggled request took effect. The attacker might need to fetch a large number of static URLs to discover the captured content.
+
+## HTTP/2
+
 
 ---
 
