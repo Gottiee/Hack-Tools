@@ -28,6 +28,9 @@ HTTP request smuggling is a server-side attack that takes advantage of discrepan
     - [Response queue poisoning](#response-queue-poisoning)
     - [Request smuggling via CRLF injection](#request-smuggling-via-crlf-injection)
     - [Request splitting](#request-splitting)
+- **[HTTP Request Tunnelling](#http-request-tunnelling)
+    - [Leaking internal headers via HTTP/2 request tunnelling](#leaking-internal-headers-via-http2-request-tunnelling)
+    - [Non-blind request tunnelling using HEAD](#non-blind-request-tunnelling-using-head)
 
 ## Explanation
 
@@ -718,6 +721,80 @@ header | value
 foo | `bar\r\n\r\nGET /admin HTTP/1.1\r\nHost:vulnerable-website.com`
 
 This is useful in cases where the content-length is validated and the back-end doesn't support chunked encoding.
+
+## HTTP Request Tunnelling
+
+Some servers only allow requests originating from the same IP address or the same client to reuse the connection. Others won't reuse the connection at all, which limits what you can achieve through classic request smuggling as you have no obvious way to influence other users' traffic.
+
+![no connection reuse](/web/img/no-connection-reuse.png)
+
+This still allow your to potentially  hide a request and its matching response from the front-end altogether.
+
+You can use this technique to bypass front-end security measures that may otherwise prevent you from sending certain requests. In fact, even some mechanisms designed specifically to prevent request smuggling attacks fail to stop request tunnelling.
+
+### Leaking internal headers via HTTP/2 request tunnelling
+
+You can potentially trick the front-end into appending the internal headers inside what will become a body parameter on the back-end. Let's say we send a request that looks something like this:
+
+header | value
+--- | ---
+:method | `POST`
+:path | `/example`
+:authority | `vulnerable-website.com`
+content-type | `application/x-www-form-urlencoded`
+foo | `bar\r\nContent-Length: 200\r\ncomment=`
+
+body:
+
+```
+x=1
+```
+
+![leaking internal header](/web/img/leaking-internal-header.png)
+
+### Non-blind request tunnelling using HEAD
+
+Blind request tunnelling can be tricky to exploit, but you can occasionally make these vulnerabilities non-blind by using HEAD requests.
+
+A HEAD request is a type of HTTP request method that is similar to a GET request but is used to request the headers of a resource rather than the resource itself. When you make a HEAD request to a server, it returns only the headers of the corresponding GET request, without the actual data.
+
+Responses to HEAD requests often contain a content-length header even though they don't have a body of their own. This normally refers to the length of the resource that would be returned by a GET request to the same endpoint. Some front-end servers fail to account for this and attempt to read in the number of bytes specified in the header regardless. If you successfully tunnel a request past a front-end server that does this, this behavior may cause it to over-read the response from the back-end. As a result, the response you receive may contain bytes from the start of the response to your tunnelled request.
+
+Request:
+
+header | value
+--- | ---
+:method | `HEAD`
+:path | `/example`
+:authority | `vulnerable-website.com`
+foo | `bar\r\nGET /tunnelled HTTP/1.1\r\nHost: vulnerable-website.com\r\nx:x`
+
+Response:
+
+
+```
+:status	        200
+content-type	text/html
+content-length	131
+
+HTTP/1.1 200 OK
+Content-Type: text/html
+Content-Length: 4286
+
+<!DOCTYPE html>
+<h1>Tunnelled</h1>
+<p>This is a tunnelled respo
+```
+
+As you're effectively mixing the content-length header from one response with the body of another, using this technique successfully is a bit of a balancing act.
+
+If the endpoint to which you send your HEAD request returns a resource that is shorter than the tunnelled response you're trying to read, it may be truncated before you can see anything interesting, as in the example above. On the other hand, if the returned content-length is longer than the response to your tunnelled request, you will likely encounter a timeout as the front-end server is left waiting for additional bytes to arrive from the back-end.
+
+Fortunately, with a bit of trial and error, you can often overcome these issues using one of the following solutions:
+
+- Point your HEAD request to a different endpoint that returns a longer or shorter resource as required.
+- If the resource is too short, use a reflected input in the main HEAD request to inject arbitrary padding characters. Even though you won't actually see your input being reflected, the returned content-length will still increase accordingly.
+- If the resource is too long, use a reflected input in the tunnelled request to inject arbitrary characters so that the length of the tunnelled response matches or exceeds the length of the expected content.
 
 ---
 
