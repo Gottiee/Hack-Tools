@@ -865,7 +865,72 @@ In high-level terms, a CSD attack involves the following stages:
 
 As these attacks don't rely on parsing discrepancies between two servers, this means that even single-server websites may be vulnerable.
 
+#### Test:
 
+The first step in testing for client-side desync vulnerabilities is to identify or craft a request that causes the server to ignore the Content-Length header. The simplest way to probe for this behavior is by sending a request in which the specified Content-Length is longer than the actual body:
+
+- If the request just hangs or times out, this suggests that the server is waiting for the remaining bytes promised by the headers.
+- If you get an immediate response, you've potentially found a CSD vector. This warrants further investigation.
+
+As with CL.0 vulnerabilities, we've found that the most likely candidates are endpoints that aren't expecting POST requests, such as static files or server-level redirects.
+
+Other way:
+
+You may be able to elicit this behavior by triggering a server error:
+
+- `GET /%2e%2e%2f HTTP/1.1`
+- `Referer: https://evil-user.net/?%00`
+- `Content-Type: application/x-www-form-urlencoded; charset=null, boundary=x`
+
+#### Confirm:
+
+To confirm desync vector try send another request after the test and see if the primary body is reused in the second request such has [CL.0](#cl0-request-smuggling).
+
+#### Building a proof of concept in a browser
+
+- Go to the site from which you plan to launch the attack on the victim. This must be on a different domain to the vulnerable site and be accessed over HTTPS.
+- Open the browser's developer tools and go to the Network tab.
+- Make the following adjustments:
+    - Select the Preserve log option.
+    - Right-click on the headers and enable the Connection ID column.
+- This ensures that each request that the browser sends is logged on the Network tab, along with details of which connection it used. This can help with troubleshooting any issues later.
+- Switch to the Console tab and use fetch() to replicate the desync probe you tested in Burp. The code should look something like this:
+
+```js
+fetch('https://vulnerable-website.com/vulnerable-endpoint', {
+    method: 'POST',
+    body: 'GET /hopefully404 HTTP/1.1\r\nFoo: x', // malicious prefix
+    mode: 'no-cors', // ensures the connection ID is visible on the Network tab
+    credentials: 'include' // poisons the "with-cookies" connection pool
+}).then(() => {
+    location = 'https://vulnerable-website.com/' // uses the poisoned connection
+})
+```
+
+In addition to specifying the POST method and adding our malicious prefix to the body, notice that we've set the following options:
+- mode: 'no-cors' - This ensures that the connection ID of each request is visible on the Network tab, which can help with troubleshooting.
+- credentials: 'include' - Browsers generally use separate connection pools for requests with cookies and those without. This option ensures that you're poisoning the "with-cookies" pool, which you'll want for most exploits.
+
+When you run this command, you should see two requests on the Network tab. The first request should receive the usual response. If the second request receives the response to the malicious prefix (in this case, a 404), this confirms that you have successfully triggered a desync from your browser.
+
+#### Handling redirects
+
+as we've mentioned already, requests to endpoints that trigger server-level redirects are a common vector for client-side desyncs. When building an exploit, this presents a minor obstacle because browsers will follow this redirect, breaking the attack sequence. Thankfully, there's an easy workaround.
+
+By setting the mode: 'cors' option for the initial request, you can intentionally trigger a CORS error, which prevents the browser from following the redirect. You can then resume the attack sequence by invoking catch() instead of then(). For example:
+
+```js
+fetch('https://vulnerable-website.com/redirect-me', {
+    method: 'POST',
+    body: 'GET /hopefully404 HTTP/1.1\r\nFoo: x',
+    mode: 'cors',
+    credentials: 'include'
+}).catch(() => {
+    location = 'https://vulnerable-website.com/'
+})
+```
+
+The downside to this approach is that you won't be able to see the connection ID on the Network tab, which may make troubleshooting more difficult.
 
 ---
 
