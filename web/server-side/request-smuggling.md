@@ -28,9 +28,13 @@ HTTP request smuggling is a server-side attack that takes advantage of discrepan
     - [Response queue poisoning](#response-queue-poisoning)
     - [Request smuggling via CRLF injection](#request-smuggling-via-crlf-injection)
     - [Request splitting](#request-splitting)
-- **[HTTP Request Tunnelling](#http-request-tunnelling)
+- **[HTTP Request Tunnelling](#http-request-tunnelling)**
     - [Leaking internal headers via HTTP/2 request tunnelling](#leaking-internal-headers-via-http2-request-tunnelling)
     - [Non-blind request tunnelling using HEAD](#non-blind-request-tunnelling-using-head)
+    - [Web cache poisoning via HTTP/2 request tunnelling](#web-cache-poisoning-via-http2-request-tunnelling)
+- **[Browser-powered request smuggling](#browser-powered-request-smuggling)**
+    - [CL.0 request smuggling](#cl0-request-smuggling)
+    - [Client-side desync attacks](#client-side-desync-attacks)
 
 ## Explanation
 
@@ -771,7 +775,6 @@ foo | `bar\r\nGET /tunnelled HTTP/1.1\r\nHost: vulnerable-website.com\r\nx:x`
 
 Response:
 
-
 ```
 :status	        200
 content-type	text/html
@@ -795,6 +798,74 @@ Fortunately, with a bit of trial and error, you can often overcome these issues 
 - Point your HEAD request to a different endpoint that returns a longer or shorter resource as required.
 - If the resource is too short, use a reflected input in the main HEAD request to inject arbitrary padding characters. Even though you won't actually see your input being reflected, the returned content-length will still increase accordingly.
 - If the resource is too long, use a reflected input in the tunnelled request to inject arbitrary characters so that the length of the tunnelled response matches or exceeds the length of the expected content.
+
+### Web cache poisoning via HTTP/2 request tunnelling
+
+With non-blind request tunnelling, you can effectively mix and match the headers from one response with the body of another. If the response in the body reflects unencoded user input, you may be able to leverage this behavior for reflected XSS in contexts where the browser would not normally execute the code.
+
+## Browser-powered request smuggling
+
+Browser-powered request smuggling is an advanced technique of HTTP request smuggling that leverages features of modern web browsers to bypass security mechanisms and perform request smuggling attacks. In this scenario, the attacker uses a victim's web browser to issue HTTP requests with malicious intent.
+
+### CL.0 request smuggling
+
+The idea of CL.0 vulnerability is to provide a content lenght including a body with a new malicious request. Everything is sent to the backend, and the backend should ignore the content length because it has no sens on this request so it consider the end of the header, the end of the request and process the body as a new request.
+
+#### Test CL.0
+
+Payload HTTP/1.1:
+
+```
+POST /vulnerable-endpoint HTTP/1.1 
+Host: vulnerable-website.com 
+Connection: keep-alive 
+Content-Type: application/x-www-form-urlencoded 
+Content-Length: 34 
+
+GET /hopefully404 HTTP/1.1
+Foo: x
+```
+
+To try it on burp : take this request and a normal request
+- create a tab group with the `+`
+- include them in the group
+- select next to send, `send group(single connection)`
+
+:warning: The Connection header of the first request should has keep-alive.
+
+If everything has worked, second request should return 404 not found.
+
+Another way to test it could be to send a Content-Length longer than the body, and if the server immediately response it means it dont handle content length.
+
+As with CL.0 vulnerabilities, we've found that the most likely candidates are endpoints that aren't expecting POST requests, such as static files or server-level redirects.
+
+#### Exloit
+
+- Find a endpoint : the most likely candidates are endpoints that aren't expecting POST requests are static files or server-level redirects.
+- Change `/hopefully404` to try some unauthorize path and bypass verification.
+
+#### H2.0
+
+Websites that downgrade HTTP/2 requests to HTTP/1 may be vulnerable to an equivalent "H2.0" issue if the back-end server ignores the Content-Length header of the downgraded request.
+
+### Client-side desync attacks
+
+:warning: *For these attacks to work, it's important to note that the target web server must not support HTTP/2. Client-side desyncs rely on HTTP/1.1 connection reuse, and browsers generally favor HTTP/2 where available. One exception to this rule is if you suspect that your intended victim will access the site via a forward proxy that only supports HTTP/1.1.*
+
+A client-side desync (CSD) is an attack that makes the victim's web browser desynchronize its own connection to the vulnerable website. This can be contrasted with regular request smuggling attacks, which desynchronize the connection between a front-end and back-end server.
+
+Web servers can sometimes be encouraged to respond to POST requests without reading in the body. If they subsequently allow the browser to reuse the same connection for additional requests, this results in a client-side desync vulnerability.
+
+In high-level terms, a CSD attack involves the following stages:
+
+- The victim visits a web page on an arbitrary domain containing malicious JavaScript.
+- The JavaScript causes the victim's browser to issue a request to the vulnerable website. This contains an attacker-controlled request prefix in its body, much like a normal request smuggling attack.
+- The malicious prefix is left on the server's TCP/TLS socket after it responds to the initial request, desyncing the connection with the browser.
+- The JavaScript then triggers a follow-up request down the poisoned connection. This is appended to the malicious prefix, eliciting a harmful response from the server.
+
+As these attacks don't rely on parsing discrepancies between two servers, this means that even single-server websites may be vulnerable.
+
+
 
 ---
 
