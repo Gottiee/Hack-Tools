@@ -72,6 +72,7 @@ Reverse engineering is the process of analyzing and understanding a product, sys
 A web exploit refers to a security vulnerability or technique used to take advantage of weaknesses in web applications, servers, or client-side components to gain unauthorized access, control, or steal sensitive information.
 
 - [CORS (cross origing ressources sharing)](/web/cors.md)
+- [Open redirect](/web/client-side/open-Redirect.md)
 - **Client side**
   - [Xss (cross site scripting)](/web/client-side/xss/xss.md)
     - [WAF bypass XSS](/web/client-side/xss/WAF-bypass.md)
@@ -84,7 +85,6 @@ A web exploit refers to a security vulnerability or technique used to take advan
     - [bypass SameSite Strict restrictions](/web/client-side/bypass-Samesite-strict.md)
     - [bypass SameSite lax restrictions](/web/client-side/bypass-Samesite-lax.md)
     - [Bypassing Referer-based CSRF defenses](#bypassing-referer-based-csrf-defenses)
-  - [open redirect](/web/client-side/open-Redirect.md)
   - [Clickjacking](/web/client-side/clickjacking.md)
   - [DOM-clobbering](/web/client-side/DOM-clobbering.md)
 - **Server side**
@@ -112,6 +112,7 @@ A web exploit refers to a security vulnerability or technique used to take advan
   - [Sql filter bypass via XML encoding](/web/server-side/bypass-filter-with-XML-encode.md)
   - [XEE (xml external entity injection)](/web/server-side/xxe.md)
   - [http request smuggling](/web/server-side/request-smuggling.md)
+  - [Template injection](/web/server-side/template-injection.md)
 
 ## Tools
 
