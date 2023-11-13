@@ -98,7 +98,15 @@ Otherwise:
 
 ## Exploit
 
+To exploit, first use the [detect](#detect) payload and see if there is some metacharacter unprint or an error.
 
+Then read the doc of the template to exploit it well !
+
+:warning: *In addition to providing the fundamentals of how to create and use templates, the documentation may also provide some sort of "Security" section. The name of this section will vary, but it will usually outline all the potentially dangerous things that people should avoid doing with the template. This can be an invaluable resource, even acting as a kind of cheat sheet for which behaviors you should look for during auditing, as well as how to exploit them.*
+
+### Look for known exploits
+
+Once you are able to identify the template engine being used, you should browse the web for any vulnerabilities that others may have already discovered. Due to the widespread use of some of the major template engines, it is sometimes possible to find well-documented exploits that you might be able to tweak to exploit your own target website.
 
 ---
 
