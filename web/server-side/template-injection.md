@@ -10,6 +10,10 @@ Server-Side Template Injection (SSTI) is a vulnerability that occurs when an app
 - [Code context](#code-context)
 - [Identify](#identify)
 - **[Exploit](#exploit)**
+    - [Look for known exploits](#look-for-known-exploits)
+    - [Explore](#explore)
+    - [Create custome attack](#create-custome-attack)
+- [Documentation](#documentation)
 
 ## Theory
 
@@ -39,6 +43,14 @@ As with any vulnerability, the first step towards exploitation is being able to 
 ${{<%[%'"}}%\
 ```
 If an exception is raised, this indicates that the injected template syntax is potentially being interpreted by the server in some way. This is one sign that a vulnerability to server-side template injection may exist.
+
+If nothing happened you can try this:
+
+```js
+{{nothing}}
+${nothing}
+<% noting %>
+```
 
 ## PlainText context
 
@@ -108,7 +120,7 @@ Then read the doc of the template to exploit it well !
 
 Once you are able to identify the template engine being used, you should browse the web for any vulnerabilities that others may have already discovered. Due to the widespread use of some of the major template engines, it is sometimes possible to find well-documented exploits that you might be able to tweak to exploit your own target website.
 
-### Explor
+### Explore
 
 At this point, you might have already stumbled across a workable exploit using the documentation. If not, the next step is to explore the environment and try to discover all the objects to which you have access.
 
@@ -121,6 +133,28 @@ ${T(java.lang.System).getenv()}
 It is important to note that websites will contain both built-in objects provided by the template and custom, site-specific objects that have been supplied by the web developer.
 
 While server-side template injection can potentially lead to remote code execution and full takeover of the server, in practice this is not always possible to achieve. However, just because you have ruled out remote code execution, that doesn't necessarily mean there is no potential for a different kind of exploit. You can still leverage server-side template injection vulnerabilities for other high-severity exploits, such as file path traversal, to gain access to sensitive data.
+
+### Create Custome attack
+
+#### Constructing a custom exploit using an object chain
+
+The first step is to identify objects and methods to which you have access. Some of the objects may immediately jump out as interesting. By combining your own knowledge and the information provided in the documentation, you should be able to put together a shortlist of objects that you want to investigate more thoroughly.
+
+For example, in the Java-based template engine Velocity, you have access to a ClassTool object called $class. Studying the documentation reveals that you can chain the $class.inspect() method and $class.type property to obtain references to arbitrary objects. In the past, this has been exploited to execute shell commands on the target system as follows:
+
+```js
+$class.inspect("java.lang.Runtime").type.getRuntime().exec("bad-stuff-here")
+```
+
+### Constructing a custom exploit using developer-supplied objects
+
+Some template engines run in a secure, locked-down environment by default in order to mitigate the associated risks as much as possible. Although this makes it difficult to exploit such templates for remote code execution, developer-created objects that are exposed to the template can offer a further, less battle-hardened attack surface.
+
+Try to find and explore object created by Dev like `user` or `article`...
+
+### Documentation
+
+- [SSTI cheat sheet](https://book.hacktricks.xyz/pentesting-web/ssti-server-side-template-injection)
 
 ---
 
