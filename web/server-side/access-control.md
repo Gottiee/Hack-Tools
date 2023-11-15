@@ -47,7 +47,7 @@ In this example, if the user is an admin, it display a new <a href="/admin-h8guc
 
 ## Parameter-based access control method
 
- Some applications determine the user's access rights or role at login, and then store this information in a user-controllable location. This could be:
+Some applications determine the user's access rights or role at login, and then store this information in a user-controllable location. This could be:
 
 - A hidden field.
 - A cookie.
