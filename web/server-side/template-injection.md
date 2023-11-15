@@ -13,7 +13,6 @@ Server-Side Template Injection (SSTI) is a vulnerability that occurs when an app
     - [Look for known exploits](#look-for-known-exploits)
     - [Explore](#explore)
     - [Create custome attack](#create-custome-attack)
-    - [Broken access control resulting from platform misconfiguration](#broken-access-control-resulting-from-platform-misconfiguration)
 - [Documentation](#documentation)
 
 ## Theory
@@ -153,19 +152,6 @@ Some template engines run in a secure, locked-down environment by default in ord
 
 Try to find and explore object created by Dev like `user` or `article`...
 
-### Broken access control resulting from platform misconfiguration
-
-Some applications enforce access controls at the platform layer. they do this by restricting access to specific URLs and HTTP methods based on the user's role. For example, an application might configure a rule as follows: `DENY: POST, /admin/deleteUser, managers`
-
-This rule denies access to the POST method on the URL /admin/deleteUser, for users in the managers group. Various things can go wrong in this situation, leading to access control bypasses.
-
-Some application frameworks support various non-standard HTTP headers that can be used to override the URL in the original request, such as X-Original-URL and X-Rewrite-URL. If a website uses rigorous front-end controls to restrict access based on the URL, but the application allows the URL to be overridden via a request header, then it might be possible to bypass the access controls using a request like the following:
-
-```
-GET /?usename=admin HTTP/1.1
-X-Original-URL: /admin/deleteUser
-...
-```
 
 ### Documentation
 
