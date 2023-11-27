@@ -14,7 +14,10 @@ Authentication vulnerabilities can allow attackers to gain access to sensitive d
     - [HTTP basic authentication](#http-basic-authentication)
 - [Vulnerabilities in multi-factor authentication](#vulnerabilities-in-multi-factor-authentication)
     - [Bypass 2FA](#bypass-2fa-two-factor-authentification)
-
+    - [Flawed two-factor verification logic](#flawed-two-factor-verification-logic)
+    - [Brute-forcing 2FA verification codes](#brute-forcing-2fa-verification-codes)
+- [Vulnerabilities in other authentication mechanisms](#vulnerabilities-in-other-authentication-mechanisms)
+    - [Keeping users logged in](#keeping-users-logged-in)
 
 ## Vulnerabilities in password-based login
 
@@ -117,6 +120,63 @@ Some time, it doesnt check if we have correctly pass the 2FA:
 
 - `https://simple.net/login` -> (well connected) `https://simple.net/2fA` :cross
 - redirect `https://simple.net/2fA` to `https://simple.net/my-account` and it will fake a sucess full 2FA !
+
+### Flawed two-factor verification logic
+
+Sometimes flawed logic in two-factor authentication means that after a user has completed the initial login step, the website doesn't adequately verify that the same user is completing the second step.
+
+For example, the user logs in with their normal credentials in the first step as follows:
+
+```
+POST /login-steps/first HTTP/1.1
+Host: vulnerable-website.com
+...
+username=carlos&password=qwerty
+```
+
+They are then assigned a cookie that relates to their account, before being taken to the second step of the login process:
+
+```
+HTTP/1.1 200 OK
+Set-Cookie: account=carlos
+
+GET /login-steps/second HTTP/1.1
+Cookie: account=carlos
+```
+
+When submitting the verification code, the request uses this cookie to determine which account the user is trying to access:
+
+```
+POST /login-steps/second HTTP/1.1
+Host: vulnerable-website.com
+Cookie: account=carlos
+...
+verification-code=123456
+```
+
+In this case, an attacker could log in using their own credentials but then change the value of the account cookie to any arbitrary username when submitting the verification code.
+
+```
+POST /login-steps/second HTTP/1.1
+Host: vulnerable-website.com
+Cookie: account=victim-user
+...
+verification-code=123456
+```
+
+This is extremely dangerous if the attacker is then able to brute-force the verification code as it would allow them to log in to arbitrary users' accounts based entirely on their username. They would never even need to know the user's password.
+
+### Brute-forcing 2FA verification codes
+
+As with passwords, websites need to take steps to prevent brute-forcing of the 2FA verification code. This is especially important because the code is often a simple 4 or 6-digit number. Without adequate brute-force protection, cracking such a code is trivial.
+
+## Vulnerabilities in other authentication mechanisms
+
+### Keeping users logged in
+
+A common feature is the option to stay logged in even after closing a browser session. This is usually a simple checkbox labeled something like "Remember me" or "Keep me logged in".
+
+This functionality is often implemented by generating a "remember me" token of some kind, which is then stored in a persistent cookie. As possessing this cookie effectively allows you to bypass the entire login process, it is best practice for this cookie to be impractical to guess. However, some websites generate this cookie based on a predictable concatenation of static values, such as the username and a timestamp. Some even use the password as part of the cookie. This approach is particularly dangerous if an attacker is able to create their own account because they can study their own cookie and potentially deduce how it is generated. Once they work out the formula, they can try to brute-force other users' cookies to gain access to their accounts.
 
 ### Documentation
 
