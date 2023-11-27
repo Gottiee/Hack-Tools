@@ -9,7 +9,11 @@ Authentication vulnerabilities can allow attackers to gain access to sensitive d
     - [Brut Force with Burpsuite](/tools/burpsuite/brutforce.md)
     - [UserName Enumeration](#username-enumeration)
     - [Flawed brute-force protection](#flawed-brute-force-protection)
-- [Bypass 2FA](#bypass-2fa-two-factor-authentification)
+    - [Account locking](#account-locking)
+    - [User rate limiting](#user-rate-limiting)
+    - [HTTP basic authentication](#http-basic-authentication)
+- [Vulnerabilities in multi-factor authentication](#vulnerabilities-in-multi-factor-authentication)
+    - [Bypass 2FA](#bypass-2fa-two-factor-authentification)
 
 
 ## Vulnerabilities in password-based login
@@ -47,7 +51,59 @@ In this case, merely including your own login credentials at regular intervals t
 
 One way in which websites try to prevent brute-forcing is to lock the account if certain suspicious criteria are met, usually a set number of failed login attempts. Just as with normal login errors, responses from the server indicating that an account is locked can also help an attacker to enumerate usernames.
 
-## ByPass 2FA (two Factor Authentification)
+### User rate limiting
+
+Another way websites try to prevent brute-force attacks is through user rate limiting. In this case, making too many login requests within a short period of time causes your IP address to be blocked. Typically, the IP can only be unblocked in one of the following ways:
+
+- Automatically after a certain period of time has elapsed
+- Manually by an administrator
+- Manually by the user after successfully completing a CAPTCHA
+
+User rate limiting is sometimes preferred to account locking due to being less prone to username enumeration and denial of service attacks. However, it is still not completely secure. As we saw an example of in an earlier lab, there are several ways an attacker can manipulate their apparent IP in order to bypass the block.
+
+As the limit is based on the rate of HTTP requests sent from the user's IP address, it is sometimes also possible to bypass this defense if you can work out how to guess multiple passwords with a single request.
+
+Example mutilple password attempt in one request: 
+
+Initial request:
+
+```json
+{
+    "username":"test",
+    "password":"test"
+}
+```
+
+Attack request:
+
+```json
+{
+    "username":"test",
+    "password": [
+        "123456",
+        "test",
+        "qwerty"
+    ]
+}
+```
+
+### HTTP basic authentication
+
+Although fairly old, its relative simplicity and ease of implementation means you might sometimes see HTTP basic authentication being used. In HTTP basic authentication, the client receives an authentication token from the server, which is constructed by concatenating the username and password, and encoding it in Base64. This token is stored and managed by the browser, which automatically adds it to the Authorization header of every subsequent request as follows:
+
+```
+Authorization: Basic base64(username:password)
+```
+
+For a number of reasons, this is generally not considered a secure authentication method. Firstly, it involves repeatedly sending the user's login credentials with every request. Unless the website also implements HSTS, user credentials are open to being captured in a man-in-the-middle attack.
+
+In addition, implementations of HTTP basic authentication often don't support brute-force protection. As the token consists exclusively of static values, this can leave it vulnerable to being brute-forced.
+
+HTTP basic authentication is also particularly vulnerable to session-related exploits, notably CSRF, against which it offers no protection on its own.
+
+## Vulnerabilities in multi-factor authentication
+
+### ByPass 2FA (two Factor Authentification)
 
 Let suppose the website follow this way:
 
