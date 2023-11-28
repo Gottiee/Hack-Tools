@@ -137,7 +137,7 @@ A web exploit refers to a security vulnerability or technique used to take advan
   - [Js obfucated code](/language/java-script/js-obfuscation.md)
 - **Sql**
   - [sql injection](/language/sql/README.md)
-		- [retrieving hidden data](/language/sql/retrieving-hidden-data.md)
-		- [bypass login](/language/sql/bypass-login.md)
-		- [Union attack](/language/sql/union-injection.md)
-		- [Examin database](/language/sql/examin-database.md)
+      - [retrieving hidden data](/language/sql/retrieving-hidden-data.md)
+      - [bypass login](/language/sql/bypass-login.md)
+      - [Union attack](/language/sql/union-injection.md)
+      - [Examin database](/language/sql/examin-database.md)
