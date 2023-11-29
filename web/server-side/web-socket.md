@@ -7,6 +7,7 @@ Sockets in web development refer to communication endpoints that allow bidirecti
 - [Manipulating WebSocket messages](#manipulating-websocket-messages-to-exploit-vulnerabilities)
 - [Manipulating the WebSocket handshake](#manipulating-the-websocket-handshake-to-exploit-vulnerabilities)
 - [Using cross-site WebSockets hijacking](#using-cross-site-websockets)
+- [Linux cmd](#linux-command)
 
 ## Manipulating WebSocket messages to exploit vulnerabilities
 
@@ -93,3 +94,7 @@ Or to create a websocat server:
 ```sh
 websocat -s 0.0.0.0:8000 #Listen in port 8000
 ```
+
+---
+
+[**:arrow_right_hook: Back home**](/README.md)

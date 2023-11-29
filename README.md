@@ -115,6 +115,7 @@ A web exploit refers to a security vulnerability or technique used to take advan
   - [http request smuggling](/web/server-side/request-smuggling.md)
   - [Template injection](/web/server-side/template-injection.md)
   - [Web-Sockets](/web/server-side/web-socket.md)
+  - [Web Cache Poisoning](/web/server-side/web-cache-poisoning.md)
 
 ## Tools
 
