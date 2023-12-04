@@ -116,7 +116,7 @@ to see all syntax for [string concate](/)
 
 String concatenation
 
-SQL format
+SQL | format
 --- | ---
 Oracle | `'foo'||'bar'`
 Microsoft | `'foo'+'bar'`
