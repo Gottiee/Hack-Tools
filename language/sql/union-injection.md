@@ -118,9 +118,9 @@ String concatenation
 
 SQL | format
 --- | ---
-Oracle | `'foo'||'bar'`
+Oracle | `'foo'\|\|'bar'`
 Microsoft | `'foo'+'bar'`
-PostgreSQL | `'foo'||'bar'`
+PostgreSQL | `'foo'\|\|'bar'`
 MySQL | `'foo' 'bar'` OR `CONCAT('foo','bar')`
 
 For example, on Oracle you could submit the input:
