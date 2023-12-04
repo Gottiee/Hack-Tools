@@ -13,7 +13,7 @@ With SQL injection you can guess information about the database:
 ## Version
 
 Database | Type | Query
---- | ---
+--- | --- | ---
 Microsoft, MySQL | `SELECT @@version`
 Oracle | `SELECT * FROM v$version`
 PostgreSQL | `SELECT version()`
