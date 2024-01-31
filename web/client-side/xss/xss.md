@@ -264,6 +264,8 @@ One way of doing this is to use the throw statement with an exception handler:
 
 - onerror is trigger by a exception and the throw statement allows you to create a custom exception containing an expression which is sent to the onerror handler.
 
+[Insane site to bypass some char](https://www.secjuice.com/bypass-xss-filters-using-javascript-global-variables/)
+
 some payloads:
 
 ```js
