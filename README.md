@@ -145,3 +145,8 @@ A web exploit refers to a security vulnerability or technique used to take advan
       - [bypass login](/language/sql/bypass-login.md)
       - [Union attack](/language/sql/union-injection.md)
       - [Examin database](/language/sql/examin-database.md)
+   
+## AD
+
+[MindMap AD](https://orange-cyberdefense.github.io/ocd-mindmaps/img/pentest_ad_dark_2022_11.svg)
+[Notion Interessante sur l'AD](https://www.thehacker.recipes/ad/recon)
