@@ -153,3 +153,7 @@ A web exploit refers to a security vulnerability or technique used to take advan
 
 [MindMap AD](https://orange-cyberdefense.github.io/ocd-mindmaps/img/pentest_ad_dark_2022_11.svg)
 [Notion Interessante sur l'AD](https://www.thehacker.recipes/ad/recon)
+
+## Pentest Port
+
+- [Git hub ressource](https://github.com/six2dez/pentest-book/blob/master/enumeration/ports.md)
