@@ -130,6 +130,7 @@ A web exploit refers to a security vulnerability or technique used to take advan
 - gowitness
 - shodan.io / [docu shodan](https://github.com/lothos612/shodan)``
 - [weakPassword site list](https://weakpass.com/)
+- [FreeOffice](https://massgrave.dev)
 
 ## Languages
 
