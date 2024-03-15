@@ -56,6 +56,9 @@ Collection of pwn exploit, tools and payloads to help you control binaries.
   - [Shell-code-injection](/pwn/payload/payload-shell-code-injection.py)
   - [bypass PIE](/pwn/payload/payload_bypassPIE.py)
   - [ret2dlresolve_32bit_partialRELRO](/pwn/payload/payload_ret2dlresolve_32bit_partialRELRO.py)
+- **SQL** 
+  - [Sql Injection payload](/language/sql/sql-injection-payload.md)
+ 
 
 ## Reverse
 
@@ -110,6 +113,7 @@ A web exploit refers to a security vulnerability or technique used to take advan
     - [Union attack](/language/sql/union-injection.md)
     - [Examin database](/language/sql/examin-database.md)
     - [Blind Injection](/language/sql/blind-injection.md)
+    - [Sql Injection payload](/language/sql/sql-injection-payload.md)
   - [Sql filter bypass via XML encoding](/web/server-side/bypass-filter-with-XML-encode.md)
   - [XEE (xml external entity injection)](/web/server-side/xxe.md)
   - [http request smuggling](/web/server-side/request-smuggling.md)
@@ -149,6 +153,7 @@ A web exploit refers to a security vulnerability or technique used to take advan
       - [bypass login](/language/sql/bypass-login.md)
       - [Union attack](/language/sql/union-injection.md)
       - [Examin database](/language/sql/examin-database.md)
+      - [Sql Injection payload](/language/sql/sql-injection-payload.md)
    
 ## AD
 
