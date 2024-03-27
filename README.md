@@ -131,6 +131,9 @@ A web exploit refers to a security vulnerability or technique used to take advan
 - [dirb](/tools/dirb.md)
 - feroxbuster (fuzzer)
 - [burpsuite](/tools/burpsuite/README.md)
+  - **Extensions**
+  - [Auth analyzer](https://portswigger.net/bappstore/7db49799266c4f85866f54d9eab82c89)
+  - [JWT Editor](https://portswigger.net/bappstore/26aaa5ded2f74beea19e2ed8345a93dd)
 - gowitness
 - shodan.io / [docu shodan](https://github.com/lothos612/shodan)``
 - [weakPassword site list](https://weakpass.com/)
