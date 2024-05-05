@@ -128,16 +128,20 @@ A web exploit refers to a security vulnerability or technique used to take advan
 - [Gdb-gef](tools/gdb/gdb-gef.md)
 - [Ghidra](tools/ghidra.md)
 - [ROPgadget](tools/RopGadget.md)
-- [dirb](/tools/dirb.md)
-- feroxbuster (fuzzer)
-- [burpsuite](/tools/burpsuite/README.md)
-  - **Extensions**
-  - [Auth analyzer](https://portswigger.net/bappstore/7db49799266c4f85866f54d9eab82c89)
-  - [JWT Editor](https://portswigger.net/bappstore/26aaa5ded2f74beea19e2ed8345a93dd)
-- gowitness
-- shodan.io / [docu shodan](https://github.com/lothos612/shodan)``
-- [weakPassword site list](https://weakpass.com/)
-- [FreeOffice](https://massgrave.dev)
+- **Web**
+  - [dirb](/tools/dirb.md)
+  - feroxbuster (fuzzer)
+  - [burpsuite](/tools/burpsuite/README.md)
+    - **Extensions**
+    - [Auth analyzer](https://portswigger.net/bappstore/7db49799266c4f85866f54d9eab82c89)
+    - [JWT Editor](https://portswigger.net/bappstore/26aaa5ded2f74beea19e2ed8345a93dd)
+  - gowitness
+  - shodan.io / [docu shodan](https://github.com/lothos612/shodan)``
+  - [weakPassword site list](https://weakpass.com/)
+  - whatweb (show juicy information of a website)
+  - [knockpy](https://github.com/guelfoweb/knock) is a subdomain analyser
+- **MSF office** 
+  - [FreeOffice](https://massgrave.dev)
 
 ## Languages
 
