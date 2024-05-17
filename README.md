@@ -10,6 +10,7 @@ In this repository, you will find useful informations, bypasses and payloads for
 
 - [Unix missconfiguration](#Unix-missconfiguration)
 - [Pwn](#pwn)
+- [Payload](#payload)
 - [Reverse](#reverse)
 - [Web](#web)
 - [Tools](#tools)
@@ -46,18 +47,18 @@ Collection of pwn exploit, tools and payloads to help you control binaries.
 - **Other**
   - [Construct your own shellCode](/pwn/construct_shellcode.md)
 
-#### Payload
+## Payload
 
-- [PayloadPwn.md](pwn/payload.md)
-- **Payload**
+- [**Pwn**](pwn/payload.md)
   - [Payload Vierge](pwn/payload/payload.py)
   - [Ret2libc without aslr payload](/pwn/payload/payload_ret2libc.py)
   - [Ret2libc with aslr payload](pwn/payload/payload_ret2libc_aslr.py)
   - [Shell-code-injection](/pwn/payload/payload-shell-code-injection.py)
   - [bypass PIE](/pwn/payload/payload_bypassPIE.py)
   - [ret2dlresolve_32bit_partialRELRO](/pwn/payload/payload_ret2dlresolve_32bit_partialRELRO.py)
-- **SQL** 
-  - [Sql Injection payload](/language/sql/sql-injection-payload.md)
+- **WEB** 
+  - **SQL**
+    - [Sql Injection payload](/language/sql/sql-injection-payload.md)
  
 
 ## Reverse
@@ -123,11 +124,12 @@ A web exploit refers to a security vulnerability or technique used to take advan
 
 ## Tools
 
-- [John /etc/passwd hash brut force](tools/john.md)
-- [PCAP file](tools/pcap.md)
-- [Gdb-gef](tools/gdb/gdb-gef.md)
-- [Ghidra](tools/ghidra.md)
-- [ROPgadget](tools/RopGadget.md)
+- **Network**
+  - [PCAP file](tools/pcap.md)
+- **Pwn**
+  - [ROPgadget](tools/RopGadget.md)
+  - [Gdb-gef](tools/gdb/gdb-gef.md)
+  - [Ghidra](tools/ghidra.md)
 - **Web**
   - [dirb](/tools/dirb.md)
   - feroxbuster (fuzzer)
@@ -142,6 +144,11 @@ A web exploit refers to a security vulnerability or technique used to take advan
   - [knockpy](https://github.com/guelfoweb/knock) is a subdomain analyser
 - **MSF office** 
   - [FreeOffice](https://massgrave.dev)
+- **Password**
+  - [John /etc/passwd hash brut force](tools/john.md)
+- **Other**
+  - [Exegol](/tools/other/exegold.md)
+
 
 ## Languages
 
