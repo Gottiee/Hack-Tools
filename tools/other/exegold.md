@@ -22,5 +22,5 @@ exegol install
 
 ```sh
 # START 
-exegol start $containerName full -w $shareFolderPath --update-fd
+exegol start $containerName full -w $shareFolderPath --update-fs
 ```
