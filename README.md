@@ -8,68 +8,42 @@ In this repository, you will find useful informations, bypasses and payloads for
 
 ### Table of Contents
 
-- [Unix missconfiguration](#Unix-missconfiguration)
-- [Pwn](#pwn)
-- [Payload](#payload)
-- [Reverse](#reverse)
+- [Linux](#linux)
+- [Windows](#linux)
 - [Web](#web)
+- [Payload](#payload)
 - [Tools](#tools)
+- [Reverse](#reverse)
+- [Pwn](#pwn)
 - [Languages](#languages)
 
-## Unix MissConfiguration
+## Linux
+
+### Privesc
 
 Vulnerabilities and potential risks caused by Unix misconfigurations
 
-- [Sudo](missConfig/sudo.md)
-- [CronTab](missConfig/crontab.md)
+- [Sudo](/linux/privesc/sudo.md)
+- [CronTab](/linux/privesc/crontab.md)
 - [Hash in /ect/passwd](/tools/john.md)
 
-## Pwn
+## Windows
 
-Collection of pwn exploit, tools and payloads to help you control binaries.
+### Active Directory Pentest 
 
-### [Pwn.md](/pwn/pwn.md)
-
-[Binaries Securities](/pwn/security-of-binaries.md)
-
-- **Exploit**
-  - [Ret2libc](pwn/ret2libc.md)
-  - [FormatString](pwn/format-string.md)
-  - [Shell Code Injection](pwn/shell-code-injection.md)
-  - [Strcpy](/language/c/strcpy.md)
-  - [Bypass Pie](/pwn/bypassPie.md)
-  - [Ret2dl_resolve](/pwn/ret2dlresolve.md)
-  - [ROP execve syscall](/pwn/rop-execve-syscall.md)
-- **tools**
-  - [Gdb-gef](tools/gdb/gdb-gef.md)
-  - [Ghidra](tools/ghidra.md)
-  - [ROPgadget](/tools/RopGadget.md)
-- **Other**
-  - [Construct your own shellCode](/pwn/construct_shellcode.md)
-
-## Payload
-
-- [**Pwn**](pwn/payload.md)
-  - [Payload Vierge](pwn/payload/payload.py)
-  - [Ret2libc without aslr payload](/pwn/payload/payload_ret2libc.py)
-  - [Ret2libc with aslr payload](pwn/payload/payload_ret2libc_aslr.py)
-  - [Shell-code-injection](/pwn/payload/payload-shell-code-injection.py)
-  - [bypass PIE](/pwn/payload/payload_bypassPIE.py)
-  - [ret2dlresolve_32bit_partialRELRO](/pwn/payload/payload_ret2dlresolve_32bit_partialRELRO.py)
-- **WEB** 
-  - **SQL**
-    - [Sql Injection payload](/language/sql/sql-injection-payload.md)
- 
-
-## Reverse
-
-Reverse engineering is the process of analyzing and understanding a product, system, or software by deconstructing it to reveal its inner workings, design, or source code.
-
-- [Call an uncall function in gdb](/tools/gdb/gdb-call-func.md)
-- [Set register in gdb](/tools/gdb/gdb-set-register.md)
-- **tools**
-  - [Ghidra](tools/ghidra.md)
-  - [Gdb-gef](tools/gdb/gdb-gef.md)
+- [Network Mapping](/windows/active-directory/network-mapping.md)
+- [identifying services](/windows/active-directory/identify-services.md)
+  - [Identify DC](/windows/active-directory/identify-services.md#identify-domain-computer)
+  - [Netbios](/windows/active-directory/identify-services.md#netbios)
+  - [SMB](/windows/active-directory/identify-services.md#smb)
+  - [Kerberos](/windows/active-directory/identify-services.md#kerberos)
+- searching for credentials
+- vulnerability research
+- password brute forcing
+- exploiting vulnerabilities
+- compromising
+- privilege escalation
+- accessing a new area
 
 ## Web
 
@@ -122,18 +96,66 @@ A web exploit refers to a security vulnerability or technique used to take advan
   - [Web-Sockets](/web/server-side/web-socket.md)
   - [Web Cache Poisoning](/web/server-side/web-cache-poisoning.md)
 
+## Pwn
+
+Collection of pwn exploit, tools and payloads to help you control binaries.
+
+### [Pwn.md](/pwn/pwn.md)
+
+[Binaries Securities](/pwn/security-of-binaries.md)
+
+- **Exploit**
+  - [Ret2libc](pwn/ret2libc.md)
+  - [FormatString](pwn/format-string.md)
+  - [Shell Code Injection](pwn/shell-code-injection.md)
+  - [Strcpy](/language/c/strcpy.md)
+  - [Bypass Pie](/pwn/bypassPie.md)
+  - [Ret2dl_resolve](/pwn/ret2dlresolve.md)
+  - [ROP execve syscall](/pwn/rop-execve-syscall.md)
+- **tools**
+  - [Gdb-gef](tools/gdb/gdb-gef.md)
+  - [Ghidra](tools/ghidra.md)
+  - [ROPgadget](/tools/RopGadget.md)
+- **Other**
+  - [Construct your own shellCode](/pwn/construct_shellcode.md)
+
+## Payload
+
+- [**Pwn**](pwn/payload.md)
+  - [Payload Vierge](pwn/payload/payload.py)
+  - [Ret2libc without aslr payload](/pwn/payload/payload_ret2libc.py)
+  - [Ret2libc with aslr payload](pwn/payload/payload_ret2libc_aslr.py)
+  - [Shell-code-injection](/pwn/payload/payload-shell-code-injection.py)
+  - [bypass PIE](/pwn/payload/payload_bypassPIE.py)
+  - [ret2dlresolve_32bit_partialRELRO](/pwn/payload/payload_ret2dlresolve_32bit_partialRELRO.py)
+- **WEB** 
+  - **SQL**
+    - [Sql Injection payload](/language/sql/sql-injection-payload.md)
+ 
+
+## Reverse
+
+Reverse engineering is the process of analyzing and understanding a product, system, or software by deconstructing it to reveal its inner workings, design, or source code.
+
+- [Call an uncall function in gdb](/tools/gdb/gdb-call-func.md)
+- [Set register in gdb](/tools/gdb/gdb-set-register.md)
+- **tools**
+  - [Ghidra](tools/ghidra.md)
+  - [Gdb-gef](tools/gdb/gdb-gef.md)
+
 ## Tools
 
 - **Network**
-  - [PCAP file](tools/pcap.md)
+  - [nmap](/tools/network/nmap.md)
+  - [PCAP file](/tools/network/pcap.md)
 - **Pwn**
-  - [ROPgadget](tools/RopGadget.md)
-  - [Gdb-gef](tools/gdb/gdb-gef.md)
-  - [Ghidra](tools/ghidra.md)
+  - [ROPgadget](tools/pwn/RopGadget.md)
+  - [Gdb-gef](tools/pwn/gdb/gdb-gef.md)
+  - [Ghidra](tools/pwn/ghidra.md)
 - **Web**
-  - [dirb](/tools/dirb.md)
+  - [dirb](/tools/web/dirb.md)
   - feroxbuster (fuzzer)
-  - [burpsuite](/tools/burpsuite/README.md)
+  - [burpsuite](/tools/web/burpsuite/README.md)
     - **Extensions**
     - [Auth analyzer](https://portswigger.net/bappstore/7db49799266c4f85866f54d9eab82c89)
     - [JWT Editor](https://portswigger.net/bappstore/26aaa5ded2f74beea19e2ed8345a93dd)
@@ -144,11 +166,10 @@ A web exploit refers to a security vulnerability or technique used to take advan
   - [knockpy](https://github.com/guelfoweb/knock) is a subdomain analyser
 - **MSF office** 
   - [FreeOffice](https://massgrave.dev)
-- **Password**
-  - [John /etc/passwd hash brut force](tools/john.md)
+- **Crack**
+  - [John /etc/passwd hash brut force](tools/crack/john.md)
 - **Other**
   - [Exegol](/tools/other/exegold.md)
-
 
 ## Languages
 
