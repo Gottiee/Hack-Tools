@@ -13,6 +13,7 @@ In this repository, you will find useful informations, bypasses and payloads for
 - [Web](#web)
 - [Payload](#payload)
 - [Tools](#tools)
+- [Crypto](#crypto)
 - [Reverse](#reverse)
 - [Pwn](#pwn)
 - [Languages](#languages)
@@ -31,12 +32,17 @@ Vulnerabilities and potential risks caused by Unix misconfigurations
 
 ### Active Directory Pentest 
 
+General information are stored [here](/windows/active-directory/ad.md)
+
 - [Network Mapping](/windows/active-directory/network-mapping.md)
 - [identifying services](/windows/active-directory/identify-services.md)
   - [Identify DC](/windows/active-directory/identify-services.md#identify-domain-computer)
   - [Netbios](/windows/active-directory/identify-services.md#netbios)
   - [SMB](/windows/active-directory/identify-services.md#smb)
   - [Kerberos](/windows/active-directory/identify-services.md#kerberos)
+  - [SMTP](/windows/active-directory/identify-services.md#smtp)
+  - [SNMP](/windows/active-directory/identify-services.md#snmp)
+- Man in the middle
 - searching for credentials
 - vulnerability research
 - password brute forcing
@@ -131,7 +137,6 @@ Collection of pwn exploit, tools and payloads to help you control binaries.
 - **WEB** 
   - **SQL**
     - [Sql Injection payload](/language/sql/sql-injection-payload.md)
- 
 
 ## Reverse
 
@@ -170,6 +175,10 @@ Reverse engineering is the process of analyzing and understanding a product, sys
   - [John /etc/passwd hash brut force](tools/crack/john.md)
 - **Other**
   - [Exegol](/tools/other/exegold.md)
+
+## Crypto
+
+- [Hash list](/crypto/hash-list.md)
 
 ## Languages
 

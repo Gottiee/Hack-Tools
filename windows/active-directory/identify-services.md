@@ -12,7 +12,8 @@ Identifying services during an Active Directory pentest is crucial for understan
     - [Common Share](#common-share)
     - [Tools SMB](#tools-smb)
 - [Kerberos](#kerberos)
-    - [Possible attack](#possible-attack)
+    - [Possible attack](#possible-attack-with-kerberos)
+- [SMTP](#smtp)
 
 ## Identify Domain Computer
 
@@ -97,7 +98,6 @@ Key Features:
 - NETLOGON
     - A share containing logon scripts and policies for users and computers in a domain. Located on domain controllers.
 - SYSVOL
-    - need auth
     - A share on domain controllers that stores the server copy of the domain’s public files, which are necessary for domain-wide operations.
     - `grep 'cpassword='` (mdp en claire)
 - Backups
@@ -133,7 +133,7 @@ Kerberos is an authentication protocol used within Windows Active Directory (AD)
 - Ticket Granting Ticket (TGT): A ticket used to obtain service tickets.
 - Service Ticket (ST): A ticket used to access a specific service.
 
-### Possible attack
+### Possible attack with kerberos
 
 - Kerberoasting:
     - *Description*: An attack where an attacker requests service tickets for service accounts and attempts to crack them offline.
@@ -145,4 +145,45 @@ Kerberos is an authentication protocol used within Windows Active Directory (AD)
     -  An attack that targets user accounts not requiring pre-authentication.
     - Identifying users with DONT_REQUIRE_PREAUTH set and capturing their AS-REP responses.
     - `GetNPUsers.py -request -format hashcat -outputfile ASREProastables.txt -usersfile users.txt -dc-ip "$DC_IP" "$DOMAIN"`
+
+### SMTP
+
+SMTP, or Simple Mail Transfer Protocol, is a protocol used for sending and receiving email.
+
+- Information Gathering: By querying the SMTP service, testers can gather information about the email server, such as supported authentication mechanisms, available commands, and the software version in use. This information can help identify potential vulnerabilities.
+- Credential Harvesting: SMTP servers that support authentication may allow penetration testers to capture and crack email credentials. These credentials can then be used for further attacks within the organization.
+- Privilege Escalation and Lateral Movement: By compromising email accounts, testers can potentially escalate privileges and move laterally within the network. Email accounts often have access to sensitive information and can be used to reset passwords or gain access to other systems.
+
+**Account brut force**
+
+- `swaks`
+
+### SNMP
+
+SNMP, or Simple Network Management Protocol, is a protocol used for network management, enabling administrators to manage network performance, find and solve network problems, and plan for network growth.
+
+Listing account : `snmpwalk -c public <ip>`
+
+### LDAP
+
+LDAP, or Lightweight Directory Access Protocol, is a protocol used for accessing and managing directory services. It contains information about all the objects within the AD environment, such as users, groups, computers, and other resources.
+
+In pentest, we can gather informations about the database with those commands:
+
+- `ldapsearch`
+- `enum4linux -A X.X.X.X`
+- `nxc ldap`
+
+### RDP
+
+RDP, or Remote Desktop Protocol, is a proprietary protocol developed by Microsoft that allows users to connect to and control a remote computer over a network connection.
+
+Port : **3398**
+
+- `nmap -p 3389 --script rdp-ntlm-info <target_ip>`
+
+- Linux tool for connect to the rdp server:
+    - `xfreerdp`
+- Connection interface : `xfreerdp -sec-nla /v:IP`
+
 
