@@ -14,6 +14,9 @@ Identifying services during an Active Directory pentest is crucial for understan
 - [Kerberos](#kerberos)
     - [Possible attack](#possible-attack-with-kerberos)
 - [SMTP](#smtp)
+- [SNMP](#snmp)
+- [RDP](#rdp)
+- [LDAP](#rdp)
 
 ## Identify Domain Computer
 

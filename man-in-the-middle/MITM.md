@@ -7,6 +7,7 @@ A Man-in-the-Middle (MITM) attack occurs when an attacker intercepts and potenti
 - [All OS](#all-os)
 - [Linux](#linux)
 - [Windows](#windows)
+    - [LLMNR / NBT-NS poisoning](#llmnr-nbt-ns-poinsoning)
 
 ## All OS
 
@@ -28,6 +29,22 @@ DNS spoofing, a type of Man-in-the-Middle attack, involves the manipulation of D
 - `bettercap`
 - `dnsspoof`
 
+### ICPMP Redirect
+
+### STP mangling
+
+### CDP mangling
+
+### hsrp hijacking
+
+### IRDP spoofing
+
 ## Linux
 
 ## Windows
+
+### LLMNR NBT-NS poinsoning
+
+`responder`
+
+### WPAD Spoofing

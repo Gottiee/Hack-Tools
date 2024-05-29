@@ -34,22 +34,28 @@ Vulnerabilities and potential risks caused by Unix misconfigurations
 
 General information are stored [here](/windows/active-directory/ad.md)
 
-- [Network Mapping](/windows/active-directory/network-mapping.md)
-- [identifying services](/windows/active-directory/identify-services.md)
+- [**Network Mapping**](/windows/active-directory/network-mapping.md)
+- [**identifying services**](/windows/active-directory/identify-services.md)
   - [Identify DC](/windows/active-directory/identify-services.md#identify-domain-computer)
   - [Netbios](/windows/active-directory/identify-services.md#netbios)
   - [SMB](/windows/active-directory/identify-services.md#smb)
   - [Kerberos](/windows/active-directory/identify-services.md#kerberos)
   - [SMTP](/windows/active-directory/identify-services.md#smtp)
   - [SNMP](/windows/active-directory/identify-services.md#snmp)
-- Man in the middle
-- searching for credentials
-- vulnerability research
-- password brute forcing
-- exploiting vulnerabilities
-- compromising
-- privilege escalation
-- accessing a new area
+  - [RDP](/windows/active-directory/identify-services.md#rdp)
+  - [LDAP](/windows/active-directory/identify-services.md#ldap)
+- [**Man in the middle**](/man-in-the-middle/MITM.md)
+- [**searching for credentials**](pentest/identify-creds.md)
+- **vulnerability research**
+- **exploiting vulnerabilities**
+  - [kerberos](/windows/active-directory/exploit/kerberos.md)
+    - [kerberoasting](/windows/active-directory/exploit/kerberos.md#kerberoasting)
+- [**password brute forcing**](/windows/active-directory/ad.md#brutforce-authentification)
+- compromising**
+- [**privilege escalation**](/windows/privesc/privesc.md)
+- **accessing a new area**
+  - [Dump password](/windows/active-directory/ad.md#dump-password)
+  - [pass the hash / password](/windows/active-directory/ad.md#pass-the-hash--password)
 
 ## Web
 

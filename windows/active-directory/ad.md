@@ -3,13 +3,14 @@
 ### Table of content
 
 - [NTDS.dit](#ntds)
-- [Password management](#password-management)
+- [Dump Password](#dump-password)
     - [Dump with NetExec](#dump-with-netexec)
     - [SAM](#sam)
     - [LSA](#lsa)
     - [LSASS](#lsass)
 - [BrutForce Authentification](#brutforce-authentification)
     - [Extract password Policies](#extract-password-policies)
+- [Pass the hash / password](#pass-the-hash--password)
 
 ## NTDS
 
@@ -22,7 +23,7 @@ NTDS.dit file is a crucial database file that stores all Active Directory data.
 
 Default path : `%SystemRoot%\ntds\NTDS.DIT`
 
-## Password management
+## Dump Password 
 
 ### Dump with NetExec
 
@@ -109,3 +110,17 @@ Require a domain user
 ```sh
 nxc smb ip -U "" -P "" --pass-pol | grep 'domain passowrd complex'
 ```
+
+## Pass the hash / password
+
+After compromising a machine, we can attempt to access a new zone/machine/server using the passwords and hashes generally retrieved from SAM/LSA/LSASS.
+
+- `nxc smb 192.168.56.0/24 -u "$USER" -p "$PASSWORD" --local-auth`
+- `nxc smb 192.168.56.0/24 -H "$HASH" -p "$PASSWORD" --local-auth`
+
+Tools who accept hash:
+
+- psexec, netexec
+- smbclient, rpcclient
+- wmic, wmiexec
+- xfreerdp
