@@ -141,6 +141,8 @@ Collection of pwn exploit, tools and payloads to help you control binaries.
   - [bypass PIE](/pwn/payload/payload_bypassPIE.py)
   - [ret2dlresolve_32bit_partialRELRO](/pwn/payload/payload_ret2dlresolve_32bit_partialRELRO.py)
 - **WEB** 
+  - [Command injection Payload](/web/payload/command-injection-payload.md)
+  - [Xss payload]()
   - **SQL**
     - [Sql Injection payload](/language/sql/sql-injection-payload.md)
 
