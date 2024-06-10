@@ -183,6 +183,8 @@ Reverse engineering is the process of analyzing and understanding a product, sys
   - [John /etc/passwd hash brut force](tools/crack/john.md)
 - **Other**
   - [Exegol](/tools/other/exegold.md)
+- **Privesc**
+  - [GTFOBins](https://gtfobins.github.io/)
 
 ## Crypto
 
