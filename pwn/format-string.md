@@ -53,7 +53,7 @@ You can overwrite data with printf and `%n`.
 From the man: `The number of characters already written is stored in the integer pointed to by the argument of type int *. No argument is converted.`
 
 ```c
-printf("AAAA%n", (int)a);
+printf("AAAA%n", &(int)a);
 ```
 
 Will write, 4 in a.
