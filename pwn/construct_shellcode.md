@@ -87,4 +87,4 @@ $> for i in $(objdump -D asm |grep "^ " |cut -f2); do echo -n '\\x'$i; done;echo
 
 ---
 
-[**:arrow_right_hook: Back Pwn**](/pwn/pwn.md)
+[**:arrow_right_hook: Back Pwn**](/pwn/README.md)

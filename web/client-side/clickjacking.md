@@ -83,7 +83,7 @@ When this is set with the allow-forms or allow-scripts values and the allow-top-
 
 Clickjacking is highly effective in coercing users into performing malicious actions.
 
-[xss cheat sheet](/web/xss.md)
+[xss cheat sheet](/web/client-side/xss/xss.md)
 
 ## Multistep clickjacking
 
@@ -152,7 +152,7 @@ X-Frame-Options: allow-from https://normal-website.com
 
 ### Content Security Policy (CSP)
 
-[CSP page](/web/csp.md)
+[CSP page](/web/client-side/csp.md)
 
 ```c
 // no frame allowed

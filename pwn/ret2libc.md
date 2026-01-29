@@ -66,7 +66,7 @@ find 0xf7e2c000, 0xf7fcc000, "/bin/sh"
 1 pattern found.
 ```
 
-[Gdb usage](/tools/gdb/gdb-usage.md)
+[Gdb usage](/tools/pwn/gdb/gdb-usage.md)
 
 ## Theory 64 bit
 
@@ -86,7 +86,7 @@ The idea is the same as 32 bit, but you need a in the payload a gadget which loa
 
 ```ROPgadget --binary ./vulnerable.out | grep "pop rdi; ret"```
 
-- [ROPgadget](/tools/RopGadget.md)
+- [ROPgadget](/tools/pwn/RopGadget.md)
 
 ## Without ASLR
 
@@ -128,4 +128,4 @@ Payload 2 is same as no ASLR.
 
 ---
 
-[**:arrow_right_hook: Back PWN**](/pwn/pwn.md)
+[**:arrow_right_hook: Back PWN**](/pwn/README.md)

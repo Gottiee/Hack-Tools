@@ -34,4 +34,4 @@ print ((char *(*)()) printFlag)()
 
 ---
 
-[**:arrow_right_hook: Back GDB**](/tools/gdb/gdb-gef.md)
+[**:arrow_right_hook: Back GDB**](/tools/pwn/gdb/README.md)

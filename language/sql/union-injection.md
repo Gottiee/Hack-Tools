@@ -50,7 +50,7 @@ One method involves injecting a series of ORDER BY clauses and incrementing the 
 
 URL example:
 
-`https://test.net?category=Accessories' ORDER BY 1--` -> increment `1` with [burp brutforce](/tools/burpsuite/brutforce.md) till the webpage return an error
+`https://test.net?category=Accessories' ORDER BY 1--` -> increment `1` with [burp brutforce](/tools/web/burpsuite/brutforce.md) till the webpage return an error
 
 response can be:
 
@@ -112,7 +112,7 @@ solve:
 
 if there is a single column you can't concat values before sending to the single column: 
 
-to see all syntax for [string concate](/)
+to see all syntax for [string concate](/language/sql/README.md#string-concatenation)
 
 String concatenation
 

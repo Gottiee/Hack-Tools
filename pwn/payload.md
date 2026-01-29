@@ -26,4 +26,4 @@ This payload use pwn tool for exploit binary vulnerabilities
 
 ---
 
-[**:arrow_right_hook: Back Pwn**](/pwn/pwn.md)
+[**:arrow_right_hook: Back Pwn**](/pwn/README.md)

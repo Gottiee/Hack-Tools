@@ -54,4 +54,4 @@ Payload =
 
 ---
 
-[**:arrow_right_hook: Back PWN**](/pwn/pwn.md)
+[**:arrow_right_hook: Back PWN**](/pwn/README.md)

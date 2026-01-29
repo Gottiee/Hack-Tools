@@ -7,7 +7,7 @@
 
 ## PDF injection
 
-First, try [PDF injection](/web/pdf-injection.md) to see if the website is exploitable.
+First, try [PDF injection](/web/server-side/pdf-injection.md) to see if the website is exploitable.
 
 ```js
 <script>document.write('<iframe src="'+window.location.href+'/index.js" width=1000px height=1000px></iframe>')</script>

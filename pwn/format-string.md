@@ -204,4 +204,4 @@ cat <(python3 -c 'import sys; sys.stdout.buffer.write(b"\x38\x98\x04\x08" + b"\x
 
 ---
 
-[**:arrow_right_hook: Back PWN**](/pwn/pwn.md)
+[**:arrow_right_hook: Back PWN**](/pwn/README.md)

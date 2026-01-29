@@ -6,7 +6,7 @@ Authentication vulnerabilities can allow attackers to gain access to sensitive d
 
 - [Vulnerabilities in password-based login](#vulnerabilities-in-password-based-login)
     - [Brut Force Attack](#brut-force-attack)
-    - [Brut Force with Burpsuite](/tools/burpsuite/brutforce.md)
+    - [Brut Force with Burpsuite](/tools/web/burpsuite/brutforce.md)
     - [UserName Enumeration](#username-enumeration)
     - [Flawed brute-force protection](#flawed-brute-force-protection)
     - [Account locking](#account-locking)
@@ -30,7 +30,7 @@ A brute force attack is an attempt to gain unauthorized access to a system or ac
 
 ### Brut force with BuprSuite
 
-[BurpSuite Brut Force](/tools/burpsuite/brutforce.md)
+[BurpSuite Brut Force](/tools/web/burpsuite/brutforce.md)
 
 ### Username Enumeration
 

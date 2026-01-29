@@ -9,7 +9,8 @@ In this repository, you will find useful informations, bypasses and payloads for
 ### Table of Contents
 
 - [Linux](#linux)
-- [Windows](#linux)
+- [Windows](#windows)
+- [Network](#network)
 - [Web](#web)
 - [Payload](#payload)
 - [Tools](#tools)
@@ -26,7 +27,7 @@ Vulnerabilities and potential risks caused by Unix misconfigurations
 
 - [Sudo](/linux/privesc/sudo.md)
 - [CronTab](/linux/privesc/crontab.md)
-- [Hash in /ect/passwd](/tools/john.md)
+- [Hash in /etc/passwd](/tools/crack/john.md)
 
 ## Windows
 
@@ -51,11 +52,29 @@ General information are stored [here](/windows/active-directory/ad.md)
   - [kerberos](/windows/active-directory/exploit/kerberos.md)
     - [kerberoasting](/windows/active-directory/exploit/kerberos.md#kerberoasting)
 - [**password brute forcing**](/windows/active-directory/ad.md#brutforce-authentification)
-- compromising**
+- **compromising**
 - [**privilege escalation**](/windows/privesc/privesc.md)
 - **accessing a new area**
   - [Dump password](/windows/active-directory/ad.md#dump-password)
   - [pass the hash / password](/windows/active-directory/ad.md#pass-the-hash--password)
+
+## Network
+
+Networking fundamentals, protocols and offensive techniques.
+
+- [Network Models - OSI & TCP/IP](/network/model.md)
+- **Packet Transmission**
+  - [Encapsulation](/network/packet-transmission.md#1-encapsulation)
+  - [MTU](/network/packet-transmission.md#2-mtu-maximum-transmission-unit)
+  - [IP Fragmentation](/network/packet-transmission.md#3-ip-fragmentation)
+- **Transport**
+  - [TCP](/network/transport/tcp.md)
+  - [UDP](/network/transport/udp.md)
+- **OS Detection**
+  - [TCP Window Size](/network/os-detection.md#2-tcp-window-size)
+  - [TTL](/network/os-detection.md#3-ttl-time-to-live)
+- **Devices**
+  - [Firewall](/network/devices/firewall.md)
 
 ## Web
 
@@ -72,9 +91,9 @@ A web exploit refers to a security vulnerability or technique used to take advan
   - [CSP (content security policy)](/web/client-side/csp.md)
   - [CSRF (client side request forgery)](/web/client-side/csrf.md)
     - [bypass validation token](/web/client-side/csrf.md#bypassing-csrf-token-validation)
-    - [bypass SameSite Strict restrictions](/web/client-side/bypass-Samesite-strict.md)
-    - [bypass SameSite lax restrictions](/web/client-side/bypass-Samesite-lax.md)
-    - [Bypassing Referer-based CSRF defenses](#bypassing-referer-based-csrf-defenses)
+    - [bypass SameSite Strict restrictions](/web/client-side/SameSite/bypass-Samesite-strict.md)
+    - [bypass SameSite lax restrictions](/web/client-side/SameSite/bypass-Samesite-lax.md)
+    - [Bypassing Referer-based CSRF defenses](/web/client-side/csrf.md#bypassing-referer-based-csrf-defenses)
   - [Clickjacking](/web/client-side/clickjacking.md)
   - [DOM-clobbering](/web/client-side/DOM-clobbering.md)
   - [Insecure source code management](/web/client-side/insecure-src-code-management.md)
@@ -90,7 +109,7 @@ A web exploit refers to a security vulnerability or technique used to take advan
   - [Authentification](/web/server-side/authentification.md)
     - [Bypass 2FA](/web/server-side/authentification.md#bypass-2fa-two-factor-authentification)
     - [UserName Enumeration](/web/server-side/authentification.md#username-enumeration)
-    - [Brut Force with Burpsuite](/tools/burpsuite/brutforce.md)
+    - [Brut Force with Burpsuite](/tools/web/burpsuite/brutforce.md)
   - [SSRF (server side request forgery)](/web/server-side/ssrf.md)
   - [Upload files](/web/server-side/upload-files.md)
   - [OS command injection](/web/server-side/os-command-injection.md)
@@ -102,7 +121,7 @@ A web exploit refers to a security vulnerability or technique used to take advan
     - [Blind Injection](/language/sql/blind-injection.md)
     - [Sql Injection payload](/language/sql/sql-injection-payload.md)
   - [Sql filter bypass via XML encoding](/web/server-side/bypass-filter-with-XML-encode.md)
-  - [XEE (xml external entity injection)](/web/server-side/xxe.md)
+  - [XXE (xml external entity injection)](/web/server-side/xxe.md)
   - [http request smuggling](/web/server-side/request-smuggling.md)
   - [Template injection](/web/server-side/template-injection.md)
   - [Web-Sockets](/web/server-side/web-socket.md)
@@ -112,7 +131,7 @@ A web exploit refers to a security vulnerability or technique used to take advan
 
 Collection of pwn exploit, tools and payloads to help you control binaries.
 
-### [Pwn.md](/pwn/pwn.md)
+### [Pwn.md](/pwn/README.md)
 
 [Binaries Securities](/pwn/security-of-binaries.md)
 
@@ -125,9 +144,9 @@ Collection of pwn exploit, tools and payloads to help you control binaries.
   - [Ret2dl_resolve](/pwn/ret2dlresolve.md)
   - [ROP execve syscall](/pwn/rop-execve-syscall.md)
 - **tools**
-  - [Gdb-gef](tools/gdb/gdb-gef.md)
-  - [Ghidra](tools/ghidra.md)
-  - [ROPgadget](/tools/RopGadget.md)
+  - [Gdb-gef](tools/pwn/gdb/README.md)
+  - [Ghidra](tools/pwn/ghidra.md)
+  - [ROPgadget](/tools/pwn/RopGadget.md)
 - **Other**
   - [Construct your own shellCode](/pwn/construct_shellcode.md)
 
@@ -142,7 +161,7 @@ Collection of pwn exploit, tools and payloads to help you control binaries.
   - [ret2dlresolve_32bit_partialRELRO](/pwn/payload/payload_ret2dlresolve_32bit_partialRELRO.py)
 - **WEB** 
   - [Command injection Payload](/web/payload/command-injection-payload.md)
-  - [Xss payload]()
+  - [Xss payload](/web/payload/xss-payload.md)
   - **SQL**
     - [Sql Injection payload](/language/sql/sql-injection-payload.md)
 
@@ -150,11 +169,11 @@ Collection of pwn exploit, tools and payloads to help you control binaries.
 
 Reverse engineering is the process of analyzing and understanding a product, system, or software by deconstructing it to reveal its inner workings, design, or source code.
 
-- [Call an uncall function in gdb](/tools/gdb/gdb-call-func.md)
-- [Set register in gdb](/tools/gdb/gdb-set-register.md)
+- [Call an uncall function in gdb](/tools/pwn/gdb/gdb-call-func.md)
+- [Set register in gdb](/tools/pwn/gdb/gdb-set-register.md)
 - **tools**
-  - [Ghidra](tools/ghidra.md)
-  - [Gdb-gef](tools/gdb/gdb-gef.md)
+  - [Ghidra](tools/pwn/ghidra.md)
+  - [Gdb-gef](tools/pwn/gdb/README.md)
 
 ## Tools
 
@@ -174,7 +193,7 @@ Reverse engineering is the process of analyzing and understanding a product, sys
     - [Auth analyzer](https://portswigger.net/bappstore/7db49799266c4f85866f54d9eab82c89)
     - [JWT Editor](https://portswigger.net/bappstore/26aaa5ded2f74beea19e2ed8345a93dd)
   - gowitness
-  - shodan.io / [docu shodan](https://github.com/lothos612/shodan)``
+  - shodan.io / [docu shodan](https://github.com/lothos612/shodan)
   - [weakPassword site list](https://weakpass.com/)
   - whatweb (show juicy information of a website)
   - [knockpy](https://github.com/guelfoweb/knock) is a subdomain analyser

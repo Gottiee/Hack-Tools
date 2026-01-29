@@ -2,7 +2,7 @@
 
 ## Tools 
 
-- [dirb](/tools/dirb.md) : a command-line tool used for directory and file enumeration on web servers.
+- [dirb](/tools/web/dirb.md) : a command-line tool used for directory and file enumeration on web servers.
 
 ---
 

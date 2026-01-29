@@ -135,7 +135,7 @@ DOM XSS | `document.write()`
 Cookie Manipulation | `document.cookie`
 [JS injection](/language/java-script/DOM-based-js-injection.md) | `eval()`
 [Document domain manipulation](https://portswigger.net/web-security/dom-based/document-domain-manipulation) | `document.domain`
-[WebSocket-URL poisoning](/web/server-side/websocket.md) | `WebSocket()`
+[WebSocket-URL poisoning](/web/server-side/web-socket.md) | `WebSocket()`
 [LinK manipulation](https://portswigger.net/web-security/dom-based/link-manipulation) | `element.src`
 [Web message manipulation](/web/client-side/xss/web-message.md) | `postMessage()`
 [Ajax request-header manipulation](https://portswigger.net/web-security/dom-based/ajax-request-header-manipulation) | `setRequestHeader()`

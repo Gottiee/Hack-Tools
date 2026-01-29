@@ -410,7 +410,7 @@ GADGET_POP3RET = 0x080484b9 # pop esi, pop edi, pop ebp, ret
 ```
 
 
-- Get section address, readable with the bash command `readelf` and find a gadget with [ROPgadget](/tools/RopGadget.md). We dont care in which register it pop the stack.
+- Get section address, readable with the bash command `readelf` and find a gadget with [ROPgadget](/tools/pwn/RopGadget.md). We dont care in which register it pop the stack.
 
 ```py
 reloc_offset = BSS - JMPREL # our fake offset to our fake rel.plt struct
@@ -605,4 +605,4 @@ x/2s 0x804821c + 0x00001e20
 
 ---
 
-[**:arrow_right_hook: Back PWN**](/pwn/pwn.md)
+[**:arrow_right_hook: Back PWN**](/pwn/README.md)

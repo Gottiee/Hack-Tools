@@ -27,4 +27,4 @@ We know that offset is 40, we need add 40 byte of trash before adding new return
 
 ---
 
-[**:arrow_right_hook: Back GDB**](/tools/gdb/gdb-gef.md)
+[**:arrow_right_hook: Back GDB**](/tools/pwn/gdb/README.md)

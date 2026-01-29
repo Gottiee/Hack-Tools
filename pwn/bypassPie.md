@@ -39,4 +39,4 @@ If you add or sub offset to the leak address, you can call it.
 
 ---
 
-[**:arrow_right_hook: Back Pwn**](/pwn/pwn.md)
+[**:arrow_right_hook: Back Pwn**](/pwn/README.md)

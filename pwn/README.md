@@ -13,7 +13,7 @@ If you are not familiar with Assembly take a look at my [asm cheat sheat](https:
 
 ## Recognition
 
-[**Binaries Security**](/pwn/security-of-binaries.mdt)
+[**Binaries Security**](/pwn/security-of-binaries.md)
 
 - Nx enable (with and without ASLR)
 	- Libc.so.6 linked
@@ -42,9 +42,9 @@ If you are not familiar with Assembly take a look at my [asm cheat sheat](https:
 
 ## Tools
 
-- [Gdb-gef](/tools/gdb/gdb-gef.md)
-- [Ghidra](/tools/ghidra.md)
-- [ROPgadget](/tools/RopGadget.md)
+- [Gdb-gef](/tools/pwn/gdb/README.md)
+- [Ghidra](/tools/pwn/ghidra.md)
+- [ROPgadget](/tools/pwn/RopGadget.md)
 
 ## Usefull Cmd
 

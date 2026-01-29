@@ -27,7 +27,7 @@ Example : `https://insecure-website.com/admin`
 
 ### Dirb
 
-Use [dirb](/tools/dirb.md) to brute-force the location of sensitive functionality
+Use [dirb](/tools/web/dirb.md) to brute-force the location of sensitive functionality
 
 ### Obfuscated Urls
 
