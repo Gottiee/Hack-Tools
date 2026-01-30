@@ -70,6 +70,10 @@ Networking fundamentals, protocols and offensive techniques.
 - **Transport**
   - [TCP](/network/transport/tcp.md)
   - [UDP](/network/transport/udp.md)
+- **Protocol**
+  - [ICMP](/network/protocol/icmp.md)
+  - [IPv6](/network/protocol/ipv6.md)
+- [Routing](/network/routing.md)
 - **OS Detection**
   - [TCP Window Size](/network/os-detection.md#2-tcp-window-size)
   - [TTL](/network/os-detection.md#3-ttl-time-to-live)
