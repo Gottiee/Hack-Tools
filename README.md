@@ -23,11 +23,34 @@ In this repository, you will find useful informations, bypasses and payloads for
 
 ### Privesc
 
-Vulnerabilities and potential risks caused by Unix misconfigurations
+Vulnerabilities and potential risks caused by Unix misconfigurations.
 
-- [Sudo](/linux/privesc/sudo.md)
-- [CronTab](/linux/privesc/crontab.md)
-- [Hash in /etc/passwd](/tools/crack/john.md)
+- [GTFOBins](/linux/privesc/gtfobins.md)
+- **Permissions**
+  - [SUID / SGID](/linux/privesc/permissions/suid-sgid.md)
+  - [Capabilities](/linux/privesc/permissions/capabilities.md)
+  - [File Permissions](/linux/privesc/permissions/file-permissions.md)
+- **Configuration**
+  - [Sudo](/linux/privesc/configuration/sudo.md)
+  - [Crontab](/linux/privesc/configuration/crontab.md)
+  - [Docker / LXD Group](/linux/privesc/configuration/docker-lxd.md)
+  - [Polkit](/linux/privesc/configuration/polkit.md)
+  - [NFS no_root_squash](/linux/privesc/configuration/nfs.md)
+- **Credentials**
+  - [Readable /etc/passwd & /etc/shadow](/linux/privesc/credentials/passwd-shadow.md)
+  - [Password Hunting](/linux/privesc/credentials/password-hunting.md)
+  - [SSH Keys](/linux/privesc/credentials/ssh-keys.md)
+  - [Bruteforce](/linux/privesc/credentials/bruteforce.md)
+- **Hijacking**
+  - [PATH Hijacking](/linux/privesc/hijacking/path-hijacking.md)
+  - [Relative Path](/linux/privesc/hijacking/relative-path.md)
+  - [LD_PRELOAD](/linux/privesc/hijacking/ld-preload.md)
+  - [Shared Library](/linux/privesc/hijacking/shared-library.md)
+  - [Wildcard Injection](/linux/privesc/hijacking/wildcard-injection.md)
+  - [Python Library](/linux/privesc/hijacking/python-library.md)
+- **Exploit**
+  - [Kernel Exploit](/linux/privesc/exploit/kernel-exploit.md)
+  - [Local Service CVE](/linux/privesc/exploit/local-service-cve.md)
 
 ## Windows
 
@@ -70,9 +93,13 @@ Networking fundamentals, protocols and offensive techniques.
 - **Transport**
   - [TCP](/network/transport/tcp.md)
   - [UDP](/network/transport/udp.md)
-- **Protocol**
-  - [ICMP](/network/protocol/icmp.md)
-  - [IPv6](/network/protocol/ipv6.md)
+- **Service Protocol**
+  - [DNS - 53](/network/protocol/service/dns.md)
+- **Network Protocol**
+  - [ARP](/network/protocol/network/arp.md)
+  - [ICMP](/network/protocol/network/icmp.md)
+  - [IPv6](/network/protocol/network/ipv6.md)
+  - [VLAN](/network/protocol/network/vlan.md)
 - [Routing](/network/routing.md)
 - **OS Detection**
   - [TCP Window Size](/network/os-detection.md#2-tcp-window-size)

@@ -12,7 +12,8 @@
       "Bash(else)",
       "Bash(fi)",
       "Bash(done)",
-      "Bash(move:*)"
+      "Bash(move:*)",
+      "Bash(git mv:*)"
     ]
   }
 }
